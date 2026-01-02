@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Add color field to question container -->
+    <template id="question_color" name="Question: color picker">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="color"
+                   class="form-control o_survey_question_color bg-transparent rounded-0 p-0"
+                   t-att-name="question.id"
+                   t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                   t-att-data-question-type="question.question_type"/>
+        </div>
+    </template>
+
+    <!-- Add email field to question container -->
+    <template id="question_email" name="Question: email input">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="email"
+                   class="form-control o_survey_question_email"
+                   t-att-name="question.id"
+                   t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                   t-att-data-question-type="question.question_type"
+                   placeholder="user@domain.com"/>
+        </div>
+    </template>
+
+    <!-- Add URL field to question container -->
+    <template id="question_url" name="Question: URL input">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="url"
+                class="form-control o_survey_question_url"
+                t-att-name="question.id"
+                t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                t-att-data-question-type="question.question_type"
+                placeholder="https://example.com"/>
+        </div>
+    </template>
+
+    <!-- Add time field to question container -->
+    <template id="question_time" name="Question: time input">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="time"
+                class="form-control o_survey_question_time"
+                t-att-name="question.id"
+                t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                t-att-data-question-type="question.question_type"/>
+        </div>
+    </template>
+
+
+    <!-- Range field template -->
+    <template id="question_range" name="Question: Range Slider">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="range"
+                class="form-range o_survey_question_range"
+                t-att-name="question.id"
+                t-att-value="answer_lines[0].value_char_box if answer_lines else str(question.range_min or 0)"
+                t-att-min="str(question.range_min or 0)"
+                t-att-max="question.range_max"
+                t-att-step="question.range_step"
+                t-att-data-question-type="question.question_type"/>
+            <div class="d-flex justify-content-between align-items-center mt-2">
+                <span class="text-muted small" t-esc="question.range_min or 0"/>
+                <span class="range-value fw-bold" t-esc="answer_lines[0].value_char_box if answer_lines else (question.range_min or 0)"/>
+                <span class="text-muted small" t-esc="question.range_max"/>
+            </div>
+        </div>
+    </template>
+
+
+    <!-- Week field template -->
+    <template id="question_week" name="Question: week input">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="week"
+                class="form-control o_survey_question_week"
+                t-att-name="question.id"
+                t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                t-att-data-question-type="question.question_type"
+                t-att-data-week-min="question.week_min"
+                t-att-data-week-max="question.week_max"
+                t-att-data-week-step="question.week_step"
+                t-att-data-week-error-msg="question.week_error_msg"/>
+        </div>
+    </template>
+
+     <!-- Add password field to question container -->
+    <template id="question_password" name="Question: password input">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="password"
+               class="form-control o_survey_question_password"
+               t-att-name="question.id"
+               t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+               t-att-data-question-type="question.question_type"
+               t-att-data-validate-password="question.validate_password"
+               t-att-data-password-min="question.password_min_length"
+               t-att-data-password-max="question.password_max_length"
+               t-att-data-password-error-msg="question.password_error_msg"/>
+        </div>
+    </template>
+
+    <!-- Add file field to question container -->
+    <template id="question_file" name="Question: file upload">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="file"
+                class="form-control o_survey_question_file"
+                t-att-data-question-id="question.id"
+                t-att-data-question-type="question.question_type"
+                t-att-data-max-size="question.file_max_size"
+                t-att-data-allowed-types="question.file_allowed_types"/>
+            <input type="hidden" 
+                t-att-name="question.id"
+                t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                class="file_attachment_id"/>
+        </div>
+    </template>
+
+    <!-- Add signature field to question container -->
+    <template id="question_signature" name="Question: signature pad">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <div class="signature-container">
+                <canvas class="signature-pad border" 
+                        t-att-data-question-id="question.id"
+                        t-att-width="question.signature_width or 400"
+                        t-att-height="question.signature_height or 200"
+                        style="cursor: crosshair; background: white;"></canvas>
+                <div class="signature-controls mt-2">
+                    <button type="button" class="btn btn-sm btn-secondary clear-signature">Clear</button>
+                </div>
+            </div>
+            <input type="hidden" 
+                   t-att-name="question.id"
+                   t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                   t-att-data-question-type="question.question_type"
+                   class="signature-data"/>
+        </div>
+    </template>
+
+    <!-- Month field template -->
+    <template id="question_month" name="Question: month input">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <input type="month"
+                class="form-control o_survey_question_month"
+                t-att-name="question.id"
+                t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                t-att-data-question-type="question.question_type"
+                t-att-data-validate-month-entry="question.validate_month_entry"
+                t-att-data-month-min="question.month_min"
+                t-att-data-month-max="question.month_max"
+                t-att-data-month-step="question.month_step"
+                t-att-data-month-error-msg="question.month_error_msg"/>
+        </div>
+    </template>
+
+    <!-- Address field template -->
+    <template id="question_address" name="Question: address input">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <div class="address-fields" t-att-data-question-id="question.id">
+                <t t-if="question.address_enable_street">
+                    <div class="mb-2">
+                        <label class="form-label" t-esc="question.address_label_street"/>
+                        <input type="text" class="form-control address-street" t-att-placeholder="question.address_label_street"/>
+                    </div>
+                </t>
+                <t t-if="question.address_enable_street2">
+                    <div class="mb-2">
+                        <label class="form-label" t-esc="question.address_label_street2"/>
+                        <input type="text" class="form-control address-street2" t-att-placeholder="question.address_label_street2"/>
+                    </div>
+                </t>
+                <div class="row">
+                    <t t-if="question.address_enable_zip">
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label" t-esc="question.address_label_zip"/>
+                            <input type="text" class="form-control address-zip" t-att-placeholder="question.address_label_zip"/>
+                        </div>
+                    </t>
+                    <t t-if="question.address_enable_city">
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label" t-esc="question.address_label_city"/>
+                            <input type="text" class="form-control address-city" t-att-placeholder="question.address_label_city"/>
+                        </div>
+                    </t>
+                </div>
+                <div class="row">
+                    <t t-if="question.address_enable_state">
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label" t-esc="question.address_label_state"/>
+                            <input type="text" class="form-control address-state" t-att-placeholder="question.address_label_state"/>
+                        </div>
+                    </t>
+                    <t t-if="question.address_enable_country">
+                        <div class="col-md-6 mb-2">
+                            <label class="form-label" t-esc="question.address_label_country"/>
+                            <input type="text" class="form-control address-country" t-att-placeholder="question.address_label_country"/>
+                        </div>
+                    </t>
+                </div>
+            </div>
+            <input type="hidden" 
+                   t-att-name="question.id"
+                   t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                   t-att-data-question-type="question.question_type"
+                   class="address-data"/>
+        </div>
+    </template>
+
+    <!-- Name field template -->
+    <template id="question_name" name="Question: name input">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <div class="name-fields" t-att-data-question-id="question.id">
+                <div class="row">
+                    <div class="col-md-4 mb-2">
+                        <label class="form-label">First Name <span t-if="question.constr_mandatory" class="text-danger">*</span></label>
+                        <input type="text" class="form-control name-first" placeholder="First Name"/>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="form-label">Middle Name <span t-if="question.constr_mandatory and not question.name_middle_optional" class="text-danger">*</span></label>
+                        <input type="text" class="form-control name-middle" placeholder="Middle Name"/>
+                    </div>
+                    <div class="col-md-4 mb-2">
+                        <label class="form-label">Last Name <span t-if="question.constr_mandatory" class="text-danger">*</span></label>
+                        <input type="text" class="form-control name-last" placeholder="Last Name"/>
+                    </div>
+                </div>
+            </div>
+            <input type="hidden" 
+                   t-att-name="question.id"
+                   t-att-value="answer_lines[0].value_char_box if answer_lines else ''"
+                   t-att-data-question-type="question.question_type"
+                   t-att-data-middle-optional="question.name_middle_optional"
+                   class="name-data"/>
+        </div>
+    </template>
+
+    <!-- Many2one field template -->
+    <template id="question_many2one" name="Question: many2one selection">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <select class="form-select o_survey_question_many2one many2one-select2"
+                    t-att-name="question.id"
+                    t-att-data-question-type="question.question_type"
+                    t-att-data-model="question.many2one_model">
+                <option value="">-- Select an option --</option>
+                <t t-if="question.many2one_model">
+                    <t t-set="records" t-value="request.env[question.many2one_model].sudo().search([])"/>
+                    <t t-set="answer_value" t-value="answer_lines[0].sudo().value_char_box if answer_lines else ''"/>
+                    <t t-foreach="records" t-as="record">
+                        <option t-att-value="record.id" 
+                                t-att-selected="str(record.id) == answer_value"
+                                t-esc="record.display_name"/>
+                    </t>
+                </t>
+            </select>
+        </div>
+    </template>
+
+    <!-- Many2many field template -->
+    <template id="question_many2many" name="Question: many2many selection">
+        <div class="o_survey_answer_wrapper p-1 rounded">
+            <select class="form-select o_survey_question_many2many many2many-select2" multiple="multiple"
+                    t-att-name="question.id"
+                    t-att-data-question-type="question.question_type"
+                    t-att-data-model="question.many2many_model">
+                <t t-if="question.many2many_model">
+                    <t t-set="records" t-value="request.env[question.many2many_model].sudo().search([])"/>
+                    <t t-set="answer_value" t-value="answer_lines[0].sudo().value_char_box if answer_lines else ''"/>
+                    <t t-set="selected_ids" t-value="answer_value.split(',') if answer_value else []"/>
+                    <t t-foreach="records" t-as="record">
+                        <option t-att-value="record.id" 
+                                t-att-selected="str(record.id) in selected_ids"
+                                t-esc="record.display_name"/>
+                    </t>
+                </t>
+            </select>
+            <input type="hidden" t-att-name="question.id" class="many2many-data"/>
+        </div>
+    </template>
+
+    <!-- Extend question container to include all extra fields -->
+    <template id="question_container_inherit" inherit_id="survey.question_container" name="Question Container Extra Fields">
+        <xpath expr="//t[@t-if=&quot;question.question_type == 'matrix'&quot;]" position="after">
+            <t t-if="question.question_type == 'color'" t-call="zehntech_survey_extra_fields.question_color"/>
+            <t t-if="question.question_type == 'email'" t-call="zehntech_survey_extra_fields.question_email"/>
+            <t t-if="question.question_type == 'url'" t-call="zehntech_survey_extra_fields.question_url"/>
+            <t t-if="question.question_type == 'time'" t-call="zehntech_survey_extra_fields.question_time"/>
+            <t t-if="question.question_type == 'range'" t-call="zehntech_survey_extra_fields.question_range"/>
+            <t t-if="question.question_type == 'week'" t-call="zehntech_survey_extra_fields.question_week"/>
+            <t t-if="question.question_type == 'password'" t-call="zehntech_survey_extra_fields.question_password"/>
+            <t t-if="question.question_type == 'file'" t-call="zehntech_survey_extra_fields.question_file"/>
+            <t t-if="question.question_type == 'signature'" t-call="zehntech_survey_extra_fields.question_signature"/>
+            <t t-if="question.question_type == 'month'" t-call="zehntech_survey_extra_fields.question_month"/>
+            <t t-if="question.question_type == 'address'" t-call="zehntech_survey_extra_fields.question_address"/>
+            <t t-if="question.question_type == 'name'" t-call="zehntech_survey_extra_fields.question_name"/>
+            <t t-if="question.question_type == 'many2one'" t-call="zehntech_survey_extra_fields.question_many2one"/>
+            <t t-if="question.question_type == 'many2many'" t-call="zehntech_survey_extra_fields.question_many2many"/>
+        </xpath>
+    </template>
+
+    <!-- Extend print template for all extra fields -->
+    <template id="survey_print_inherit" inherit_id="survey.survey_page_print" name="Survey Print Extra Fields">
+        <xpath expr="//t[@t-if=&quot;question.question_type == 'matrix'&quot;]" position="after">
+
+            <!-- Color print -->
+            <t t-if="question.question_type == 'color'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <div class="d-inline-block border"
+                                     t-att-style="'background-color: %s; width: 30px; height: 30px; border-radius: 4px;' % answer_lines[0].value_char_box"/>
+                                <span class="ms-2" t-esc="answer_lines[0].value_char_box"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Email print -->
+            <t t-if="question.question_type == 'email'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <span t-esc="answer_lines[0].value_char_box"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- URL print -->
+            <t t-if="question.question_type == 'url'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <a t-att-href="answer_lines[0].value_char_box" t-esc="answer_lines[0].value_char_box" target="_blank"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Time print -->
+            <t t-if="question.question_type == 'time'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <span t-esc="answer_lines[0].value_char_box"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Range print -->
+            <t t-if="question.question_type == 'range'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <span t-esc="answer_lines[0].value_char_box"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Week print -->
+            <t t-if="question.question_type == 'week'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <span t-esc="answer_lines[0].value_char_box"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Password print -->
+            <t t-if="question.question_type == 'password'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <span t-esc="answer_lines[0].value_char_box"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- File print -->
+            <t t-if="question.question_type == 'file'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <t t-if="answer_lines[0].value_char_box and answer_lines[0].value_char_box.isdigit()">
+                                    <t t-set="attachment" t-value="request.env['ir.attachment'].sudo().browse(int(answer_lines[0].value_char_box))"/>
+                                    <t t-if="attachment.exists()">
+                                        <a t-att-href="'/web/content/%s?download=true' % attachment.id" 
+                                           t-esc="attachment.name" 
+                                           target="_blank" 
+                                           class="text-primary text-decoration-underline"/>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="text-muted">File not found</span>
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    <span t-esc="answer_lines[0].value_char_box or 'No file'"/>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Signature print -->
+            <t t-if="question.question_type == 'signature'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <t t-if="answer_lines[0].value_char_box and answer_lines[0].value_char_box.startswith('data:image/')">
+                                    <img t-att-src="answer_lines[0].value_char_box" 
+                                         alt="Signature" 
+                                         style="max-width: 300px; border: 1px solid #ccc;"/>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-muted">No signature</span>
+                                </t>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Month print -->
+            <t t-if="question.question_type == 'month'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <span t-esc="answer_lines[0].value_char_box"/>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Address print -->
+            <t t-if="question.question_type == 'address'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <t t-set="addr_data" t-value="json.loads(answer_lines[0].value_char_box) if answer_lines[0].value_char_box else {}"/>
+                                <div class="address-display">
+                                    <t t-if="addr_data.get('street')">
+                                        <div><strong t-esc="question.address_label_street"/>: <span t-esc="addr_data['street']"/></div>
+                                    </t>
+                                    <t t-if="addr_data.get('street2')">
+                                        <div><strong t-esc="question.address_label_street2"/>: <span t-esc="addr_data['street2']"/></div>
+                                    </t>
+                                    <t t-if="addr_data.get('zip')">
+                                        <div><strong t-esc="question.address_label_zip"/>: <span t-esc="addr_data['zip']"/></div>
+                                    </t>
+                                    <t t-if="addr_data.get('city')">
+                                        <div><strong t-esc="question.address_label_city"/>: <span t-esc="addr_data['city']"/></div>
+                                    </t>
+                                    <t t-if="addr_data.get('state')">
+                                        <div><strong t-esc="question.address_label_state"/>: <span t-esc="addr_data['state']"/></div>
+                                    </t>
+                                    <t t-if="addr_data.get('country')">
+                                        <div><strong t-esc="question.address_label_country"/>: <span t-esc="addr_data['country']"/></div>
+                                    </t>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Name print -->
+            <t t-if="question.question_type == 'name'">
+                <t t-if="answer_lines">
+                    <t t-if="answer_lines[0].skipped">
+                        <div class="row g-0">
+                            <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                                <span class="fst-italic">Skipped</span>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="row g-0">
+                            <div class="col-12">
+                                <t t-set="name_data" t-value="json.loads(answer_lines[0].value_char_box) if answer_lines[0].value_char_box else {}"/>
+                                <div class="name-display">
+                                    <strong>Full Name:</strong> 
+                                    <span t-esc="name_data.get('first_name', '')"/>
+                                    <span t-if="name_data.get('middle_name')" t-esc="' ' + name_data['middle_name']"/>
+                                    <span t-esc="' ' + name_data.get('last_name', '')"/>
+                                    <div class="mt-1">
+                                        <small class="text-muted">
+                                            First: <span t-esc="name_data.get('first_name', 'N/A')"/> | 
+                                            Middle: <span t-esc="name_data.get('middle_name', 'N/A')"/> | 
+                                            Last: <span t-esc="name_data.get('last_name', 'N/A')"/>
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Many2one print -->
+            <!-- Many2one print -->
+            <t t-if="question.question_type == 'many2one'">
+                <t t-if="answer_lines and answer_lines[0].value_char_box">
+                    <div class="row g-0">
+                        <div class="col-12">
+                            <t t-if="',' in answer_lines[0].value_char_box">
+                                <t t-set="link_parts" t-value="answer_lines[0].value_char_box.split(',')"/>
+                                <t t-set="record" t-value="request.env[link_parts[0]].sudo().browse(int(link_parts[1]))"/>
+                                <t t-if="record.exists()">
+                                    <a t-att-href="'/web#id=%s&amp;model=%s&amp;view_type=form' % (link_parts[1], link_parts[0])" 
+                                       target="_blank" 
+                                       t-esc="record.display_name"/>
+                                </t>
+                                <t t-else="">
+                                    <span class="text-muted">Record not found</span>
+                                </t>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="answer_lines[0].value_char_box"/>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+                <t t-elif="answer_lines and answer_lines[0].skipped">
+                    <div class="row g-0">
+                        <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                            <span class="fst-italic">Skipped</span>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+            <!-- Many2many print -->
+            <t t-if="question.question_type == 'many2many'">
+                <t t-if="answer_lines and answer_lines[0].value_char_box">
+                    <div class="row g-0">
+                        <div class="col-12">
+                            <t t-set="record_ids" t-value="answer_lines[0].value_char_box.split(',') if answer_lines[0].value_char_box else []"/>
+                            <t t-if="record_ids and question.many2many_model">
+                                <ul class="list-unstyled mb-0">
+                                    <t t-foreach="record_ids" t-as="record_id">
+                                        <t t-set="record" t-value="request.env[question.many2many_model].sudo().browse(int(record_id.strip()))"/>
+                                        <t t-if="record.exists()">
+                                            <li><span t-esc="record.display_name"/></li>
+                                        </t>
+                                    </t>
+                                </ul>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="answer_lines[0].value_char_box"/>
+                            </t>
+                        </div>
+                    </div>
+                </t>
+                <t t-elif="answer_lines and answer_lines[0].skipped">
+                    <div class="row g-0">
+                        <div class="col-12 col-md-6 col-lg-4 rounded ps-4 o_survey_question_skipped">
+                            <span class="fst-italic">Skipped</span>
+                        </div>
+                    </div>
+                </t>
+                <t t-else="">
+                    <span class="text-muted">No answer</span>
+                </t>
+            </t>
+
+        </xpath>
+    </template>
+
+
+    <!-- Inherit question container to add custom error message support -->
+    <template id="question_container_error_msg_inherit" inherit_id="survey.question_container" name="Question Container Custom Error Message">
+        <xpath expr="//div[@t-att-id='question.id']" position="attributes">
+            <attribute name="t-att-data-required-error">question.constr_error_msg or default_constr_error_msg</attribute>
+        </xpath>
+    </template>
+
+</odoo>

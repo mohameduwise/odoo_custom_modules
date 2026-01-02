@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="survey_question_form_view_inherit" model="ir.ui.view">
+        <field name="name">survey.question.form.inherit</field>
+        <field name="model">survey.question</field>
+        <field name="inherit_id" ref="survey.survey_question_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Make Question Type a dropdown instead of radio -->
+            <xpath expr="//field[@name='question_type']" position="attributes">
+                <attribute name="widget"></attribute>
+            </xpath>
+
+             <!-- Hide Answers section in Options tab for custom fields -->
+            <xpath expr="//page[@name='options']/group[1]/group[1]" position="attributes">
+                <attribute name="invisible">question_type in ['color', 'email', 'url', 'time', 'range', 'week', 'password', 'file', 'signature', 'month', 'address', 'name', 'many2one', 'many2many']</attribute>
+            </xpath>
+
+             <!-- Hide original Answers tab for custom fields -->
+            <xpath expr="//page[@name='answers']" position="attributes">
+                <attribute name="invisible">is_page or question_type in ['text_box', 'color', 'email', 'url', 'time', 'range', 'week', 'password', 'file', 'signature', 'month', 'address', 'name', 'many2one', 'many2many']</attribute>
+            </xpath>
+
+            <!-- Add new Configuration page for custom fields only -->
+            <xpath expr="//page[@name='answers']" position="after">
+                <page string="Configuration" name="custom_configuration" 
+                      invisible="is_page or question_type not in ['time', 'range', 'week', 'password', 'file', 'signature', 'month', 'address', 'name', 'many2one', 'many2many']">
+                    <group>
+                        <!-- Configuration groups for custom fields -->
+                    </group>
+                </page>
+            </xpath>
+
+            <!-- Add preview for custom fields -->
+            <xpath expr="//div[hasclass('o_preview_questions')]/div[@invisible=&quot;question_type != 'scale'&quot;]" position="after">
+                <div invisible="question_type != 'color'" role="img" aria-label="Color Picker" title="Color Picker">
+                    <span>Pick a color</span><br/>
+                    <i class="fa fa-eyedropper fa-2x" role="img" aria-label="Color" title="Color"/>
+                </div>
+                <div invisible="question_type != 'email'" role="img" aria-label="Email Input" title="Email Input">
+                    <span>Enter your email</span><br/>
+                    <i class="fa fa-envelope fa-2x" role="img" aria-label="Email" title="Email"/>
+                </div>
+                <div invisible="question_type != 'url'" role="img" aria-label="URL Input" title="URL Input">
+                    <span>Enter a website URL</span><br/>
+                    <i class="fa fa-link fa-2x" role="img" aria-label="URL" title="URL"/>
+                </div>
+                <div invisible="question_type != 'time'" role="img" aria-label="Time Input" title="Time Input">
+                    <span>Select a time</span><br/>
+                    <i class="fa fa-clock-o fa-2x" role="img" aria-label="Time" title="Time"/>
+                </div>
+                <div invisible="question_type != 'range'" role="img" aria-label="Range Slider" title="Range Slider">
+                    <span>Select a value</span><br/>
+                    <i class="fa fa-sliders fa-2x" role="img" aria-label="Range" title="Range"/>
+                </div>
+                <div invisible="question_type != 'week'" role="img" aria-label="Week Input" title="Week Input">
+                    <span>Select a week</span><br/>
+                    <p class="o_datetime border-0">YYYY-W##
+                        <i class="fa fa-calendar" role="img" aria-label="Calendar" title="Calendar"/>
+                    </p>
+                </div>
+                <div invisible="question_type != 'password'" role="img" aria-label="Password Input" title="Password Input">
+                    <span>Enter password</span><br/>
+                    <i class="fa fa-lock fa-2x" role="img" aria-label="Password" title="Password"/>
+                </div>
+                <div invisible="question_type != 'file'" role="img" aria-label="File Upload" title="File Upload">
+                    <span>Upload a file</span><br/>
+                    <i class="fa fa-upload fa-2x" role="img" aria-label="File" title="File"/>
+                </div>
+                <div invisible="question_type != 'signature'" role="img" aria-label="Signature Pad" title="Signature Pad">
+                    <span>Sign here</span><br/>
+                    <i class="fa fa-pencil-square-o fa-2x" role="img" aria-label="Signature" title="Signature"/>
+                </div>
+                <div invisible="question_type != 'month'" role="img" aria-label="Month Input" title="Month Input">
+                    <span>Select a month</span><br/>
+                    <p class="o_datetime border-0">YYYY-MM
+                        <i class="fa fa-calendar" role="img" aria-label="Calendar" title="Calendar"/>
+                    </p>
+                </div>
+                <div invisible="question_type != 'address'" role="img" aria-label="Address Input" title="Address Input">
+                    <span>Enter your address</span><br/>
+                    <i class="fa fa-map-marker fa-2x" role="img" aria-label="Address" title="Address"/>
+                </div>
+                <div invisible="question_type != 'name'" role="img" aria-label="Name Input" title="Name Input">
+                    <span>Enter your name</span><br/>
+                    <i class="fa fa-user fa-2x" role="img" aria-label="Name" title="Name"/>
+                </div>
+                <div invisible="question_type != 'many2one'" role="img" aria-label="Select Record" title="Select Record">
+                    <span>Select a record</span><br/>
+                    <i class="fa fa-list-ul fa-2x" role="img" aria-label="Many2one" title="Many2one"/>
+                </div>
+                <div invisible="question_type != 'many2many'" role="img" aria-label="Select Multiple Records" title="Select Multiple Records">
+                    <span>Select records</span><br/>
+                    <i class="fa fa-th-list fa-2x" role="img" aria-label="Many2many" title="Many2many"/>
+                </div>
+            </xpath>
+
+            <!-- Add color field configuration -->
+            <xpath expr="//page[@name='custom_configuration']//group[last()]" position="inside">
+
+                <!-- Add Time field configuration -->
+                <group name="time_configuration" string="Time Configuration"
+                    invisible="question_type != 'time'">
+                    <field name="time_validate"/>
+                    <field name="time_min"/>
+                    <field name="time_max"/>
+                    <field name="time_step"/>
+                    <field name="time_error_msg"/>
+                </group>
+
+                <!-- Add Range field configuration -->
+                <group name="range_configuration" string="Range Configuration"
+                    invisible="question_type != 'range'">
+                    <field name="validate_range"/>
+                    <field name="range_min"/>
+                    <field name="range_max"/>
+                    <field name="range_step"/>
+                </group>
+
+                <!-- Add Week field configuration -->
+                <group name="week_configuration" string="Week Configuration"
+                    invisible="question_type != 'week'">
+                    <field name="validate_week_entry"/>
+                    <field name="week_min"/>
+                    <field name="week_max"/>
+                    <field name="week_step"/>
+                </group>
+
+                <!-- Add Password field configuration -->
+                <group string="Password Settings" invisible="question_type != 'password'">
+                    <field name="validate_password"/>
+                    <field name="password_min_length" invisible="not validate_password"/>
+                    <field name="password_max_length" invisible="not validate_password"/>
+                    <field name="password_error_msg" invisible="not validate_password"/>
+                </group>
+
+                <!-- Add File field configuration -->
+                <group name="file_configuration" string="File Configuration"
+                    invisible="question_type != 'file'">
+                    <field name="file_max_size"/>
+                    <field name="file_allowed_types"/>
+                </group>
+
+                <!-- Add Signature field configuration -->
+                <group name="signature_configuration" string="Signature Configuration"
+                    invisible="question_type != 'signature'">
+                    <field name="signature_width"/>
+                    <field name="signature_height"/>
+                </group>
+
+                <!-- Add Month field configuration -->
+                <group name="month_configuration" string="Month Configuration"
+                    invisible="question_type != 'month'">
+                    <field name="validate_month_entry"/>
+                    <field name="month_min"/>
+                    <field name="month_max"/>
+                    <field name="month_step"/>
+                    <field name="month_error_msg"/>
+                </group>
+
+                <!-- Add Address field configuration -->
+                <group name="address_configuration" invisible="question_type != 'address'">
+                    <group string="Enable Fields">
+                        <field name="address_enable_street"/>
+                        <field name="address_enable_street2"/>
+                        <field name="address_enable_zip"/>
+                        <field name="address_enable_city"/>
+                        <field name="address_enable_state"/>
+                        <field name="address_enable_country"/>
+                    </group>
+                    <group string="Field Labels">
+                        <field name="address_label_street" invisible="not address_enable_street"/>
+                        <field name="address_label_street2" invisible="not address_enable_street2"/>
+                        <field name="address_label_zip" invisible="not address_enable_zip"/>
+                        <field name="address_label_city" invisible="not address_enable_city"/>
+                        <field name="address_label_state" invisible="not address_enable_state"/>
+                        <field name="address_label_country" invisible="not address_enable_country"/>
+                    </group>
+                </group>
+
+                <!-- Add Name field configuration -->
+                <group name="name_configuration" string="Name Configuration"
+                    invisible="question_type != 'name'">
+                    <field name="name_middle_optional"/>
+                </group>
+
+                <!-- Add Many2one field configuration -->
+                <group name="many2one_configuration" string="Many2one Configuration"
+                    invisible="question_type != 'many2one'">
+                    <field name="many2one_model" placeholder="e.g., res.partner or Contact" required="question_type == 'many2one'"/>
+                </group>
+
+                <!-- Add Many2many field configuration -->
+                <group name="many2many_configuration" string="Many2many Configuration"
+                    invisible="question_type != 'many2many'">
+                    <field name="many2many_model" placeholder="e.g., res.partner or Contact" required="question_type == 'many2many'"/>
+                </group>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

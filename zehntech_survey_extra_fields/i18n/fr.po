@@ -1,0 +1,1045 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* zehntech_survey_extra_fields
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-24 12:33+0000\n"
+"PO-Revision-Date: 2025-10-24 12:33+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "%s must be in HH:MM format"
+msgstr "%s doit Ãªtre au format HH:MM"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.question_many2one
+msgid "<option value=\"\">-- Select an option --</option>"
+msgstr "<option value=\\\\>-- SÃ©lectionnez une option --</option>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid "<span class=\"fst-italic\">Skipped</span>"
+msgstr "<span class=\\fst-italic\\>IgnorÃ©</span>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid "<span class=\"text-muted\">No answer</span>"
+msgstr "<span class=\\text-muted\\>Pas de rÃ©ponse</span>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid "<span class=\"text-muted\">No signature</span>"
+msgstr "<span class=\\text-muted\\>Aucune signature</span>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid "<span class=\"text-muted\">Record not found</span>"
+msgstr "<span class=\\text-muted\\>Enregistrement introuvable</span>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid "<strong>Full Name:</strong>"
+msgstr "<strong>Nom complet :</strong>"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__address
+msgid "Address"
+msgstr "Adresse"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Address Configuration"
+msgstr "Configuration de l\'adresse"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__file_allowed_types
+msgid "Allowed File Types"
+msgstr "Types de fichiers autorisÃ©s"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "At least one address field must be filled."
+msgstr "Au moins un champ d\'adresse doit Ãªtre rempli."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "At least one address sub-field must be enabled."
+msgstr "Au moins un sous-champ d\'adresse doit Ãªtre activÃ©."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__signature_height
+msgid "Canvas Height"
+msgstr "Hauteur de la toile"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__signature_width
+msgid "Canvas Width"
+msgstr "Largeur de la toile"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_label_city
+msgid "City Label"
+msgstr "Ã‰tiquette de ville"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.question_signature
+msgid "Clear"
+msgstr "Clair"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__color
+msgid "Color"
+msgstr "Couleur"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Color Configuration"
+msgstr "Configuration des couleurs"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Color must be in hex format (e.g., #FF0000)"
+msgstr "La couleur doit Ãªtre au format hexadÃ©cimal (par exemple, #FF0000)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__file_allowed_types
+msgid "Comma-separated extensions (e.g., pdf,jpg,png)"
+msgstr "Extensions sÃ©parÃ©es par des virgules (par exemple, pdf, jpg, png)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_label_country
+msgid "Country Label"
+msgstr "Ã‰tiquette du pays"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_survey__cron_status
+msgid "Cron Status"
+msgstr "Statut Cron"
+
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_survey__cron_status__done
+msgid "Done"
+msgstr "Fait"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__email
+msgid "Email"
+msgstr "E-mail"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Email Configuration"
+msgstr "Configuration de la messagerie"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_enable_city
+msgid "Enable City"
+msgstr "Activer la ville"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_enable_country
+msgid "Enable Country"
+msgstr "Activer le pays"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_survey__enable_cron
+msgid "Enable Cron"
+msgstr "Activer Cron"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_survey.py:0
+msgid "Enable Cron is only available when Access Mode is \"Invited people only\"."
+msgstr "Activer Cron n\'est disponible que lorsque le mode d\'accÃ¨s est \\Personnes invitÃ©es uniquement\\."
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Enable Fields"
+msgstr "Activer les champs"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_enable_state
+msgid "Enable State"
+msgstr "Activer l\'Ã©tat"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_enable_street
+msgid "Enable Street"
+msgstr "Activer la rue"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_enable_street2
+msgid "Enable Street 2"
+msgstr "Activer la rue 2"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__time_validate
+msgid "Enable Validation"
+msgstr "Activer la validation"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_enable_zip
+msgid "Enable Zip"
+msgstr "Activer le code postal"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_survey__existing_contact_ids
+msgid "Existing Contacts"
+msgstr "Contacts existants"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Field Labels"
+msgstr "Ã‰tiquettes de champs"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__file
+msgid "File"
+msgstr "DÃ©poser"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "File Configuration"
+msgstr "Configuration du fichier"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "File size must be greater than 0 MB."
+msgstr "La taille du fichier doit Ãªtre supÃ©rieure Ã  0 Mo."
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.question_name
+msgid "First Name"
+msgstr "PrÃ©nom"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "First name is required."
+msgstr "Le prÃ©nom est obligatoire."
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid "First:"
+msgstr "D\'abord:"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__name_middle_optional
+msgid "If enabled, middle name is optional even when question is mandatory"
+msgstr "S\'il est activÃ©, le deuxiÃ¨me prÃ©nom est facultatif mÃªme lorsque la question est obligatoire"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_survey__cron_status__pending
+msgid "In Progress"
+msgstr "En cours"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Invalid address format."
+msgstr "Format d\'adresse invalide."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Invalid name format."
+msgstr "Format de nom invalide."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Invalid password format."
+msgstr "Format de mot de passe invalide."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Invalid record selection."
+msgstr "SÃ©lection d\'enregistrement non valide."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Invalid signature data."
+msgstr "DonnÃ©es de signature invalides."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Invalid time format (HH:MM)."
+msgstr "Format d\'heure non valide (HH:MM)."
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.question_name
+msgid "Last Name"
+msgstr "Nom de famille"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Last name is required."
+msgstr "Le nom de famille est obligatoire."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__many2many
+msgid "Many2many"
+msgstr "Beaucoup2many"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Many2many Configuration"
+msgstr "Configuration de plusieurs2many"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__many2one
+msgid "Many2one"
+msgstr "Plusieurs2un"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Many2one Configuration"
+msgstr "Configuration de plusieurs2un"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__file_max_size
+msgid "Max File Size (MB)"
+msgstr "Taille maximale du fichier (Mo)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__month_max
+msgid "Max Month"
+msgstr "Mois maximum"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Max Month cannot be earlier than Min Month."
+msgstr "Le mois maximum ne peut pas Ãªtre antÃ©rieur au mois minimum."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Max Month must be in YYYY-MM format with valid month (01-12)."
+msgstr "Le mois maximum doit Ãªtre au format AAAA-MM avec un mois valide (01-12)."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__password_max_length
+msgid "Max Password Length"
+msgstr "Longueur maximale du mot de passe"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__time_max
+msgid "Max Time (HH:MM)"
+msgstr "DurÃ©e maximale (HH:MM)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__week_max
+msgid "Max Week"
+msgstr "Semaine maximale"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Max Week cannot be earlier than Min Week."
+msgstr "La semaine maximale ne peut pas Ãªtre antÃ©rieure Ã  la semaine minimale."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Max Week must be in YYYY-WW format."
+msgstr "La semaine maximale doit Ãªtre au format AAAA-WW."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Maximum password length cannot be less than minimum length."
+msgstr "La longueur maximale du mot de passe ne peut pas Ãªtre infÃ©rieure Ã  la longueur minimale."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__month_max
+msgid "Maximum selectable month (YYYY-MM)"
+msgstr "Mois maximum sÃ©lectionnable (AAAA-MM)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__week_max
+msgid "Maximum selectable week (YYYY-WW)"
+msgstr "Semaine maximale sÃ©lectionnable (AAAA-WW)"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.question_name
+msgid "Middle Name"
+msgstr "DeuxiÃ¨me prÃ©nom"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__name_middle_optional
+msgid "Middle Name Optional"
+msgstr "DeuxiÃ¨me prÃ©nom Facultatif"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Middle name is required."
+msgstr "Le deuxiÃ¨me prÃ©nom est requis."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__month_min
+msgid "Min Month"
+msgstr "Mois minimum"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Min Month must be in YYYY-MM format with valid month (01-12)."
+msgstr "Le mois minimum doit Ãªtre au format AAAA-MM avec un mois valide (01-12)."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__password_min_length
+msgid "Min Password Length"
+msgstr "Longueur minimale du mot de passe"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__time_min
+msgid "Min Time (HH:MM)"
+msgstr "Temps minimum (HH:MM)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__week_min
+msgid "Min Week"
+msgstr "Semaine minimum"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Min Week must be in YYYY-WW format."
+msgstr "La semaine minimale doit Ãªtre au format AAAA-WW."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Minimum password length must be at least 1."
+msgstr "La longueur minimale du mot de passe doit Ãªtre d\'au moins 1."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__month_min
+msgid "Minimum selectable month (YYYY-MM)"
+msgstr "Mois minimum sÃ©lectionnable (AAAA-MM)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__week_min
+msgid "Minimum selectable week (YYYY-WW)"
+msgstr "Semaine minimum sÃ©lectionnable (AAAA-WW)"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Model \"%s\" does not exist."
+msgstr "Le modÃ¨le \\%s\\ nâ€™existe pas."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Model \"%s\" is not accessible or has incorrect name."
+msgstr "Le modÃ¨le \\%s\\ nâ€™est pas accessible ou porte un nom incorrect."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__many2many_model
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__many2one_model
+msgid "Model Name"
+msgstr "Nom du modÃ¨le"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Model name is required for Many2many field type."
+msgstr "Le nom du modÃ¨le est requis pour le type de champ Many2many."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Model name is required for Many2one field type."
+msgstr "Le nom du modÃ¨le est requis pour le type de champ Many2one."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__many2many_model
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__many2one_model
+msgid "Model to select records from (e.g., res.partner)"
+msgstr "ModÃ¨le Ã  partir duquel sÃ©lectionner les enregistrements (par exemple, res.partner)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__month
+msgid "Month"
+msgstr "Mois"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Month Configuration"
+msgstr "Configuration du mois"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__month_step
+msgid "Month Step"
+msgstr "Ã‰tape du mois"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Month Step (%s) cannot be greater than the total months in range (%s)."
+msgstr "Lâ€™Ã©tape mensuelle (%s) ne peut pas Ãªtre supÃ©rieure au nombre total de mois dans la plage (%s)."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Month Step must be greater than 0."
+msgstr "Le pas du mois doit Ãªtre supÃ©rieur Ã  0."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__month_error_msg
+msgid "Month Validation Error"
+msgstr "Erreur de validation du mois"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Month does not match step interval."
+msgstr "Le mois ne correspond pas Ã  l\'intervalle de pas."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Month is after maximum allowed month."
+msgstr "Le mois est aprÃ¨s le mois maximum autorisÃ©."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Month is before minimum allowed month."
+msgstr "Le mois est avant le mois minimum autorisÃ©."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Month must be in YYYY-MM format."
+msgstr "Le mois doit Ãªtre au format AAAA-MM."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__name
+msgid "Name"
+msgstr "Nom"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Name Configuration"
+msgstr "Configuration du nom"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__password
+msgid "Password"
+msgstr "Mot de passe"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Password Settings"
+msgstr "ParamÃ¨tres de mot de passe"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__password_error_msg
+msgid "Password Validation Error"
+msgstr "Erreur de validation du mot de passe"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Password cannot exceed %s characters."
+msgstr "Le mot de passe ne peut pas dÃ©passer %s caractÃ¨res."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Password must be at least %s characters."
+msgstr "Le mot de passe doit contenir au moins %s caractÃ¨res."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Please enter a valid URL (e.g., https://example.com)"
+msgstr "Veuillez saisir une URL valide (par exemple, https://example.com)"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Please enter a valid email address."
+msgstr "S\'il vous plaÃ®t, mettez une adresse email valide."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Please enter a valid number."
+msgstr "Veuillez entrer un numÃ©ro valide."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Please select a valid color."
+msgstr "Veuillez sÃ©lectionner une couleur valide."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__question_type
+msgid "Question Type"
+msgstr "Type de question"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__range
+msgid "Range"
+msgstr "Gamme"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Range Configuration"
+msgstr "Configuration de la gamme"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__range_max
+msgid "Range Max"
+msgstr "PortÃ©e maximale"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Range Max cannot be less than Range Min."
+msgstr "La plage maximale ne peut pas Ãªtre infÃ©rieure Ã  la plage minimale."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__range_min
+msgid "Range Min"
+msgstr "Plage minimale"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__range_step
+msgid "Range Step"
+msgstr "Pas de plage"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Range Step cannot be greater than the range (Max - Min)."
+msgstr "Le pas de plage ne peut pas Ãªtre supÃ©rieur Ã  la plage (Max - Min)."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Range Step must be greater than 0."
+msgstr "Le pas de plage doit Ãªtre supÃ©rieur Ã  0."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_survey__scheduled_date
+msgid "Scheduled Date"
+msgstr "Date prÃ©vue"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_survey.py:0
+msgid "Scheduled Date is mandatory if \"Enable Cron\" is selected."
+msgstr "La date planifiÃ©e est obligatoire si \\Activer Cron\\ est sÃ©lectionnÃ©."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Selected record does not exist."
+msgstr "L\'enregistrement sÃ©lectionnÃ© n\'existe pas."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.actions.server,name:zehntech_survey_extra_fields.ir_cron_send_scheduled_surveys_ir_actions_server
+msgid "Send Scheduled Surveys"
+msgstr "Envoyer des enquÃªtes programmÃ©es"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__signature
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid "Signature"
+msgstr "Signature"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Signature Configuration"
+msgstr "Configuration des signatures"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_label_state
+msgid "State Label"
+msgstr "Ã‰tiquette d\'Ã©tat"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__month_step
+msgid "Step between selectable months"
+msgstr "Ã‰tape entre les mois sÃ©lectionnables"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,help:zehntech_survey_extra_fields.field_survey_question__week_step
+msgid "Step between selectable weeks"
+msgstr "Ã‰tape entre les semaines sÃ©lectionnables"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_label_street2
+msgid "Street 2 Label"
+msgstr "Ã‰tiquette Rue 2"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_label_street
+msgid "Street Label"
+msgstr "Ã‰tiquette de rue"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model,name:zehntech_survey_extra_fields.model_survey_survey
+msgid "Survey"
+msgstr "EnquÃªte"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model,name:zehntech_survey_extra_fields.model_survey_question
+msgid "Survey Question"
+msgstr "Question d\'enquÃªte"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model,name:zehntech_survey_extra_fields.model_survey_user_input
+msgid "Survey User Input"
+msgstr "EntrÃ©e des utilisateurs de l\'enquÃªte"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_user_input.py:0
+msgid "This answer cannot be overwritten."
+msgstr "Cette rÃ©ponse ne peut pas Ãªtre Ã©crasÃ©e."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "This question requires a file upload."
+msgstr "Cette question nÃ©cessite un tÃ©lÃ©chargement de fichier."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "This question requires a password."
+msgstr "Cette question nÃ©cessite un mot de passe."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "This question requires a signature."
+msgstr "Cette question nÃ©cessite une signature."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "This question requires an answer."
+msgstr "Cette question nÃ©cessite une rÃ©ponse."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__time
+msgid "Time"
+msgstr "Temps"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Time Configuration"
+msgstr "Configuration de l\'heure"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Time Max cannot be earlier than Time Min."
+msgstr "Time Max ne peut pas Ãªtre antÃ©rieur Ã  Time Min."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__time_step
+msgid "Time Step (minutes)"
+msgstr "Pas de temps (minutes)"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Time Step must be greater than 0."
+msgstr "Le pas de temps doit Ãªtre supÃ©rieur Ã  0."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__url
+msgid "URL"
+msgstr "URL"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "URL Configuration"
+msgstr "Configuration des URL"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "URL must be in valid format (e.g., https://example.com)"
+msgstr "L\'URL doit Ãªtre dans un format valide (par exemple, https://example.com)"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__validate_month_entry
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__validate_range
+msgid "Validate Entry"
+msgstr "Valider l\'entrÃ©e"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__validate_password
+msgid "Validate Password Entry"
+msgstr "Valider la saisie du mot de passe"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__validate_week_entry
+msgid "Validate Week Entry"
+msgstr "Valider l\'entrÃ©e de la semaine"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__time_error_msg
+msgid "Validation Error Message"
+msgstr "Message d\'erreur de validation"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Value must be between %s and %s"
+msgstr "La valeur doit Ãªtre comprise entre %s et %s"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Value must respect the step of %s"
+msgstr "La valeur doit respecter le pas de %s"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields.selection,name:zehntech_survey_extra_fields.selection__survey_question__question_type__week
+msgid "Week"
+msgstr "Semaine"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Week Configuration"
+msgstr "Configuration de la semaine"
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__week_step
+msgid "Week Step"
+msgstr "Ã‰tape de la semaine"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid ""
+"Week Step cannot be greater than the total number of weeks in the range."
+msgstr ""
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Week Step must be greater than 0."
+msgstr "Le pas de semaine doit Ãªtre supÃ©rieur Ã  0."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__week_error_msg
+msgid "Week Validation Error"
+msgstr "Erreur de validation de la semaine"
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Week does not match step interval."
+msgstr "La semaine ne correspond pas Ã  l\'intervalle de pas."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Week is after maximum allowed week."
+msgstr "La semaine est aprÃ¨s la semaine maximale autorisÃ©e."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Week is before minimum allowed week."
+msgstr "La semaine est avant la semaine minimale autorisÃ©e."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_question.py:0
+msgid "Week must be in YYYY-WW format."
+msgstr "La semaine doit Ãªtre au format AAAA-WW."
+
+#. module: zehntech_survey_extra_fields
+#. odoo-python
+#: code:addons/zehntech_survey_extra_fields/models/survey_survey.py:0
+msgid "You must select at least one contact if Scheduled Date is set."
+msgstr "Vous devez sÃ©lectionner au moins un contact si la date planifiÃ©e est dÃ©finie."
+
+#. module: zehntech_survey_extra_fields
+#: model:ir.model.fields,field_description:zehntech_survey_extra_fields.field_survey_question__address_label_zip
+msgid "Zip Label"
+msgstr "Ã‰tiquette zippÃ©e"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "e.g., res.partner or Contact"
+msgstr "par exemple, res.partner ou Contact"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.question_url
+msgid "https://example.com"
+msgstr "https://exemple.com"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.question_email
+msgid "user@domain.com"
+msgstr "utilisateur@domaine.com"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid ""
+"| \n"
+"                                            Last:"
+msgstr ""
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_print_inherit
+msgid ""
+"| \n"
+"                                            Middle:"
+msgstr ""
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Enter a website URL</span><br/>\n"
+"                    <i class=\"fa fa-link fa-2x\" role=\"img\" aria-label=\"URL\" title=\"URL\"/>"
+msgstr ""
+"<span>Entrez une URL de site Web</span><br/>\n"
+"                    <i class=\"fa fa-link fa-2x\" role=\"img\" aria-label=\"URL\" title=\"URL\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Enter password</span><br/>\n"
+"                    <i class=\"fa fa-lock fa-2x\" role=\"img\" aria-label=\"Password\" title=\"Password\"/>"
+msgstr ""
+"<span>Entrez le mot de passe</span><br/>\n"
+"                    <i class=\"fa fa-lock fa-2x\" role=\"img\" aria-label=\"Mot de passe\" title=\"Mot de passe\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Enter your address</span><br/>\n"
+"                    <i class=\"fa fa-map-marker fa-2x\" role=\"img\" aria-label=\"Address\" title=\"Address\"/>"
+msgstr ""
+"<span>Entrez votre adresse</span><br/>\n"
+"                    <i class=\"fa fa-map-marker fa-2x\" role=\"img\" aria-label=\"Adresse\" title=\"Adresse\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Enter your email</span><br/>\n"
+"                    <i class=\"fa fa-envelope fa-2x\" role=\"img\" aria-label=\"Email\" title=\"Email\"/>"
+msgstr ""
+"<span>Entrez votre adresse e-mail</span><br/>\n"
+"                    <i class=\"fa fa-envelope fa-2x\" role=\"img\" aria-label=\"E-mail\" title=\"E-mail\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Enter your name</span><br/>\n"
+"                    <i class=\"fa fa-user fa-2x\" role=\"img\" aria-label=\"Name\" title=\"Name\"/>"
+msgstr ""
+"<span>Entrez votre nom</span><br/>\n"
+"                    <i class=\"fa fa-user fa-2x\" role=\"img\" aria-label=\"Nom\" title=\"Nom\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Pick a color</span><br/>\n"
+"                    <i class=\"fa fa-eyedropper fa-2x\" role=\"img\" aria-label=\"Color\" title=\"Color\"/>"
+msgstr ""
+"<span>Choisissez une couleur</span><br/>\n"
+"                    <i class=\"fa fa-eyedropper fa-2x\" role=\"img\" aria-label=\"Couleur\" title=\"Couleur\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "<span>Select a month</span><br/>"
+msgstr "<span>Sélectionnez un mois</span><br/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Select a record</span><br/>\n"
+"                    <i class=\"fa fa-list-ul fa-2x\" role=\"img\" aria-label=\"Many2one\" title=\"Many2one\"/>"
+msgstr ""
+"<span>Sélectionnez un enregistrement</span><br/>\n"
+"                    <i class=\"fa fa-list-ul fa-2x\" role=\"img\" aria-label=\"Many2one\" title=\"Many2one\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Select a time</span><br/>\n"
+"                    <i class=\"fa fa-clock-o fa-2x\" role=\"img\" aria-label=\"Time\" title=\"Time\"/>"
+msgstr ""
+"<span>Sélectionnez une heure</span><br/>\n"
+"                    <i class=\"fa fa-clock-o fa-2x\" role=\"img\" aria-label=\"Heure\" title=\"Heure\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Select a value</span><br/>\n"
+"                    <i class=\"fa fa-sliders fa-2x\" role=\"img\" aria-label=\"Range\" title=\"Range\"/>"
+msgstr ""
+"<span>Sélectionnez une valeur</span><br/>\n"
+"                    <i class=\"fa fa-sliders fa-2x\" role=\"img\" aria-label=\"Plage\" title=\"Plage\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "<span>Select a week</span><br/>"
+msgstr "<span>Sélectionnez une semaine</span><br/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Select records</span><br/>\n"
+"                    <i class=\"fa fa-th-list fa-2x\" role=\"img\" aria-label=\"Many2many\" title=\"Many2many\"/>"
+msgstr ""
+"<span>Sélectionnez des enregistrements</span><br/>\n"
+"                    <i class=\"fa fa-th-list fa-2x\" role=\"img\" aria-label=\"Many2many\" title=\"Many2many\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Sign here</span><br/>\n"
+"                    <i class=\"fa fa-pencil-square-o fa-2x\" role=\"img\" aria-label=\"Signature\" title=\"Signature\"/>"
+msgstr ""
+"<span>Signez ici</span><br/>\n"
+"                    <i class=\"fa fa-pencil-square-o fa-2x\" role=\"img\" aria-label=\"Signature\" title=\"Signature\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid ""
+"<span>Upload a file</span><br/>\n"
+"                    <i class=\"fa fa-upload fa-2x\" role=\"img\" aria-label=\"File\" title=\"File\"/>"
+msgstr ""
+"<span>Téléversez un fichier</span><br/>\n"
+"                    <i class=\"fa fa-upload fa-2x\" role=\"img\" aria-label=\"Fichier\" title=\"Fichier\"/>"
+
+#. module: zehntech_survey_extra_fields
+#: model_terms:ir.ui.view,arch_db:zehntech_survey_extra_fields.survey_question_form_view_inherit
+msgid "Configuration"
+msgstr "Configuration"
