@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="survey_fill_form_done_gems_inherit" inherit_id="survey.survey_fill_form_done">
+        <xpath expr="//div[hasclass('o_survey_finished')]/h1[2]" position="after">
+            <t t-set="gems_data" t-value="answer.get_gems_data()"/>
+
+            <t t-if="gems_data">
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 15px;">
+                    <p><strong>🎉 Congratulations!</strong></p>
+                    <p>
+                        Primary Gem: <strong t-esc="gems_data['primary_gem']"/> |
+                        Secondary Gem: <strong t-esc="gems_data['secondary_gem']"/>
+                    </p>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>

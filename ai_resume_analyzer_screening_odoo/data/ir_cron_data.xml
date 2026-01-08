@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Cron Job: Auto-Screen New Applicants -->
+        <record id="ir_cron_auto_screen_applicants" model="ir.cron">
+            <field name="name">AI Resume Screening: Auto-Screen New Applicants</field>
+            <field name="model_id" ref="model_ai_resume_screening"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_auto_screen_all()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Cron Job: Auto-Retrain Models -->
+        <record id="ir_cron_auto_train_models" model="ir.cron">
+            <field name="name">AI Resume Screening: Auto-Retrain Models</field>
+            <field name="model_id" ref="model_ai_resume_screening"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_auto_train_all()</field>
+            <field name="interval_number">24</field>
+            <field name="interval_type">hours</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Cron Job: Daily Summary Notifications -->
+        <record id="ir_cron_daily_notifications" model="ir.cron">
+            <field name="name">AI Resume Screening: Daily Summary Notifications</field>
+            <field name="model_id" ref="model_ai_resume_screening"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_daily_notifications()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Cron Job: Weekly Summary Notifications -->
+        <record id="ir_cron_weekly_notifications" model="ir.cron">
+            <field name="name">AI Resume Screening: Weekly Summary Notifications</field>
+            <field name="model_id" ref="model_ai_resume_screening"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_weekly_notifications()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">weeks</field>
+            <field name="active" eval="True"/>
+        </record>
+
+        <!-- Cron Job: Monthly Summary Notifications -->
+        <record id="ir_cron_monthly_notifications" model="ir.cron">
+            <field name="name">AI Resume Screening: Monthly Summary Notifications</field>
+            <field name="model_id" ref="model_ai_resume_screening"/>
+            <field name="state">code</field>
+            <field name="code">model.cron_monthly_notifications()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="active" eval="True"/>
+        </record>
+    </data>
+</odoo>
+

@@ -1,0 +1,58 @@
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_hr_job_inherit">   <!-- Payment Term inherited -->
+            <field name="name">hr.job.inherit</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <field name="interviewer_ids" position="after">
+
+                    <field name="analytical_skills_screening_survey_id" required="1"/>
+
+                    <field name="logical_skills_screening_survey_id" required="1"/>
+
+                    <field name="gems_stone_screening_id" required="1"/>
+                    <field name="resume_pass_score"/>
+
+                </field>
+
+            </field>
+        </record>
+
+        <record id="hr_job_form_resume_requirements" model="ir.ui.view">
+            <field name="name">hr.job.form.resume.requirements</field>
+            <field name="model">hr.job</field>
+            <field name="inherit_id" ref="hr.view_hr_job_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='recruitment_page']" position="after">
+                    <page string="Resume Requirements"
+                          name="resume_requirements_page"
+                          groups="hr_recruitment.group_hr_recruitment_user,hr.group_hr_user">
+
+                        <group string="Experience Requirements" col="2">
+                            <field name="resume_min_experience"/>
+                            <field name="resume_max_experience"/>
+                        </group>
+                        <group>
+                            <field name="resume_skill_ids" widget="many2many_tags"
+                                   placeholder="Required resume skills"/>
+
+                            <field name="resume_keyword_ids" widget="many2many_tags"
+                                   placeholder="Resume keywords"/>
+                        </group>
+
+                        <group string="Screening Rules" col="2">
+                            <field name="resume_pass_score"/>
+                        </group>
+
+                        <group string="Notes">
+                            <field name="resume_notes" placeholder="Explain what kind of resume is preferred…"/>
+                        </group>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

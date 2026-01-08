@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_resume_skill_user,resume.skill user,model_resume_skill,base.group_user,1,1,1,1
+access_resume_ai_model_hr,resume.ai.model hr access,model_resume_ai_model,base.group_user,1,1,1,1
+access_hr_applicant_oad_wizard_user,hr.applicant.oad.wizard,model_hr_applicant_oad_wizard,hr_recruitment.group_hr_recruitment_user,1,1,1,1
+access_resume_ai_training_user,resume.ai.training user,model_resume_ai_training_data,hr.group_hr_user,1,1,1,1
+

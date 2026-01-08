@@ -1,0 +1,173 @@
+<odoo>
+
+    <!-- EMAIL 1: Application Received -->
+    <record id="email_application_received" model="mail.template">
+        <field name="name">Application Received</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="subject">Application Received – {{ object.job_id.name }}</field>
+        <field name="email_to">{{ object.email_from }}</field>
+        <field name="body_html">
+            <![CDATA[
+            <p>Dear {{ object.partner_name }},</p>
+
+            <p>Thank you for applying for the position of <strong>{{ object.job_id.name }}</strong>.</p>
+
+            <p>Our team will review your profile and notify you about the next step.</p>
+
+            <p>Best regards,<br/>HR Team</p>
+            ]]>
+        </field>
+    </record>
+
+    <!-- EMAIL 2: Resume Shortlisted → Analytical Test -->
+    <record id="email_analytical_test" model="mail.template">
+        <field name="name">Analytical Test Invitation</field>
+        <field name="model_id" ref="survey.model_survey_user_input" />
+        <field name="subject">Participate to {{ object.survey_id.display_name }} interview</field>
+        <field name="email_to" eval="False"/>
+        <field name="email_from" >{{ object.survey_id.user_id.partner_id.email }}</field>
+        <field name="use_default_to" eval="True"/>
+         <field name="body_html" type="html">
+            <p>Dear <t t-out="object.partner_id.name"/>,</p>
+
+            <p>You have been shortlisted based on your resume.</p>
+
+            <p>Please complete the <strong>Analytical Skills Test</strong> using the link below:</p>
+
+            <div style="margin: 16px 0px 16px 0px;">
+            <a t-att-href="(object.get_start_url())"
+                t-attf-style="background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{user.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;">
+                <t>
+                    Start the written interview
+                </t>
+            </a>
+        </div>
+
+            <p>Duration: 10 minutes</p>
+
+            <p>Best of luck,<br/>HR Team</p>
+        </field>
+    </record>
+
+    <!-- EMAIL 3: Analytical Result → Logical Test -->
+    <record id="email_logical_test" model="mail.template">
+        <field name="name">Logical Test Invitation</field>
+        <field name="model_id" ref="survey.model_survey_user_input" />
+        <field name="subject">Participate to {{ object.survey_id.display_name }} interview</field>
+        <field name="email_to" eval="False"/>
+        <field name="email_from" >{{ object.survey_id.user_id.partner_id.email }}</field>
+        <field name="use_default_to" eval="True"/>
+         <field name="body_html" type="html">
+            <p>Dear <t t-out="object.partner_id.name"/>,</p>
+
+            <!-- <p>Your <strong>Analytical Test Score</strong>: {{ object.analytical_score }}%</p> -->
+
+            <p>You are invited to attend the <strong>Logical Skills Test</strong>:</p>
+
+            <div style="margin: 16px 0px 16px 0px;">
+            <a t-att-href="(object.get_start_url())"
+                t-attf-style="background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{user.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;">
+                <t>
+                    Start the written interview
+                </t>
+            </a>
+        </div>
+
+            <p>Regards,<br/>HR Team</p>
+        </field>
+    </record>
+
+    <record id="email_level_2_failed" model="mail.template">
+        <field name="name">Level 2 Failed</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="subject">Level 2 Failed – {{ object.job_id.name }}</field>
+        <field name="email_to">{{ object.email_from }}</field>
+        <field name="email_from" >{{ object.job_id.user_id.partner_id.email }}</field>
+        <field name="body_html" type="html">
+
+            <p>Dear <t t-out="object.partner_name"/>,</p>
+
+            <p>You have not successfully screened for the Level 2.</p>
+
+            <p>Congratulation for Participating in the interview selection process for the <t t-out="object.job_id.name"/> at INSYTX.</p>
+
+            <p>Best regards,<br/>HR Team</p>
+
+        </field>
+    </record>
+
+    <!-- EMAIL 4: Logical Result → Gemstone Test -->
+    <record id="email_gemstone_test" model="mail.template">
+        <field name="name">Gemstone Personality Test</field>
+        <field name="model_id" ref="survey.model_survey_user_input" />
+        <field name="subject">Participate to {{ object.survey_id.display_name }} interview</field>
+        <field name="email_to" eval="False"/>
+        <field name="email_from" >{{ object.survey_id.user_id.partner_id.email }}</field>
+        <field name="use_default_to" eval="True"/>
+         <field name="body_html" type="html">
+            <p>Dear <t t-out="object.partner_id.name"/>,</p>
+
+            <!-- <p>Your <strong>Logical Test Score</strong>: {{ object.logical_score }}%</p> -->
+
+            <p>Please proceed with the <strong>Gemstone Personality Test</strong>:</p>
+
+            <div style="margin: 16px 0px 16px 0px;">
+            <a t-att-href="(object.get_start_url())"
+                t-attf-style="background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{user.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;">
+                <t>
+                    Start the written interview
+                </t>
+            </a>
+        </div>
+
+            <p>Regards,<br/>HR Team</p>
+        </field>
+    </record>
+
+    <!-- EMAIL 5: Gemstone Result → OAD Test -->
+<!--    <record id="email_oad_test" model="mail.template">-->
+<!--        <field name="name">OAD Personality Test</field>-->
+<!--        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>-->
+<!--        <field name="subject">Gemstone Result &amp; OAD Assessment</field>-->
+<!--        <field name="email_to">{{ object.email_from }}</field>-->
+<!--        <field name="body_html">-->
+<!--            <![CDATA[-->
+<!--            <p>Dear {{ object.partner_name }},</p>-->
+
+<!--            <p>-->
+<!--                <strong>Gemstone Result:</strong><br/>-->
+<!--                Type: {{ object.gemstone_type }}<br/>-->
+<!--                Score: {{ object.gemstone_score }}%-->
+<!--            </p>-->
+
+<!--            <p>Please complete the <strong>OAD Personality Test</strong>:</p>-->
+
+<!--            <p><a href="{{ object.oad_test_link }}">{{ object.oad_test_link }}</a></p>-->
+
+<!--            <p>Regards,<br/>HR Team</p>-->
+<!--            ]]>-->
+<!--        </field>-->
+<!--    </record>-->
+
+<record id="mail_template_oad_link" model="mail.template">
+        <field name="name">Applicant Link Mail</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="subject">OAD Test Link</field>
+        <field name="email_from">{{object.user_id.email}}</field>
+        <field name="email_to">{{object.email_from}}</field>
+        <field name="body_html" type="html">
+        <p>haii</p>
+            <p>Dear <t t-out="object.partner_name"/>,</p>
+            <p>Please use the following link for OAD Test:</p>
+
+            <p>
+                OAD Link:-<a t-att-href="ctx.get('link')" target="_blank">
+                   <t t-out="ctx.get('link')"/>
+                </a>
+            </p>
+
+             <p>Regards,<br/>HR Team</p>
+        </field>
+    </record>
+
+</odoo>
