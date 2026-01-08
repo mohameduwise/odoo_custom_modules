@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <t t-name="ai_resume_analyzer_screening_odoo.AIScreeningActionHelper">
+        <div class="o_view_nocontent">
+            <div class="o_nocontent_help">
+                <p class="o_view_nocontent_smiling_face">
+                    Ready to start AI-powered resume screening?
+                </p>
+                <p>
+                    <a type="object" class="btn btn-link mt-3"
+                        t-on-click="() => this.actionCreateScreening()">
+                        Create your first screening configuration
+                    </a>
+                </p>
+                <t t-if="!state.hasDemoData">
+                    <div class="d-flex gap-3 align-items-center or-separator">
+                        <hr class="flex-grow-1" /> or <hr class="flex-grow-1" />
+                    </div>
+
+                    <a type="object" class="btn btn-secondary mt-3"
+                        t-on-click="() => this.loadAIScreeningScenario()">
+                        Load sample data
+                    </a>
+                </t>
+            </div>
+        </div>
+    </t>
+</odoo>

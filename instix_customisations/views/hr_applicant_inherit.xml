@@ -1,0 +1,99 @@
+<odoo>
+    <record id="hr_applicant_form_supporting_documents" model="ir.ui.view">
+        <field name="name">hr.applicant.form.supporting.documents</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_open_link_wizard"
+                        type="object"
+                        string="Send OAD Test"
+                        class="oe_highlight"
+                        invisible="stage_name != 'OAD Ideal Profile Screening'"/>
+            </xpath>
+            <field name="linkedin_profile" position="after">
+                <field name="resume"/>
+            </field>
+            <xpath expr="//notebook" position="inside">
+
+                <page string="Supporting Documents" name="supporting_documents">
+                    <group>
+                        <group string="Identity">
+                            <field name="ic_passport_copy"
+                                   widget="binary"
+                                   filename="ic_passport_filename"/>
+                        </group>
+                        <group string="Education Certificates">
+                            <field name="degree_certificate"
+                                   widget="binary"
+                                   filename="degree_certificate_filename"/>
+                            <field name="other_certificate"
+                                   widget="binary"
+                                   filename="other_certificate_filename"/>
+                        </group>
+                    </group>
+                </page>
+
+            </xpath>
+        </field>
+    </record>
+    <record id="view_hr_applicant_form_ai_score" model="ir.ui.view">
+        <field name="name">hr.applicant.form.ai.score</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//header" position="inside">
+                <button name="action_score_resume"
+                        string="Score Resume"
+                        type="object"
+                        class="btn-primary" invisible="stage_name != 'Incoming Resumes'"
+                />
+            </xpath>
+
+            <xpath expr="//group" position="inside">
+                <group>
+
+                    <field name="ai_score" widget="percentpie" readonly="1"/>
+                    <field name="ai_score_range" readonly="1"/></group>
+
+            </xpath>
+
+        </field>
+    </record>
+    <record id="hr_applicant_kanban_view_ai_score" model="ir.ui.view">
+        <field name="name">hr.applicant.kanban.ai.score</field>
+        <field name="model">hr.applicant</field>
+        <field name="inherit_id" ref="hr_recruitment.hr_kanban_view_applicant"/>
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="inside">
+                <field name="ai_score"/>
+            </xpath>
+            <xpath expr="//t[@t-name='card']/field[@name='partner_name']" position="after">
+
+                <t t-if="record.ai_score.raw_value">
+                    <div class="mt-1">
+                        <span t-if="record.ai_score.raw_value &gt;= 80"
+                              class="badge bg-success">
+                            AI Score:
+                            <t t-esc="record.ai_score.raw_value"/>%
+                        </span>
+                        <span t-elif="record.ai_score.raw_value &gt;= 70"
+                              class="badge bg-warning text-dark">
+                            AI Score:
+                            <t t-esc="record.ai_score.raw_value"/>%
+                        </span>
+                        <span t-else=""
+                              class="badge bg-danger">
+                            AI Score:
+                            <t t-esc="record.ai_score.raw_value"/>%
+                        </span>
+
+                    </div>
+                </t>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

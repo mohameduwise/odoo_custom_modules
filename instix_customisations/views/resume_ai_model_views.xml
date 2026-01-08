@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <!-- =========================================================
+         ACTION
+    ========================================================== -->
+    <record id="action_resume_ai_model" model="ir.actions.act_window">
+        <field name="name">Resume AI Models</field>
+        <field name="res_model">resume.ai.model</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_resume_ai_model_list" model="ir.ui.view">
+        <field name="name">resume.ai.model.list</field>
+        <field name="model">resume.ai.model</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="trained_on"/>
+                <field name="trained_date"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- =========================================================
+         FORM VIEW
+    ========================================================== -->
+    <record id="view_resume_ai_model_form" model="ir.ui.view">
+        <field name="name">resume.ai.model.form</field>
+        <field name="model">resume.ai.model</field>
+        <field name="arch" type="xml">
+            <form string="Resume AI Model">
+                <header>
+                    <button name="action_train_model"
+                            type="object"
+                            string="Train AI Model"
+                            class="btn-primary"
+                            icon="fa-cogs"/>
+                </header>
+
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="trained_on" readonly="1"/>
+                            <field name="trained_date" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <!-- ============================= -->
+                        <!-- TRAINING RESUMES TAB -->
+                        <!-- ============================= -->
+                        <page string="Training Resumes">
+                            <field name="training_resume_ids" context="{'default_ai_model_id': active_id}">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="label"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- ============================= -->
+                        <!-- MODEL INFO -->
+                        <!-- ============================= -->
+                        <page string="Model Info">
+                            <group>
+                                <field name="model_data" readonly="1" widget="binary"/>
+                                <label string="This model is trained using:"/>
+                                <ul>
+                                    <li>Applicant resumes (auto-labelled)</li>
+                                    <li>Manually uploaded resumes (good / bad)</li>
+                                </ul>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- =========================================================
+            list VIEW
+       ========================================================== -->
+    <record id="view_resume_ai_training_data_list" model="ir.ui.view">
+        <field name="name">resume.ai.training.data.list</field>
+        <field name="model">resume.ai.training.data</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="label"/>
+                <field name="ai_model_id"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- =========================================================
+         FORM VIEW
+    ========================================================== -->
+    <record id="view_resume_ai_training_data_form" model="ir.ui.view">
+        <field name="name">resume.ai.training.data.form</field>
+        <field name="model">resume.ai.training.data</field>
+        <field name="arch" type="xml">
+            <form string="Training Resume">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="ai_model_id"/>
+                            <field name="label"/>
+                            <field name="active"/>
+                        </group>
+
+                        <group>
+                            <field name="resume_file" filename="resume_filename"/>
+                            <field name="resume_text" readonly="1"
+                                   widget="text"
+                                   placeholder="Parsed resume text will appear here"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <menuitem id="menu_resume_ai_root"
+              name="AI Resume Screening"
+              sequence="60"
+              groups="hr_recruitment.menu_hr_recruitment_root"/>
+
+    <menuitem id="menu_resume_ai_models"
+              name="AI Models"
+              parent="menu_resume_ai_root"
+              action="action_resume_ai_model"
+              sequence="10"/>
+</odoo>

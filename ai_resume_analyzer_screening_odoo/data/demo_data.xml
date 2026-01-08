@@ -1,0 +1,1881 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <!--
+    DEMO DATA FOR AI RESUME SCREENING MODULE
+    ==========================================
+    
+    This demo data demonstrates the AI Resume Screening functionality:
+    
+    1. SCREENING RECORDS:
+       - demo_screening_software_developer: Shows a fully configured screening with:
+         * Model trained = True (ready to use)
+         * Auto-screening enabled
+         * Auto-training enabled
+         * Email notifications enabled
+         * High score threshold: 75
+       
+       - demo_screening_data_scientist: Shows another configured screening with:
+         * Model trained = True
+         * Auto-screening enabled
+         * Auto-training disabled (manual training only)
+         * Email notifications enabled
+         * High score threshold: 80
+    
+    2. APPLICANTS WITH PRE-SCORED VALUES:
+       The demo includes 20 applicants with various AI scores to demonstrate:
+       - High scores (≥70): Excellent candidates (green)
+       - Medium scores (50-69): Good candidates (yellow)
+       - Low scores (<50): Needs review (red)
+       - Some applicants with score 0.0: Not yet screened
+    
+    3. KEYWORDS:
+       - 10 predefined keywords for different job types
+       - Used for keyword matching in scoring
+    
+    4. FEATURES DEMONSTRATED:
+       - Resume PDF attachments
+       - Resume text extraction
+       - AI scoring system
+       - Automation settings
+       - Email notifications
+       - Model training status
+    
+    USAGE:
+    - Open "AI Resume Screening" menu to see the kanban/tree view
+    - Click on a screening record to see applicants and scores
+    - Use the "Train AI Model" button to train the model (if not trained)
+    - Use the "Screen Resumes" button to score unscreened applicants
+    - Check the "Automation Settings" tab to configure auto-screening
+    - View applicants in hr.applicant list to see AI scores in column
+    -->
+    <data>
+        <record id="demo_keyword_python" model="ai.resume.keyword">
+            <field name="name">Python</field>
+        </record>
+        <record id="demo_keyword_java" model="ai.resume.keyword">
+            <field name="name">Java</field>
+        </record>
+        <record id="demo_keyword_javascript" model="ai.resume.keyword">
+            <field name="name">JavaScript</field>
+        </record>
+        <record id="demo_keyword_sql" model="ai.resume.keyword">
+            <field name="name">SQL</field>
+        </record>
+        <record id="demo_keyword_react" model="ai.resume.keyword">
+            <field name="name">React</field>
+        </record>
+        <record id="demo_keyword_docker" model="ai.resume.keyword">
+            <field name="name">Docker</field>
+        </record>
+        <record id="demo_keyword_aws" model="ai.resume.keyword">
+            <field name="name">AWS</field>
+        </record>
+        <record id="demo_keyword_machine_learning" model="ai.resume.keyword">
+            <field name="name">Machine Learning</field>
+        </record>
+        <record id="demo_keyword_data_analysis" model="ai.resume.keyword">
+            <field name="name">Data Analysis</field>
+        </record>
+        <record id="demo_keyword_project_management" model="ai.resume.keyword">
+            <field name="name">Project Management</field>
+        </record>
+        <!-- Demo Job Positions for Recruitment -->
+        <record id="demo_job_software_developer" model="hr.job">
+            <field name="name">Senior Software Developer</field>
+            <field name="description">We are looking for an experienced software developer with strong programming skills and 5+ years of experience in developing scalable web applications. The ideal candidate should have expertise in Python, JavaScript, React, Docker, and AWS. This role involves designing, developing, and maintaining enterprise-level applications while collaborating with cross-functional teams.</field>
+        </record>
+        <record id="demo_job_data_scientist" model="hr.job">
+            <field name="name">Data Scientist</field>
+            <field name="description">Join our data science team to work on machine learning projects and data analysis. We are seeking a data scientist with experience in Python, machine learning algorithms, data analysis, SQL, and cloud platforms. You will work on predictive modeling, data mining, and building ML solutions for business problems.</field>
+        </record>
+        <record id="demo_job_frontend_developer" model="hr.job">
+            <field name="name">Frontend Developer</field>
+            <field name="description">We are looking for a skilled frontend developer with expertise in React and modern JavaScript frameworks. The role involves creating responsive user interfaces, implementing UI/UX designs, and optimizing web applications for performance. Experience with React, JavaScript, and modern frontend tooling is essential.</field>
+        </record>
+        <record id="demo_job_backend_developer" model="hr.job">
+            <field name="name">Backend Developer</field>
+            <field name="description">Seeking an experienced backend developer with strong Python and API development skills. You will be responsible for designing and implementing RESTful APIs, working with databases, and building scalable server-side applications. Experience with Python, SQL, and API design is required.</field>
+        </record>
+        <record id="demo_job_devops_engineer" model="hr.job">
+            <field name="name">DevOps Engineer</field>
+            <field name="description">Join our DevOps team to manage cloud infrastructure and deployment pipelines. We need an engineer experienced in Docker containerization, AWS cloud services, CI/CD pipelines, and infrastructure automation. You will ensure reliable deployment and scaling of applications.</field>
+        </record>
+        <record id="demo_job_fullstack_developer" model="hr.job">
+            <field name="name">Full Stack Developer</field>
+            <field name="description">Looking for a full stack developer with experience in both frontend and backend technologies. You will work on end-to-end application development using Python, JavaScript, React, SQL, and Docker. This role requires strong problem-solving skills and the ability to work across the entire technology stack.</field>
+        </record>
+        <record id="demo_job_mobile_developer" model="hr.job">
+            <field name="name">Mobile App Developer</field>
+            <field name="description">We are seeking a talented mobile app developer to create innovative mobile applications for iOS and Android platforms. The ideal candidate should have experience with native mobile development (Swift, Kotlin) or cross-platform frameworks (React Native, Flutter). You will work on designing, developing, and maintaining mobile applications that deliver exceptional user experiences.</field>
+        </record>
+        <record id="demo_job_uiux_designer" model="hr.job">
+            <field name="name">UI/UX Designer</field>
+            <field name="description">Join our design team to create intuitive and beautiful user interfaces. We need a UI/UX designer with strong portfolio showcasing user-centered design thinking. You will work on wireframing, prototyping, user research, and creating visual designs using tools like Figma, Sketch, or Adobe XD. Experience with design systems and accessibility standards is essential.</field>
+        </record>
+        <record id="demo_job_product_manager" model="hr.job">
+            <field name="name">Product Manager</field>
+            <field name="description">We are looking for an experienced product manager to drive product strategy and execution. You will work closely with engineering, design, and business teams to define product roadmaps, prioritize features, and ensure successful product launches. Strong analytical skills, project management experience, and technical understanding are required.</field>
+        </record>
+        <record id="demo_job_qa_engineer" model="hr.job">
+            <field name="name">QA Engineer / Test Engineer</field>
+            <field name="description">Seeking a QA Engineer to ensure the quality of our software products. You will design and execute test plans, write automated test scripts, perform manual testing, and work with development teams to identify and resolve issues. Experience with testing frameworks, bug tracking tools, and agile methodologies is essential.</field>
+        </record>
+        <record id="demo_job_security_engineer" model="hr.job">
+            <field name="name">Security Engineer</field>
+            <field name="description">Join our security team to protect our infrastructure and applications from cyber threats. We need a security engineer experienced in security assessment, vulnerability scanning, penetration testing, and implementing security best practices. Knowledge of OWASP, security frameworks, and compliance standards is required.</field>
+        </record>
+        <record id="demo_job_technical_lead" model="hr.job">
+            <field name="name">Technical Lead</field>
+            <field name="description">We are seeking a Technical Lead to guide our development team and drive technical excellence. You will be responsible for architecture decisions, code reviews, mentoring developers, and ensuring best practices. Strong leadership skills, deep technical expertise, and experience in leading agile teams are essential for this role.</field>
+        </record>
+        <record id="demo_job_ml_engineer" model="hr.job">
+            <field name="name">Machine Learning Engineer</field>
+            <field name="description">Looking for a Machine Learning Engineer to build and deploy ML models at scale. You will work on data preprocessing, model training, feature engineering, and model deployment. Experience with Python, TensorFlow, PyTorch, scikit-learn, and MLops practices is required. You'll work closely with data scientists to productionize ML solutions.</field>
+        </record>
+        <record id="demo_job_cloud_architect" model="hr.job">
+            <field name="name">Cloud Solutions Architect</field>
+            <field name="description">Join our architecture team to design scalable cloud solutions. We need a cloud architect with deep expertise in AWS, Azure, or GCP. You will design system architectures, implement cloud best practices, optimize costs, and ensure high availability. Experience with infrastructure as code (Terraform, CloudFormation) and containerization is essential.</field>
+        </record>
+        <record id="demo_job_dba" model="hr.job">
+            <field name="name">Database Administrator</field>
+            <field name="description">Seeking a Database Administrator to manage and optimize our database infrastructure. You will be responsible for database design, performance tuning, backup and recovery, security, and ensuring data integrity. Experience with PostgreSQL, MySQL, MongoDB, or other database systems is required. Knowledge of SQL optimization and database monitoring tools is essential.</field>
+        </record>
+        <record id="demo_job_business_analyst" model="hr.job">
+            <field name="name">Business Analyst</field>
+            <field name="description">We are looking for a Business Analyst to bridge the gap between business needs and technical solutions. You will gather requirements, analyze business processes, create documentation, and work with stakeholders to define project scope. Strong analytical skills, communication abilities, and experience with requirements gathering methodologies are required.</field>
+        </record>
+        <record id="demo_job_scrum_master" model="hr.job">
+            <field name="name">Scrum Master</field>
+            <field name="description">Join our agile team as a Scrum Master to facilitate agile processes and help teams deliver high-quality software. You will organize sprints, facilitate ceremonies, remove impediments, and coach teams on agile best practices. Certified Scrum Master (CSM) or similar certification and experience with agile tools is preferred.</field>
+        </record>
+        <record id="demo_job_site_reliability_engineer" model="hr.job">
+            <field name="name">Site Reliability Engineer (SRE)</field>
+            <field name="description">We need a Site Reliability Engineer to ensure our systems are reliable, scalable, and maintainable. You will work on monitoring, alerting, incident response, capacity planning, and automation. Experience with observability tools, infrastructure automation, and on-call support is essential. Strong programming skills and knowledge of distributed systems are required.</field>
+        </record>
+        <record id="demo_screening_software_developer" model="ai.resume.screening">
+            <field name="name">Screening for Senior Software Developer</field>
+            <field name="job_position_id" ref="demo_job_software_developer" />
+            <field name="min_years_experience">5</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_python'), ref('demo_keyword_javascript'), ref('demo_keyword_react'), ref('demo_keyword_docker'), ref('demo_keyword_aws')])]" />
+            <field name="model_trained">True</field>
+            <!-- Automation Settings - Enabled for demonstration -->
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">5</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">daily</field>
+            <field name="max_candidates_in_email">50</field>
+            <field name="high_score_threshold">75.0</field>
+            <!-- Scoring Configuration - Default balanced -->
+            <field name="keyword_score_weight">40.0</field>
+            <field name="experience_score_weight">20.0</field>
+            <field name="structure_score_weight">10.0</field>
+            <field name="ai_prediction_weight">30.0</field>
+        </record>
+        <record id="demo_screening_data_scientist" model="ai.resume.screening">
+            <field name="name">Screening for Data Scientist</field>
+            <field name="job_position_id" ref="demo_job_data_scientist" />
+            <field name="min_years_experience">3</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_python'), ref('demo_keyword_machine_learning'), ref('demo_keyword_data_analysis'), ref('demo_keyword_sql'), ref('demo_keyword_aws')])]" />
+            <field name="model_trained">True</field>
+            <!-- Automation Settings - Enabled for demonstration -->
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">False</field>
+            <field name="auto_train_threshold">10</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="high_score_threshold">80.0</field>
+            <!-- Scoring Configuration -->
+            <field name="keyword_score_weight">50.0</field>
+            <field name="experience_score_weight">20.0</field>
+            <field name="structure_score_weight">10.0</field>
+            <field name="ai_prediction_weight">20.0</field>
+        </record>
+        <record id="demo_screening_frontend_developer" model="ai.resume.screening">
+            <field name="name">Screening for Frontend Developer</field>
+            <field name="job_position_id" ref="demo_job_frontend_developer" />
+            <field name="min_years_experience">2</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_javascript'), ref('demo_keyword_react')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">8</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">daily</field>
+            <field name="max_candidates_in_email">30</field>
+            <field name="high_score_threshold">70.0</field>
+            <!-- Scoring Configuration - Keywords focused -->
+            <field name="keyword_score_weight">60.0</field>
+            <field name="experience_score_weight">15.0</field>
+            <field name="structure_score_weight">15.0</field>
+            <field name="ai_prediction_weight">10.0</field>
+        </record>
+        <record id="demo_screening_backend_developer" model="ai.resume.screening">
+            <field name="name">Screening for Backend Developer</field>
+            <field name="job_position_id" ref="demo_job_backend_developer" />
+            <field name="min_years_experience">4</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_python'), ref('demo_keyword_sql'), ref('demo_keyword_docker'), ref('demo_keyword_aws')])]" />
+            <field name="model_trained">False</field>
+            <field name="auto_screen_enabled">False</field>
+            <field name="auto_train_enabled">False</field>
+            <field name="auto_train_threshold">15</field>
+            <field name="email_notification_enabled">False</field>
+            <field name="summary_notification_frequency">none</field>
+            <field name="high_score_threshold">75.0</field>
+            <!-- Scoring Configuration - Experience and AI focused -->
+            <field name="keyword_score_weight">30.0</field>
+            <field name="experience_score_weight">35.0</field>
+            <field name="structure_score_weight">10.0</field>
+            <field name="ai_prediction_weight">25.0</field>
+        </record>
+        <record id="demo_screening_devops_engineer" model="ai.resume.screening">
+            <field name="name">Screening for DevOps Engineer</field>
+            <field name="job_position_id" ref="demo_job_devops_engineer" />
+            <field name="min_years_experience">5</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_docker'), ref('demo_keyword_aws'), ref('demo_keyword_python')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">12</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">weekly</field>
+            <field name="max_candidates_in_email">25</field>
+            <field name="high_score_threshold">80.0</field>
+            <!-- Scoring Configuration - Balanced -->
+            <field name="keyword_score_weight">35.0</field>
+            <field name="experience_score_weight">30.0</field>
+            <field name="structure_score_weight">15.0</field>
+            <field name="ai_prediction_weight">20.0</field>
+        </record>
+        <record id="demo_screening_fullstack_developer" model="ai.resume.screening">
+            <field name="name">Screening for Full Stack Developer</field>
+            <field name="job_position_id" ref="demo_job_fullstack_developer" />
+            <field name="min_years_experience">3</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_python'), ref('demo_keyword_javascript'), ref('demo_keyword_react'), ref('demo_keyword_sql'), ref('demo_keyword_docker')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">7</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">monthly</field>
+            <field name="max_candidates_in_email">40</field>
+            <field name="high_score_threshold">75.0</field>
+            <!-- Scoring Configuration - Default balanced -->
+            <field name="keyword_score_weight">40.0</field>
+            <field name="experience_score_weight">20.0</field>
+            <field name="structure_score_weight">10.0</field>
+            <field name="ai_prediction_weight">30.0</field>
+        </record>
+        <record id="demo_screening_ml_engineer" model="ai.resume.screening">
+            <field name="name">Screening for ML Engineer</field>
+            <field name="job_position_id" ref="demo_job_data_scientist" />
+            <field name="min_years_experience">4</field>
+            <field name="keyword_ids" eval="[(6, 0, [ref('demo_keyword_python'), ref('demo_keyword_machine_learning'), ref('demo_keyword_data_analysis'), ref('demo_keyword_aws')])]" />
+            <field name="model_trained">False</field>
+            <field name="auto_screen_enabled">False</field>
+            <field name="auto_train_enabled">False</field>
+            <field name="email_notification_enabled">False</field>
+            <field name="summary_notification_frequency">none</field>
+            <field name="high_score_threshold">85.0</field>
+            <!-- Scoring Configuration - AI and Keywords focused -->
+            <field name="keyword_score_weight">45.0</field>
+            <field name="experience_score_weight">20.0</field>
+            <field name="structure_score_weight">5.0</field>
+            <field name="ai_prediction_weight">30.0</field>
+        </record>
+        <record id="demo_applicant_john_doe" model="hr.applicant">
+            <field name="partner_name">John Doe</field>
+            <field name="email_from">john.doe@example.com</field>
+            <field name="partner_phone">+1 (555) 123-4567</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTE4NyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEpvaG4gRG9lKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihFeHBlcmllbmNlZCBTb2Z0d2FyZSBEZXZlbG9wZXIgd2l0aCA3IHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gZGV2ZWxvcGluZyBzY2FsYWJsZSkgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihTZW5pb3IgU29mdHdhcmUgRGV2ZWxvcGVyIHwgVGVjaCBDb3JwIHwgMjAyMCAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBhbmQgbWFpbnRhaW5lZCB3ZWIgYXBwbGljYXRpb25zIHVzaW5nIFB5dGhvbiBhbmQgSmF2YVNjcmlwdCkgVGoKMCAtMTQgVGQKKC0gSW1wbGVtZW50ZWQgUmVhY3QtYmFzZWQgZnJvbnRlbmQgY29tcG9uZW50cykgVGoKMCAtMTQgVGQKKC0gTWFuYWdlZCBEb2NrZXIgY29udGFpbmVycyBmb3IgZGVwbG95bWVudCkgVGoKMCAtMTQgVGQKKC0gQ29sbGFib3JhdGVkIHdpdGggY3Jvc3MtZnVuY3Rpb25hbCB0ZWFtcyBvbiBwcm9qZWN0IG1hbmFnZW1lbnQpIFRqCjAgLTE0IFRkCihTb2Z0d2FyZSBEZXZlbG9wZXIgfCBTdGFydHVwIEluYyB8IDIwMTcgLSAyMDIwKSBUagowIC0xNCBUZAooLSBCdWlsdCBSRVNUZnVsIEFQSXMgdXNpbmcgUHl0aG9uKSBUagowIC0xNCBUZAooLSBXb3JrZWQgd2l0aCBTUUwgZGF0YWJhc2VzIGZvciBkYXRhIG1hbmFnZW1lbnQpIFRqCjAgLTE0IFRkCigtIFBhcnRpY2lwYXRlZCBpbiBhZ2lsZSBwcm9qZWN0IG1hbmFnZW1lbnQgcHJvY2Vzc2VzKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooQmFjaGVsb3Igb2YgU2NpZW5jZSBpbiBDb21wdXRlciBTY2llbmNlIHwgVW5pdmVyc2l0eSBYWVogfCAyMDE3KSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gSmF2YVNjcmlwdCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFJlYWN0IFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gRG9ja2VyIFwoSW50ZXJtZWRpYXRlXCkpIFRqCjAgLTE0IFRkCigtIEFXUyBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBQcm9qZWN0IE1hbmFnZW1lbnQgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxNTI5CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Experienced Software Developer with 7 years of experience in developing scalable web applications. Proficient in Python, JavaScript, and SQL. Strong background in React and Docker containerization.
+
+EXPERIENCE
+Senior Software Developer | Tech Corp | 2020 - Present
+- Developed and maintained web applications using Python and JavaScript
+- Implemented React-based frontend components
+- Managed Docker containers for deployment
+- Collaborated with cross-functional teams on project management
+
+Software Developer | Startup Inc | 2017 - 2020
+- Built RESTful APIs using Python
+- Worked with SQL databases for data management
+- Participated in agile project management processes
+
+EDUCATION
+Bachelor of Science in Computer Science | University XYZ | 2017
+
+SKILLS
+- Python (Expert)
+- JavaScript (Advanced)
+- React (Advanced)
+- SQL (Advanced)
+- Docker (Intermediate)
+- AWS (Intermediate)
+- Project Management (Intermediate)</field>
+            <field name="ai_score">85.5</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-13 10:30:00</field>
+        </record>
+        <record id="demo_applicant_jane_smith" model="hr.applicant">
+            <field name="partner_name">Jane Smith</field>
+            <field name="email_from">jane.smith@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA2NSA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEphbmUgU21pdGgpIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKFNvZnR3YXJlIERldmVsb3BlciB3aXRoIDQgeWVhcnMgb2YgZXhwZXJpZW5jZSBzcGVjaWFsaXppbmcgaW4gZnVsbC1zdGFjayBkZXZlbG9wKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKEZ1bGwgU3RhY2sgRGV2ZWxvcGVyIHwgV2ViIFNvbHV0aW9ucyBMdGQgfCAyMDE5IC0gUHJlc2VudCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIGVudGVycHJpc2UgYXBwbGljYXRpb25zIHVzaW5nIEphdmEpIFRqCjAgLTE0IFRkCigtIENyZWF0ZWQgcmVzcG9uc2l2ZSB3ZWIgaW50ZXJmYWNlcyB3aXRoIEphdmFTY3JpcHQpIFRqCjAgLTE0IFRkCigtIE1hbmFnZWQgU1FMIGRhdGFiYXNlcyBhbmQgb3B0aW1pemVkIHF1ZXJpZXMpIFRqCjAgLTE0IFRkCigtIFV0aWxpemVkIERvY2tlciBmb3IgYXBwbGljYXRpb24gZGVwbG95bWVudCkgVGoKMCAtMTQgVGQKKEp1bmlvciBEZXZlbG9wZXIgfCBEaWdpdGFsIEFnZW5jeSB8IDIwMTcgLSAyMDE5KSBUagowIC0xNCBUZAooLSBBc3Npc3RlZCBpbiBkZXZlbG9waW5nIHdlYiBhcHBsaWNhdGlvbnMpIFRqCjAgLTE0IFRkCigtIExlYXJuZWQgSmF2YSBhbmQgSmF2YVNjcmlwdCBmcmFtZXdvcmtzKSBUagowIC0xNCBUZAooLSBQYXJ0aWNpcGF0ZWQgaW4gY29kZSByZXZpZXdzIGFuZCB0ZXN0aW5nKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooQmFjaGVsb3Igb2YgU2NpZW5jZSBpbiBTb2Z0d2FyZSBFbmdpbmVlcmluZyB8IFRlY2ggVW5pdmVyc2l0eSB8IDIwMTcpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIEphdmEgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBKYXZhU2NyaXB0IFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoSW50ZXJtZWRpYXRlXCkpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBSZWFjdCBcKEJhc2ljXCkpIFRqCjAgLTE0IFRkCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDUKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAowMDAwMDAwMjkwIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTQwNwolJUVPRg==</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Software Developer with 4 years of experience specializing in full-stack development. Skilled in Java, JavaScript, and database management.
+
+EXPERIENCE
+Full Stack Developer | Web Solutions Ltd | 2019 - Present
+- Developed enterprise applications using Java
+- Created responsive web interfaces with JavaScript
+- Managed SQL databases and optimized queries
+- Utilized Docker for application deployment
+
+Junior Developer | Digital Agency | 2017 - 2019
+- Assisted in developing web applications
+- Learned Java and JavaScript frameworks
+- Participated in code reviews and testing
+
+EDUCATION
+Bachelor of Science in Software Engineering | Tech University | 2017
+
+SKILLS
+- Java (Advanced)
+- JavaScript (Advanced)
+- SQL (Intermediate)
+- Docker (Intermediate)
+- React (Basic)</field>
+            <field name="ai_score">72.3</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-12 14:20:00</field>
+        </record>
+        <record id="demo_applicant_mike_johnson" model="hr.applicant">
+            <field name="partner_name">Mike Johnson</field>
+            <field name="email_from">mike.johnson@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_data_scientist" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTIzNyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKE1pa2UgSm9obnNvbikgVGoKMCAtMjAgVGQKKFBST0ZFU1NJT05BTCBTVU1NQVJZKSBUagowIC0xNCBUZAooRGF0YSBTY2llbnRpc3Qgd2l0aCA2IHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gbWFjaGluZSBsZWFybmluZyBhbmQgZGF0YSBhbmFseXNpcy4pIFRqCjAgLTE0IFRkCihFWFBFUklFTkNFKSBUagowIC0xNCBUZAooU2VuaW9yIERhdGEgU2NpZW50aXN0IHwgQW5hbHl0aWNzIENvcnAgfCAyMDE4IC0gUHJlc2VudCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIG1hY2hpbmUgbGVhcm5pbmcgbW9kZWxzIGZvciBwcmVkaWN0aXZlIGFuYWx5dGljcykgVGoKMCAtMTQgVGQKKC0gUGVyZm9ybWVkIGNvbXByZWhlbnNpdmUgZGF0YSBhbmFseXNpcyBvbiBsYXJnZSBkYXRhc2V0cykgVGoKMCAtMTQgVGQKKC0gSW1wbGVtZW50ZWQgUHl0aG9uLWJhc2VkIHNvbHV0aW9ucyBmb3IgZGF0YSBwcm9jZXNzaW5nKSBUagowIC0xNCBUZAooLSBDb2xsYWJvcmF0ZWQgd2l0aCB0ZWFtcyBvbiBwcm9qZWN0IG1hbmFnZW1lbnQgaW5pdGlhdGl2ZXMpIFRqCjAgLTE0IFRkCihEYXRhIEFuYWx5c3QgfCBSZXNlYXJjaCBJbnN0aXR1dGUgfCAyMDE1IC0gMjAxOCkgVGoKMCAtMTQgVGQKKC0gQ29uZHVjdGVkIHN0YXRpc3RpY2FsIGRhdGEgYW5hbHlzaXMpIFRqCjAgLTE0IFRkCigtIENyZWF0ZWQgZGF0YSB2aXN1YWxpemF0aW9ucyBhbmQgcmVwb3J0cykgVGoKMCAtMTQgVGQKKC0gV29ya2VkIHdpdGggU1FMIGRhdGFiYXNlcyBmb3IgZGF0YSBleHRyYWN0aW9uKSBUagowIC0xNCBUZAooLSBBcHBsaWVkIG1hY2hpbmUgbGVhcm5pbmcgdGVjaG5pcXVlcyBmb3IgcGF0dGVybiByZWNvZ25pdGlvbikgVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKE1hc3RlciBvZiBTY2llbmNlIGluIERhdGEgU2NpZW5jZSB8IERhdGEgVW5pdmVyc2l0eSB8IDIwMTUpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBNYWNoaW5lIExlYXJuaW5nIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIERhdGEgQW5hbHlzaXMgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gQVdTIFwoSW50ZXJtZWRpYXRlXCkpIFRqCjAgLTE0IFRkCigtIFByb2plY3QgTWFuYWdlbWVudCBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjE1NzkKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Data Scientist with 6 years of experience in machine learning and data analysis. Expert in Python, statistical modeling, and data visualization.
+
+EXPERIENCE
+Senior Data Scientist | Analytics Corp | 2018 - Present
+- Developed machine learning models for predictive analytics
+- Performed comprehensive data analysis on large datasets
+- Implemented Python-based solutions for data processing
+- Collaborated with teams on project management initiatives
+
+Data Analyst | Research Institute | 2015 - 2018
+- Conducted statistical data analysis
+- Created data visualizations and reports
+- Worked with SQL databases for data extraction
+- Applied machine learning techniques for pattern recognition
+
+EDUCATION
+Master of Science in Data Science | Data University | 2015
+
+SKILLS
+- Python (Expert)
+- Machine Learning (Expert)
+- Data Analysis (Expert)
+- SQL (Advanced)
+- AWS (Intermediate)
+- Project Management (Intermediate)</field>
+            <field name="ai_score">88.7</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-14 09:15:00</field>
+        </record>
+        <record id="demo_applicant_sarah_williams" model="hr.applicant">
+            <field name="partner_name">Sarah Williams</field>
+            <field name="email_from">sarah.williams@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_data_scientist" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA2MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKFNhcmFoIFdpbGxpYW1zKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB3aXRoIDMgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBkYXRhIGFuYWx5c2lzIGFuZCBzdGF0aXN0aWNhbCBtb2RlbCkgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB8IERhdGEgSW5zaWdodHMgSW5jIHwgMjAyMCAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIEJ1aWx0IG1hY2hpbmUgbGVhcm5pbmcgbW9kZWxzIGZvciBidXNpbmVzcyBpbnNpZ2h0cykgVGoKMCAtMTQgVGQKKC0gUGVyZm9ybWVkIGRhdGEgYW5hbHlzaXMgb24gY3VzdG9tZXIgYmVoYXZpb3IgZGF0YXNldHMpIFRqCjAgLTE0IFRkCigtIFVzZWQgUHl0aG9uIGZvciBkYXRhIHByb2Nlc3NpbmcgYW5kIG1vZGVsaW5nKSBUagowIC0xNCBUZAooLSBXb3JrZWQgd2l0aCBBV1MgY2xvdWQgc2VydmljZXMgZm9yIGRhdGEgc3RvcmFnZSkgVGoKMCAtMTQgVGQKKERhdGEgQW5hbHlzdCBJbnRlcm4gfCBBbmFseXRpY3MgTGFiIHwgMjAxOSAtIDIwMjApIFRqCjAgLTE0IFRkCigtIEFzc2lzdGVkIGluIGRhdGEgYW5hbHlzaXMgcHJvamVjdHMpIFRqCjAgLTE0IFRkCigtIExlYXJuZWQgbWFjaGluZSBsZWFybmluZyBmdW5kYW1lbnRhbHMpIFRqCjAgLTE0IFRkCigtIFdvcmtlZCB3aXRoIFNRTCBkYXRhYmFzZXMpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihNYXN0ZXIgb2YgU2NpZW5jZSBpbiBTdGF0aXN0aWNzIHwgU3RhdGUgVW5pdmVyc2l0eSB8IDIwMjApIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIE1hY2hpbmUgTGVhcm5pbmcgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKKC0gRGF0YSBBbmFseXNpcyBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBBV1MgXChCYXNpY1wpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjE0MDUKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Data Scientist with 3 years of experience in data analysis and statistical modeling. Proficient in Python and machine learning algorithms.
+
+EXPERIENCE
+Data Scientist | Data Insights Inc | 2020 - Present
+- Built machine learning models for business insights
+- Performed data analysis on customer behavior datasets
+- Used Python for data processing and modeling
+- Worked with AWS cloud services for data storage
+
+Data Analyst Intern | Analytics Lab | 2019 - 2020
+- Assisted in data analysis projects
+- Learned machine learning fundamentals
+- Worked with SQL databases
+
+EDUCATION
+Master of Science in Statistics | State University | 2020
+
+SKILLS
+- Python (Advanced)
+- Machine Learning (Intermediate)
+- Data Analysis (Advanced)
+- SQL (Intermediate)
+- AWS (Basic)</field>
+            <field name="ai_score">45.2</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-10 16:45:00</field>
+        </record>
+        <record id="demo_applicant_david_brown" model="hr.applicant">
+            <field name="partner_name">David Brown</field>
+            <field name="email_from">david.brown@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggNjYyID4+CnN0cmVhbQpCVAovRjEgMTIgVGYKMTAwIDcwMCBUZAooRGF2aWQgQnJvd24pIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKFNvZnR3YXJlIERldmVsb3BlciB3aXRoIDIgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiB3ZWIgZGV2ZWxvcG1lbnQuIEtub3dsZWRnZWFibGUgKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKEZyb250ZW5kIERldmVsb3BlciB8IFdlYiBTdHVkaW8gfCAyMDIxIC0gUHJlc2VudCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIHVzZXIgaW50ZXJmYWNlcyB1c2luZyBKYXZhU2NyaXB0IGFuZCBSZWFjdCkgVGoKMCAtMTQgVGQKKC0gQ3JlYXRlZCByZXNwb25zaXZlIHdlYiBkZXNpZ25zKSBUagowIC0xNCBUZAooLSBXb3JrZWQgd2l0aCBSRVNUIEFQSXMpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihCYWNoZWxvciBvZiBTY2llbmNlIGluIENvbXB1dGVyIFNjaWVuY2UgfCBMb2NhbCBVbml2ZXJzaXR5IHwgMjAyMSkgVGoKMCAtMTQgVGQKKFNLSUxMUykgVGoKMCAtMTQgVGQKKC0gSmF2YVNjcmlwdCBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBSZWFjdCBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBTUUwgXChCYXNpY1wpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjEwMDMKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Software Developer with 2 years of experience in web development. Knowledgeable in JavaScript and React framework.
+
+EXPERIENCE
+Frontend Developer | Web Studio | 2021 - Present
+- Developed user interfaces using JavaScript and React
+- Created responsive web designs
+- Worked with REST APIs
+
+EDUCATION
+Bachelor of Science in Computer Science | Local University | 2021
+
+SKILLS
+- JavaScript (Intermediate)
+- React (Intermediate)
+- SQL (Basic)</field>
+            <field name="ai_score">92.1</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-14 04:00:00</field>
+        </record>
+        <record id="demo_applicant_emily_davis" model="hr.applicant">
+            <field name="partner_name">Emily Davis</field>
+            <field name="email_from">emily.davis@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTI1OSA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEVtaWx5IERhdmlzKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihFeHBlcmllbmNlZCBTb2Z0d2FyZSBEZXZlbG9wZXIgd2l0aCA4IHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gZW50ZXJwcmlzZSBzb2Z0d2FyZSkgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihMZWFkIFNvZnR3YXJlIERldmVsb3BlciB8IEVudGVycHJpc2UgU29sdXRpb25zIHwgMjAxNiAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIExlZCBkZXZlbG9wbWVudCB0ZWFtcyBpbiBidWlsZGluZyBzY2FsYWJsZSBhcHBsaWNhdGlvbnMpIFRqCjAgLTE0IFRkCigtIEFyY2hpdGVjdGVkIHNvbHV0aW9ucyB1c2luZyBQeXRob24gYW5kIEphdmEpIFRqCjAgLTE0IFRkCigtIEltcGxlbWVudGVkIGNsb3VkIGluZnJhc3RydWN0dXJlIG9uIEFXUykgVGoKMCAtMTQgVGQKKC0gTWFuYWdlZCBEb2NrZXItYmFzZWQgZGVwbG95bWVudCBwaXBlbGluZXMpIFRqCjAgLTE0IFRkCigtIE92ZXJzYXcgcHJvamVjdCBtYW5hZ2VtZW50IGFuZCBkZWxpdmVyeSkgVGoKMCAtMTQgVGQKKFNvZnR3YXJlIERldmVsb3BlciB8IFNvZnR3YXJlIENvcnAgfCAyMDEzIC0gMjAxNikgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIGJhY2tlbmQgc2VydmljZXMgdXNpbmcgUHl0aG9uKSBUagowIC0xNCBUZAooLSBCdWlsdCBmcm9udGVuZCBhcHBsaWNhdGlvbnMgd2l0aCBKYXZhU2NyaXB0KSBUagowIC0xNCBUZAooLSBNYW5hZ2VkIFNRTCBkYXRhYmFzZXMpIFRqCjAgLTE0IFRkCigtIFV0aWxpemVkIFJlYWN0IGZvciB1c2VyIGludGVyZmFjZXMpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihNYXN0ZXIgb2YgU2NpZW5jZSBpbiBDb21wdXRlciBTY2llbmNlIHwgVGVjaCBJbnN0aXR1dGUgfCAyMDEzKSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gSmF2YSBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBKYXZhU2NyaXB0IFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIFJlYWN0IFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBBV1MgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBQcm9qZWN0IE1hbmFnZW1lbnQgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxNjAxCiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Experienced Software Developer with 8 years of experience in enterprise software development. Expert in Python, Java, and cloud technologies.
+
+EXPERIENCE
+Lead Software Developer | Enterprise Solutions | 2016 - Present
+- Led development teams in building scalable applications
+- Architected solutions using Python and Java
+- Implemented cloud infrastructure on AWS
+- Managed Docker-based deployment pipelines
+- Oversaw project management and delivery
+
+Software Developer | Software Corp | 2013 - 2016
+- Developed backend services using Python
+- Built frontend applications with JavaScript
+- Managed SQL databases
+- Utilized React for user interfaces
+
+EDUCATION
+Master of Science in Computer Science | Tech Institute | 2013
+
+SKILLS
+- Python (Expert)
+- Java (Expert)
+- JavaScript (Expert)
+- React (Advanced)
+- SQL (Expert)
+- Docker (Expert)
+- AWS (Advanced)
+- Project Management (Expert)</field>
+            <field name="ai_score">78.9</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-11 13:30:00</field>
+        </record>
+        <record id="demo_applicant_robert_wilson" model="hr.applicant">
+            <field name="partner_name">Robert Wilson</field>
+            <field name="email_from">robert.wilson@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTIyOCA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKFJvYmVydCBXaWxzb24pIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKEZ1bGwgU3RhY2sgRGV2ZWxvcGVyIHdpdGggNiB5ZWFycyBvZiBleHBlcmllbmNlIGJ1aWxkaW5nIG1vZGVybiB3ZWIgYXBwbGljYXRpb25zKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKFNlbmlvciBGdWxsIFN0YWNrIERldmVsb3BlciB8IERpZ2l0YWwgSW5ub3ZhdGlvbnMgfCAyMDE4IC0gUHJlc2VudCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIHNjYWxhYmxlIHdlYiBhcHBsaWNhdGlvbnMgdXNpbmcgUHl0aG9uIGFuZCBKYXZhU2NyaXB0KSBUagowIC0xNCBUZAooLSBCdWlsdCBSZWFjdC1iYXNlZCBmcm9udGVuZCBjb21wb25lbnRzKSBUagowIC0xNCBUZAooLSBEZXBsb3llZCBhcHBsaWNhdGlvbnMgdXNpbmcgRG9ja2VyIGNvbnRhaW5lcnMpIFRqCjAgLTE0IFRkCigtIE1hbmFnZWQgQVdTIGluZnJhc3RydWN0dXJlIGZvciBwcm9kdWN0aW9uIHN5c3RlbXMpIFRqCjAgLTE0IFRkCigtIExlZCBwcm9qZWN0IG1hbmFnZW1lbnQgaW5pdGlhdGl2ZXMpIFRqCjAgLTE0IFRkCihGdWxsIFN0YWNrIERldmVsb3BlciB8IFRlY2ggU3RhcnR1cCB8IDIwMTUgLSAyMDE4KSBUagowIC0xNCBUZAooLSBDcmVhdGVkIFJFU1RmdWwgQVBJcyB3aXRoIFB5dGhvbikgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIHJlc3BvbnNpdmUgVUlzIHdpdGggSmF2YVNjcmlwdCBhbmQgUmVhY3QpIFRqCjAgLTE0IFRkCigtIFdvcmtlZCB3aXRoIFNRTCBkYXRhYmFzZXMgZm9yIGRhdGEgcGVyc2lzdGVuY2UpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihCYWNoZWxvciBvZiBTY2llbmNlIGluIENvbXB1dGVyIFNjaWVuY2UgfCBUZWNoIENvbGxlZ2UgfCAyMDE1KSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gSmF2YVNjcmlwdCBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBSZWFjdCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIEFXUyBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFByb2plY3QgTWFuYWdlbWVudCBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjE1NzAKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Full Stack Developer with 6 years of experience building modern web applications. Proficient in Python, JavaScript, and cloud technologies.
+
+EXPERIENCE
+Senior Full Stack Developer | Digital Innovations | 2018 - Present
+- Developed scalable web applications using Python and JavaScript
+- Built React-based frontend components
+- Deployed applications using Docker containers
+- Managed AWS infrastructure for production systems
+- Led project management initiatives
+
+Full Stack Developer | Tech Startup | 2015 - 2018
+- Created RESTful APIs with Python
+- Developed responsive UIs with JavaScript and React
+- Worked with SQL databases for data persistence
+
+EDUCATION
+Bachelor of Science in Computer Science | Tech College | 2015
+
+SKILLS
+- Python (Expert)
+- JavaScript (Expert)
+- React (Advanced)
+- SQL (Advanced)
+- Docker (Advanced)
+- AWS (Advanced)
+- Project Management (Intermediate)</field>
+            <field name="ai_score">91.2</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-13 06:00:00</field>
+        </record>
+        <record id="demo_applicant_lisa_anderson" model="hr.applicant">
+            <field name="partner_name">Lisa Anderson</field>
+            <field name="email_from">lisa.anderson@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_data_scientist" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTE3MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKExpc2EgQW5kZXJzb24pIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKERhdGEgU2NpZW50aXN0IHdpdGggNSB5ZWFycyBvZiBleHBlcmllbmNlIGluIG1hY2hpbmUgbGVhcm5pbmcgYW5kIHN0YXRpc3RpY2FsIGFuKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKERhdGEgU2NpZW50aXN0IHwgQmlnIERhdGEgQW5hbHl0aWNzIHwgMjAxOSAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBtYWNoaW5lIGxlYXJuaW5nIG1vZGVscyBmb3IgcHJlZGljdGl2ZSBhbmFseXRpY3MpIFRqCjAgLTE0IFRkCigtIFBlcmZvcm1lZCBjb21wcmVoZW5zaXZlIGRhdGEgYW5hbHlzaXMgb24gbGFyZ2Utc2NhbGUgZGF0YXNldHMpIFRqCjAgLTE0IFRkCigtIEltcGxlbWVudGVkIFB5dGhvbi1iYXNlZCBkYXRhIHByb2Nlc3NpbmcgcGlwZWxpbmVzKSBUagowIC0xNCBUZAooLSBVdGlsaXplZCBBV1Mgc2VydmljZXMgZm9yIGRhdGEgc3RvcmFnZSBhbmQgcHJvY2Vzc2luZykgVGoKMCAtMTQgVGQKKC0gQXBwbGllZCBTUUwgZm9yIGRhdGEgZXh0cmFjdGlvbiBhbmQgdHJhbnNmb3JtYXRpb24pIFRqCjAgLTE0IFRkCihKdW5pb3IgRGF0YSBTY2llbnRpc3QgfCBBbmFseXRpY3MgRmlybSB8IDIwMTcgLSAyMDE5KSBUagowIC0xNCBUZAooLSBDb25kdWN0ZWQgc3RhdGlzdGljYWwgZGF0YSBhbmFseXNpcykgVGoKMCAtMTQgVGQKKC0gQnVpbHQgbWFjaGluZSBsZWFybmluZyBwcm90b3R5cGVzKSBUagowIC0xNCBUZAooLSBDcmVhdGVkIGRhdGEgdmlzdWFsaXphdGlvbnMgYW5kIHJlcG9ydHMpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihNYXN0ZXIgb2YgU2NpZW5jZSBpbiBEYXRhIFNjaWVuY2UgfCBVbml2ZXJzaXR5IG9mIEFuYWx5dGljcyB8IDIwMTcpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBNYWNoaW5lIExlYXJuaW5nIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIERhdGEgQW5hbHlzaXMgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gQVdTIFwoSW50ZXJtZWRpYXRlXCkpIFRqCjAgLTE0IFRkCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDUKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAowMDAwMDAwMjkwIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTUxNQolJUVPRg==</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Data Scientist with 5 years of experience in machine learning and statistical analysis. Expert in Python and data visualization.
+
+EXPERIENCE
+Data Scientist | Big Data Analytics | 2019 - Present
+- Developed machine learning models for predictive analytics
+- Performed comprehensive data analysis on large-scale datasets
+- Implemented Python-based data processing pipelines
+- Utilized AWS services for data storage and processing
+- Applied SQL for data extraction and transformation
+
+Junior Data Scientist | Analytics Firm | 2017 - 2019
+- Conducted statistical data analysis
+- Built machine learning prototypes
+- Created data visualizations and reports
+
+EDUCATION
+Master of Science in Data Science | University of Analytics | 2017
+
+SKILLS
+- Python (Expert)
+- Machine Learning (Expert)
+- Data Analysis (Expert)
+- SQL (Advanced)
+- AWS (Intermediate)</field>
+            <field name="ai_score">68.5</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-09 11:20:00</field>
+        </record>
+        <record id="demo_applicant_chris_martinez" model="hr.applicant">
+            <field name="partner_name">Chris Martinez</field>
+            <field name="email_from">chris.martinez@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA0OSA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKENocmlzIE1hcnRpbmV6KSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihCYWNrZW5kIERldmVsb3BlciB3aXRoIDQgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBQeXRob24gYW5kIEphdmEgZGV2ZWxvcG1lbnQuIFN0cikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihCYWNrZW5kIERldmVsb3BlciB8IEFQSSBTb2x1dGlvbnMgfCAyMDIwIC0gUHJlc2VudCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIFJFU1RmdWwgQVBJcyB1c2luZyBQeXRob24gYW5kIEphdmEpIFRqCjAgLTE0IFRkCigtIERlc2lnbmVkIGFuZCBvcHRpbWl6ZWQgU1FMIGRhdGFiYXNlIHNjaGVtYXMpIFRqCjAgLTE0IFRkCigtIEltcGxlbWVudGVkIERvY2tlciBjb250YWluZXJpemF0aW9uIGZvciBtaWNyb3NlcnZpY2VzKSBUagowIC0xNCBUZAooLSBEZXBsb3llZCBzZXJ2aWNlcyBvbiBBV1MgY2xvdWQgaW5mcmFzdHJ1Y3R1cmUpIFRqCjAgLTE0IFRkCihKdW5pb3IgQmFja2VuZCBEZXZlbG9wZXIgfCBXZWIgU2VydmljZXMgSW5jIHwgMjAxOCAtIDIwMjApIFRqCjAgLTE0IFRkCigtIEJ1aWx0IGJhY2tlbmQgc2VydmljZXMgdXNpbmcgUHl0aG9uKSBUagowIC0xNCBUZAooLSBXb3JrZWQgd2l0aCBTUUwgZGF0YWJhc2VzKSBUagowIC0xNCBUZAooLSBMZWFybmVkIERvY2tlciBhbmQgY29udGFpbmVyaXphdGlvbikgVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKEJhY2hlbG9yIG9mIFNjaWVuY2UgaW4gU29mdHdhcmUgRW5naW5lZXJpbmcgfCBTdGF0ZSBUZWNoIHwgMjAxOCkgVGoKMCAtMTQgVGQKKFNLSUxMUykgVGoKMCAtMTQgVGQKKC0gUHl0aG9uIFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gSmF2YSBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBBV1MgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxMzkxCiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Backend Developer with 4 years of experience in Python and Java development. Strong background in API development and database management.
+
+EXPERIENCE
+Backend Developer | API Solutions | 2020 - Present
+- Developed RESTful APIs using Python and Java
+- Designed and optimized SQL database schemas
+- Implemented Docker containerization for microservices
+- Deployed services on AWS cloud infrastructure
+
+Junior Backend Developer | Web Services Inc | 2018 - 2020
+- Built backend services using Python
+- Worked with SQL databases
+- Learned Docker and containerization
+
+EDUCATION
+Bachelor of Science in Software Engineering | State Tech | 2018
+
+SKILLS
+- Python (Advanced)
+- Java (Advanced)
+- SQL (Advanced)
+- Docker (Intermediate)
+- AWS (Intermediate)</field>
+            <field name="ai_score">86.4</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-14 01:00:00</field>
+        </record>
+        <record id="demo_applicant_amanda_taylor" model="hr.applicant">
+            <field name="partner_name">Amanda Taylor</field>
+            <field name="email_from">amanda.taylor@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_data_scientist" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTEzOCA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEFtYW5kYSBUYXlsb3IpIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKERhdGEgU2NpZW50aXN0IHdpdGggNCB5ZWFycyBvZiBleHBlcmllbmNlIHNwZWNpYWxpemluZyBpbiBtYWNoaW5lIGxlYXJuaW5nIGFuZCBkKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKERhdGEgU2NpZW50aXN0IHwgUmVzZWFyY2ggQW5hbHl0aWNzIHwgMjAyMCAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBtYWNoaW5lIGxlYXJuaW5nIG1vZGVscyBmb3IgYnVzaW5lc3MgaW50ZWxsaWdlbmNlKSBUagowIC0xNCBUZAooLSBDb25kdWN0ZWQgY29tcHJlaGVuc2l2ZSBkYXRhIGFuYWx5c2lzIG9uIGN1c3RvbWVyIGRhdGFzZXRzKSBUagowIC0xNCBUZAooLSBVc2VkIFB5dGhvbiBmb3IgZGF0YSBwcm9jZXNzaW5nIGFuZCBtb2RlbCBkZXZlbG9wbWVudCkgVGoKMCAtMTQgVGQKKC0gV29ya2VkIHdpdGggU1FMIGRhdGFiYXNlcyBmb3IgZGF0YSBleHRyYWN0aW9uKSBUagowIC0xNCBUZAooLSBMZXZlcmFnZWQgQVdTIGZvciBzY2FsYWJsZSBkYXRhIHByb2Nlc3NpbmcpIFRqCjAgLTE0IFRkCihEYXRhIEFuYWx5c3QgfCBNYXJrZXQgUmVzZWFyY2ggfCAyMDE4IC0gMjAyMCkgVGoKMCAtMTQgVGQKKC0gUGVyZm9ybWVkIHN0YXRpc3RpY2FsIGRhdGEgYW5hbHlzaXMpIFRqCjAgLTE0IFRkCigtIENyZWF0ZWQgZGF0YSB2aXN1YWxpemF0aW9ucykgVGoKMCAtMTQgVGQKKC0gQXBwbGllZCBtYWNoaW5lIGxlYXJuaW5nIHRlY2huaXF1ZXMpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihNYXN0ZXIgb2YgU2NpZW5jZSBpbiBTdGF0aXN0aWNzIHwgUmVzZWFyY2ggVW5pdmVyc2l0eSB8IDIwMTgpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIE1hY2hpbmUgTGVhcm5pbmcgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBEYXRhIEFuYWx5c2lzIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIEFXUyBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjE0ODAKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Data Scientist with 4 years of experience specializing in machine learning and data analysis. Proficient in Python and statistical modeling.
+
+EXPERIENCE
+Data Scientist | Research Analytics | 2020 - Present
+- Developed machine learning models for business intelligence
+- Conducted comprehensive data analysis on customer datasets
+- Used Python for data processing and model development
+- Worked with SQL databases for data extraction
+- Leveraged AWS for scalable data processing
+
+Data Analyst | Market Research | 2018 - 2020
+- Performed statistical data analysis
+- Created data visualizations
+- Applied machine learning techniques
+
+EDUCATION
+Master of Science in Statistics | Research University | 2018
+
+SKILLS
+- Python (Advanced)
+- Machine Learning (Advanced)
+- Data Analysis (Expert)
+- SQL (Advanced)
+- AWS (Intermediate)</field>
+            <field name="ai_score">55.8</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-08 15:45:00</field>
+        </record>
+        <record id="demo_applicant_james_thomas" model="hr.applicant">
+            <field name="partner_name">James Thomas</field>
+            <field name="email_from">james.thomas@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggOTk2ID4+CnN0cmVhbQpCVAovRjEgMTIgVGYKMTAwIDcwMCBUZAooSmFtZXMgVGhvbWFzKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihTb2Z0d2FyZSBEZXZlbG9wZXIgd2l0aCAzIHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gZnJvbnRlbmQgYW5kIGJhY2tlbmQgZGV2ZWxvcG1lbikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihGdWxsIFN0YWNrIERldmVsb3BlciB8IFdlYiBEZXZlbG9wbWVudCBDbyB8IDIwMjEgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgd2ViIGFwcGxpY2F0aW9ucyB1c2luZyBKYXZhU2NyaXB0IGFuZCBSZWFjdCkgVGoKMCAtMTQgVGQKKC0gQnVpbHQgYmFja2VuZCBBUElzIHdpdGggUHl0aG9uKSBUagowIC0xNCBUZAooLSBNYW5hZ2VkIFNRTCBkYXRhYmFzZXMpIFRqCjAgLTE0IFRkCigtIFVzZWQgRG9ja2VyIGZvciBhcHBsaWNhdGlvbiBkZXBsb3ltZW50KSBUagowIC0xNCBUZAooSnVuaW9yIERldmVsb3BlciB8IFN0YXJ0dXAgSHViIHwgMjAxOSAtIDIwMjEpIFRqCjAgLTE0IFRkCigtIENyZWF0ZWQgd2ViIGludGVyZmFjZXMgd2l0aCBKYXZhU2NyaXB0KSBUagowIC0xNCBUZAooLSBMZWFybmVkIFJlYWN0IGZyYW1ld29yaykgVGoKMCAtMTQgVGQKKC0gV29ya2VkIHdpdGggU1FMIGRhdGFiYXNlcykgVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKEJhY2hlbG9yIG9mIFNjaWVuY2UgaW4gQ29tcHV0ZXIgU2NpZW5jZSB8IENpdHkgVW5pdmVyc2l0eSB8IDIwMTkpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIEphdmFTY3JpcHQgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBSZWFjdCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBTUUwgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKKC0gRG9ja2VyIFwoQmFzaWNcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxMzM3CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Software Developer with 3 years of experience in frontend and backend development. Skilled in JavaScript, React, and Python.
+
+EXPERIENCE
+Full Stack Developer | Web Development Co | 2021 - Present
+- Developed web applications using JavaScript and React
+- Built backend APIs with Python
+- Managed SQL databases
+- Used Docker for application deployment
+
+Junior Developer | Startup Hub | 2019 - 2021
+- Created web interfaces with JavaScript
+- Learned React framework
+- Worked with SQL databases
+
+EDUCATION
+Bachelor of Science in Computer Science | City University | 2019
+
+SKILLS
+- JavaScript (Advanced)
+- React (Advanced)
+- Python (Intermediate)
+- SQL (Intermediate)
+- Docker (Basic)</field>
+            <field name="ai_score">94.6</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-14 23:00:00</field>
+        </record>
+        <record id="demo_applicant_patricia_white" model="hr.applicant">
+            <field name="partner_name">Patricia White</field>
+            <field name="email_from">patricia.white@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_data_scientist" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTI2OSA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKFBhdHJpY2lhIFdoaXRlKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB3aXRoIDcgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBtYWNoaW5lIGxlYXJuaW5nIGFuZCBhZHZhbmNlZCBhbmFseSkgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihTZW5pb3IgRGF0YSBTY2llbnRpc3QgfCBBZHZhbmNlZCBBbmFseXRpY3MgQ29ycCB8IDIwMTcgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgYWR2YW5jZWQgbWFjaGluZSBsZWFybmluZyBtb2RlbHMgZm9yIHByZWRpY3RpdmUgYW5hbHl0aWNzKSBUagowIC0xNCBUZAooLSBMZWQgZGF0YSBhbmFseXNpcyBwcm9qZWN0cyBvbiBsYXJnZS1zY2FsZSBkYXRhc2V0cykgVGoKMCAtMTQgVGQKKC0gSW1wbGVtZW50ZWQgUHl0aG9uLWJhc2VkIHNvbHV0aW9ucyBmb3IgY29tcGxleCBkYXRhIHByb2Nlc3NpbmcpIFRqCjAgLTE0IFRkCigtIEFyY2hpdGVjdGVkIEFXUyBjbG91ZCBpbmZyYXN0cnVjdHVyZSBmb3IgZGF0YSBwaXBlbGluZXMpIFRqCjAgLTE0IFRkCigtIE1hbmFnZWQgU1FMIGRhdGFiYXNlcyBmb3IgZGF0YSB3YXJlaG91c2luZykgVGoKMCAtMTQgVGQKKC0gTGVkIHByb2plY3QgbWFuYWdlbWVudCBmb3IgZGF0YSBzY2llbmNlIGluaXRpYXRpdmVzKSBUagowIC0xNCBUZAooRGF0YSBTY2llbnRpc3QgfCBBbmFseXRpY3MgTGFiIHwgMjAxNSAtIDIwMTcpIFRqCjAgLTE0IFRkCigtIEJ1aWx0IG1hY2hpbmUgbGVhcm5pbmcgbW9kZWxzKSBUagowIC0xNCBUZAooLSBQZXJmb3JtZWQgc3RhdGlzdGljYWwgZGF0YSBhbmFseXNpcykgVGoKMCAtMTQgVGQKKC0gQ3JlYXRlZCBkYXRhIHZpc3VhbGl6YXRpb25zIGFuZCByZXBvcnRzKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooUGhEIGluIERhdGEgU2NpZW5jZSB8IFJlc2VhcmNoIEluc3RpdHV0ZSB8IDIwMTUpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBNYWNoaW5lIExlYXJuaW5nIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIERhdGEgQW5hbHlzaXMgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIEFXUyBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFByb2plY3QgTWFuYWdlbWVudCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDUKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAowMDAwMDAwMjkwIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTYxMQolJUVPRg==</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Data Scientist with 7 years of experience in machine learning and advanced analytics. Expert in Python, statistical modeling, and cloud computing.
+
+EXPERIENCE
+Senior Data Scientist | Advanced Analytics Corp | 2017 - Present
+- Developed advanced machine learning models for predictive analytics
+- Led data analysis projects on large-scale datasets
+- Implemented Python-based solutions for complex data processing
+- Architected AWS cloud infrastructure for data pipelines
+- Managed SQL databases for data warehousing
+- Led project management for data science initiatives
+
+Data Scientist | Analytics Lab | 2015 - 2017
+- Built machine learning models
+- Performed statistical data analysis
+- Created data visualizations and reports
+
+EDUCATION
+PhD in Data Science | Research Institute | 2015
+
+SKILLS
+- Python (Expert)
+- Machine Learning (Expert)
+- Data Analysis (Expert)
+- SQL (Expert)
+- AWS (Advanced)
+- Project Management (Advanced)</field>
+            <field name="ai_score">81.3</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-12 21:00:00</field>
+        </record>
+        <record id="demo_applicant_daniel_harris" model="hr.applicant">
+            <field name="partner_name">Daniel Harris</field>
+            <field name="email_from">daniel.harris@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTE3NSA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKERhbmllbCBIYXJyaXMpIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKERldk9wcyBFbmdpbmVlciBhbmQgU29mdHdhcmUgRGV2ZWxvcGVyIHdpdGggNSB5ZWFycyBvZiBleHBlcmllbmNlIGluIGNsb3VkIGluZnJhKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKERldk9wcyBFbmdpbmVlciB8IENsb3VkIFNvbHV0aW9ucyB8IDIwMTkgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBNYW5hZ2VkIERvY2tlciBjb250YWluZXIgb3JjaGVzdHJhdGlvbikgVGoKMCAtMTQgVGQKKC0gRGVwbG95ZWQgYXBwbGljYXRpb25zIG9uIEFXUyBpbmZyYXN0cnVjdHVyZSkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIGF1dG9tYXRpb24gc2NyaXB0cyB1c2luZyBQeXRob24pIFRqCjAgLTE0IFRkCigtIE9wdGltaXplZCBTUUwgZGF0YWJhc2UgcGVyZm9ybWFuY2UpIFRqCjAgLTE0IFRkCigtIExlZCBwcm9qZWN0IG1hbmFnZW1lbnQgZm9yIGluZnJhc3RydWN0dXJlIHByb2plY3RzKSBUagowIC0xNCBUZAooU29mdHdhcmUgRGV2ZWxvcGVyIHwgVGVjaCBDb21wYW55IHwgMjAxNyAtIDIwMTkpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBhcHBsaWNhdGlvbnMgdXNpbmcgUHl0aG9uIGFuZCBKYXZhU2NyaXB0KSBUagowIC0xNCBUZAooLSBJbXBsZW1lbnRlZCBSZWFjdCBjb21wb25lbnRzKSBUagowIC0xNCBUZAooLSBXb3JrZWQgd2l0aCBTUUwgZGF0YWJhc2VzKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooQmFjaGVsb3Igb2YgU2NpZW5jZSBpbiBDb21wdXRlciBFbmdpbmVlcmluZyB8IEVuZ2luZWVyaW5nIFVuaXZlcnNpdHkgfCAyMDE3KSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gRG9ja2VyIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIEFXUyBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBKYXZhU2NyaXB0IFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gUmVhY3QgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gUHJvamVjdCBNYW5hZ2VtZW50IFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxNTE3CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+DevOps Engineer and Software Developer with 5 years of experience in cloud infrastructure and application development. Expert in Docker, AWS, and Python.
+
+EXPERIENCE
+DevOps Engineer | Cloud Solutions | 2019 - Present
+- Managed Docker container orchestration
+- Deployed applications on AWS infrastructure
+- Developed automation scripts using Python
+- Optimized SQL database performance
+- Led project management for infrastructure projects
+
+Software Developer | Tech Company | 2017 - 2019
+- Developed applications using Python and JavaScript
+- Implemented React components
+- Worked with SQL databases
+
+EDUCATION
+Bachelor of Science in Computer Engineering | Engineering University | 2017
+
+SKILLS
+- Python (Expert)
+- Docker (Expert)
+- AWS (Expert)
+- JavaScript (Advanced)
+- React (Intermediate)
+- SQL (Advanced)
+- Project Management (Advanced)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_jennifer_clark" model="hr.applicant">
+            <field name="partner_name">Jennifer Clark</field>
+            <field name="email_from">jennifer.clark@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggOTI4ID4+CnN0cmVhbQpCVAovRjEgMTIgVGYKMTAwIDcwMCBUZAooSmVubmlmZXIgQ2xhcmspIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKEZyb250ZW5kIERldmVsb3BlciB3aXRoIDMgeWVhcnMgb2YgZXhwZXJpZW5jZSBzcGVjaWFsaXppbmcgaW4gUmVhY3QgYW5kIEphdmFTY3JpKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKEZyb250ZW5kIERldmVsb3BlciB8IFVJIERlc2lnbiBTdHVkaW8gfCAyMDIxIC0gUHJlc2VudCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIHJlc3BvbnNpdmUgd2ViIGFwcGxpY2F0aW9ucyB1c2luZyBKYXZhU2NyaXB0IGFuZCBSZWFjdCkgVGoKMCAtMTQgVGQKKC0gQ3JlYXRlZCByZXVzYWJsZSBSZWFjdCBjb21wb25lbnRzKSBUagowIC0xNCBUZAooLSBPcHRpbWl6ZWQgYXBwbGljYXRpb24gcGVyZm9ybWFuY2UpIFRqCjAgLTE0IFRkCigtIFdvcmtlZCB3aXRoIFJFU1QgQVBJcykgVGoKMCAtMTQgVGQKKEp1bmlvciBGcm9udGVuZCBEZXZlbG9wZXIgfCBXZWIgQWdlbmN5IHwgMjAxOSAtIDIwMjEpIFRqCjAgLTE0IFRkCigtIEJ1aWx0IHdlYiBpbnRlcmZhY2VzIHdpdGggSmF2YVNjcmlwdCkgVGoKMCAtMTQgVGQKKC0gTGVhcm5lZCBSZWFjdCBmcmFtZXdvcmspIFRqCjAgLTE0IFRkCigtIENyZWF0ZWQgcmVzcG9uc2l2ZSBkZXNpZ25zKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooQmFjaGVsb3Igb2YgU2NpZW5jZSBpbiBXZWIgRGV2ZWxvcG1lbnQgfCBEZXNpZ24gQ29sbGVnZSB8IDIwMTkpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIEphdmFTY3JpcHQgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBSZWFjdCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEJhc2ljXCkpIFRqCjAgLTE0IFRkCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDUKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAowMDAwMDAwMjkwIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTI2OQolJUVPRg==</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Frontend Developer with 3 years of experience specializing in React and JavaScript development. Passionate about creating user-friendly interfaces.
+
+EXPERIENCE
+Frontend Developer | UI Design Studio | 2021 - Present
+- Developed responsive web applications using JavaScript and React
+- Created reusable React components
+- Optimized application performance
+- Worked with REST APIs
+
+Junior Frontend Developer | Web Agency | 2019 - 2021
+- Built web interfaces with JavaScript
+- Learned React framework
+- Created responsive designs
+
+EDUCATION
+Bachelor of Science in Web Development | Design College | 2019
+
+SKILLS
+- JavaScript (Advanced)
+- React (Advanced)
+- SQL (Basic)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_kevin_lewis" model="hr.applicant">
+            <field name="partner_name">Kevin Lewis</field>
+            <field name="email_from">kevin.lewis@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_data_scientist" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA3MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEtldmluIExld2lzKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB3aXRoIDIgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBkYXRhIGFuYWx5c2lzIGFuZCBtYWNoaW5lIGxlYXJuaW5nLikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB8IERhdGEgSW5zaWdodHMgfCAyMDIyIC0gUHJlc2VudCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIG1hY2hpbmUgbGVhcm5pbmcgbW9kZWxzIGZvciBidXNpbmVzcyBhcHBsaWNhdGlvbnMpIFRqCjAgLTE0IFRkCigtIFBlcmZvcm1lZCBkYXRhIGFuYWx5c2lzIG9uIGN1c3RvbWVyIGRhdGFzZXRzKSBUagowIC0xNCBUZAooLSBVc2VkIFB5dGhvbiBmb3IgZGF0YSBwcm9jZXNzaW5nKSBUagowIC0xNCBUZAooLSBXb3JrZWQgd2l0aCBTUUwgZGF0YWJhc2VzKSBUagowIC0xNCBUZAooLSBVdGlsaXplZCBBV1MgZm9yIGRhdGEgc3RvcmFnZSkgVGoKMCAtMTQgVGQKKERhdGEgQW5hbHlzdCB8IFJlc2VhcmNoIENvbXBhbnkgfCAyMDIwIC0gMjAyMikgVGoKMCAtMTQgVGQKKC0gQ29uZHVjdGVkIHN0YXRpc3RpY2FsIGRhdGEgYW5hbHlzaXMpIFRqCjAgLTE0IFRkCigtIENyZWF0ZWQgZGF0YSB2aXN1YWxpemF0aW9ucykgVGoKMCAtMTQgVGQKKC0gTGVhcm5lZCBtYWNoaW5lIGxlYXJuaW5nIGZ1bmRhbWVudGFscykgVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKE1hc3RlciBvZiBTY2llbmNlIGluIERhdGEgQW5hbHl0aWNzIHwgQW5hbHl0aWNzIFVuaXZlcnNpdHkgfCAyMDIwKSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBNYWNoaW5lIExlYXJuaW5nIFwoSW50ZXJtZWRpYXRlXCkpIFRqCjAgLTE0IFRkCigtIERhdGEgQW5hbHlzaXMgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBTUUwgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKKC0gQVdTIFwoQmFzaWNcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxNDE1CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Data Scientist with 2 years of experience in data analysis and machine learning. Proficient in Python and statistical methods.
+
+EXPERIENCE
+Data Scientist | Data Insights | 2022 - Present
+- Developed machine learning models for business applications
+- Performed data analysis on customer datasets
+- Used Python for data processing
+- Worked with SQL databases
+- Utilized AWS for data storage
+
+Data Analyst | Research Company | 2020 - 2022
+- Conducted statistical data analysis
+- Created data visualizations
+- Learned machine learning fundamentals
+
+EDUCATION
+Master of Science in Data Analytics | Analytics University | 2020
+
+SKILLS
+- Python (Advanced)
+- Machine Learning (Intermediate)
+- Data Analysis (Advanced)
+- SQL (Intermediate)
+- AWS (Basic)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_michelle_robinson" model="hr.applicant">
+            <field name="partner_name">Michelle Robinson</field>
+            <field name="email_from">michelle.robinson@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTMwMiA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKE1pY2hlbGxlIFJvYmluc29uKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihTb2Z0d2FyZSBEZXZlbG9wZXIgd2l0aCA2IHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gZnVsbC1zdGFjayBkZXZlbG9wbWVudC4gRXhwZXJ0ICkgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihTZW5pb3IgU29mdHdhcmUgRGV2ZWxvcGVyIHwgRW50ZXJwcmlzZSBUZWNoIHwgMjAxOCAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBlbnRlcnByaXNlIGFwcGxpY2F0aW9ucyB1c2luZyBQeXRob24gYW5kIEphdmEpIFRqCjAgLTE0IFRkCigtIEJ1aWx0IG1vZGVybiBmcm9udGVuZHMgd2l0aCBKYXZhU2NyaXB0IGFuZCBSZWFjdCkgVGoKMCAtMTQgVGQKKC0gTWFuYWdlZCBTUUwgZGF0YWJhc2VzIGFuZCBvcHRpbWl6ZWQgcXVlcmllcykgVGoKMCAtMTQgVGQKKC0gSW1wbGVtZW50ZWQgRG9ja2VyIGNvbnRhaW5lcml6YXRpb24gc3RyYXRlZ2llcykgVGoKMCAtMTQgVGQKKC0gRGVwbG95ZWQgYXBwbGljYXRpb25zIG9uIEFXUyBjbG91ZCBwbGF0Zm9ybSkgVGoKMCAtMTQgVGQKKC0gTGVkIHByb2plY3QgbWFuYWdlbWVudCBmb3IgZGV2ZWxvcG1lbnQgdGVhbXMpIFRqCjAgLTE0IFRkCihTb2Z0d2FyZSBEZXZlbG9wZXIgfCBTb2Z0d2FyZSBTb2x1dGlvbnMgfCAyMDE2IC0gMjAxOCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIHdlYiBhcHBsaWNhdGlvbnMgdXNpbmcgUHl0aG9uKSBUagowIC0xNCBUZAooLSBDcmVhdGVkIHVzZXIgaW50ZXJmYWNlcyB3aXRoIEphdmFTY3JpcHQpIFRqCjAgLTE0IFRkCigtIFdvcmtlZCB3aXRoIFNRTCBkYXRhYmFzZXMpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihCYWNoZWxvciBvZiBTY2llbmNlIGluIENvbXB1dGVyIFNjaWVuY2UgfCBUZWNoIFVuaXZlcnNpdHkgfCAyMDE2KSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gSmF2YSBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBKYXZhU2NyaXB0IFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIFJlYWN0IFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIEFXUyBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFByb2plY3QgTWFuYWdlbWVudCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDUKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAowMDAwMDAwMjkwIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTY0NAolJUVPRg==</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Software Developer with 6 years of experience in full-stack development. Expert in Python, Java, JavaScript, and modern web technologies.
+
+EXPERIENCE
+Senior Software Developer | Enterprise Tech | 2018 - Present
+- Developed enterprise applications using Python and Java
+- Built modern frontends with JavaScript and React
+- Managed SQL databases and optimized queries
+- Implemented Docker containerization strategies
+- Deployed applications on AWS cloud platform
+- Led project management for development teams
+
+Software Developer | Software Solutions | 2016 - 2018
+- Developed web applications using Python
+- Created user interfaces with JavaScript
+- Worked with SQL databases
+
+EDUCATION
+Bachelor of Science in Computer Science | Tech University | 2016
+
+SKILLS
+- Python (Expert)
+- Java (Expert)
+- JavaScript (Expert)
+- React (Advanced)
+- SQL (Expert)
+- Docker (Advanced)
+- AWS (Advanced)
+- Project Management (Advanced)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_ryan_walker" model="hr.applicant">
+            <field name="partner_name">Ryan Walker</field>
+            <field name="email_from">ryan.walker@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_data_scientist" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTExOSA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKFJ5YW4gV2Fsa2VyKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB3aXRoIDQgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBtYWNoaW5lIGxlYXJuaW5nIGFuZCBwcmVkaWN0aXZlIGFuYSkgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB8IFByZWRpY3RpdmUgQW5hbHl0aWNzIEluYyB8IDIwMjAgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBCdWlsdCBtYWNoaW5lIGxlYXJuaW5nIG1vZGVscyBmb3IgZm9yZWNhc3RpbmcpIFRqCjAgLTE0IFRkCigtIENvbmR1Y3RlZCBjb21wcmVoZW5zaXZlIGRhdGEgYW5hbHlzaXMgb24gYnVzaW5lc3MgbWV0cmljcykgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIFB5dGhvbiBzY3JpcHRzIGZvciBkYXRhIHByb2Nlc3NpbmcpIFRqCjAgLTE0IFRkCigtIE1hbmFnZWQgU1FMIGRhdGFiYXNlcyBmb3IgZGF0YSB3YXJlaG91c2luZykgVGoKMCAtMTQgVGQKKC0gVXRpbGl6ZWQgQVdTIHNlcnZpY2VzIGZvciBzY2FsYWJsZSBhbmFseXRpY3MpIFRqCjAgLTE0IFRkCihKdW5pb3IgRGF0YSBTY2llbnRpc3QgfCBBbmFseXRpY3MgVGVhbSB8IDIwMTggLSAyMDIwKSBUagowIC0xNCBUZAooLSBBc3Npc3RlZCBpbiBtYWNoaW5lIGxlYXJuaW5nIHByb2plY3RzKSBUagowIC0xNCBUZAooLSBQZXJmb3JtZWQgZGF0YSBhbmFseXNpcyB0YXNrcykgVGoKMCAtMTQgVGQKKC0gQ3JlYXRlZCBzdGF0aXN0aWNhbCByZXBvcnRzKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooTWFzdGVyIG9mIFNjaWVuY2UgaW4gTWFjaGluZSBMZWFybmluZyB8IE1MIFVuaXZlcnNpdHkgfCAyMDE4KSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gTWFjaGluZSBMZWFybmluZyBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIERhdGEgQW5hbHlzaXMgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gQVdTIFwoSW50ZXJtZWRpYXRlXCkpIFRqCjAgLTE0IFRkCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDUKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAowMDAwMDAwMjkwIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTQ2MQolJUVPRg==</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Data Scientist with 4 years of experience in machine learning and predictive analytics. Skilled in Python, data analysis, and cloud computing.
+
+EXPERIENCE
+Data Scientist | Predictive Analytics Inc | 2020 - Present
+- Built machine learning models for forecasting
+- Conducted comprehensive data analysis on business metrics
+- Developed Python scripts for data processing
+- Managed SQL databases for data warehousing
+- Utilized AWS services for scalable analytics
+
+Junior Data Scientist | Analytics Team | 2018 - 2020
+- Assisted in machine learning projects
+- Performed data analysis tasks
+- Created statistical reports
+
+EDUCATION
+Master of Science in Machine Learning | ML University | 2018
+
+SKILLS
+- Python (Expert)
+- Machine Learning (Advanced)
+- Data Analysis (Expert)
+- SQL (Advanced)
+- AWS (Intermediate)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_nancy_young" model="hr.applicant">
+            <field name="partner_name">Nancy Young</field>
+            <field name="email_from">nancy.young@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTAyNSA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKE5hbmN5IFlvdW5nKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihCYWNrZW5kIERldmVsb3BlciB3aXRoIDMgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBQeXRob24gYW5kIEphdmEgZGV2ZWxvcG1lbnQuIEZvYykgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihCYWNrZW5kIERldmVsb3BlciB8IEFQSSBEZXZlbG9wbWVudCBDbyB8IDIwMjEgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgUkVTVGZ1bCBBUElzIHVzaW5nIFB5dGhvbiBhbmQgSmF2YSkgVGoKMCAtMTQgVGQKKC0gRGVzaWduZWQgYW5kIG1haW50YWluZWQgU1FMIGRhdGFiYXNlIHNjaGVtYXMpIFRqCjAgLTE0IFRkCigtIEltcGxlbWVudGVkIERvY2tlciBjb250YWluZXJzIGZvciBtaWNyb3NlcnZpY2VzKSBUagowIC0xNCBUZAooLSBEZXBsb3llZCBiYWNrZW5kIHNlcnZpY2VzIG9uIEFXUykgVGoKMCAtMTQgVGQKKEp1bmlvciBCYWNrZW5kIERldmVsb3BlciB8IFRlY2ggU3RhcnR1cCB8IDIwMTkgLSAyMDIxKSBUagowIC0xNCBUZAooLSBCdWlsdCBiYWNrZW5kIHNlcnZpY2VzIHVzaW5nIFB5dGhvbikgVGoKMCAtMTQgVGQKKC0gV29ya2VkIHdpdGggU1FMIGRhdGFiYXNlcykgVGoKMCAtMTQgVGQKKC0gTGVhcm5lZCBEb2NrZXIgYW5kIEFXUyBiYXNpY3MpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihCYWNoZWxvciBvZiBTY2llbmNlIGluIENvbXB1dGVyIFNjaWVuY2UgfCBTdGF0ZSBVbml2ZXJzaXR5IHwgMjAxOSkgVGoKMCAtMTQgVGQKKFNLSUxMUykgVGoKMCAtMTQgVGQKKC0gUHl0aG9uIFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gSmF2YSBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBBV1MgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxMzY3CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Backend Developer with 3 years of experience in Python and Java development. Focused on building scalable APIs and database systems.
+
+EXPERIENCE
+Backend Developer | API Development Co | 2021 - Present
+- Developed RESTful APIs using Python and Java
+- Designed and maintained SQL database schemas
+- Implemented Docker containers for microservices
+- Deployed backend services on AWS
+
+Junior Backend Developer | Tech Startup | 2019 - 2021
+- Built backend services using Python
+- Worked with SQL databases
+- Learned Docker and AWS basics
+
+EDUCATION
+Bachelor of Science in Computer Science | State University | 2019
+
+SKILLS
+- Python (Advanced)
+- Java (Advanced)
+- SQL (Advanced)
+- Docker (Intermediate)
+- AWS (Intermediate)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_brian_king" model="hr.applicant">
+            <field name="partner_name">Brian King</field>
+            <field name="email_from">brian.king@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_data_scientist" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTIyOCA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEJyaWFuIEtpbmcpIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKERhdGEgU2NpZW50aXN0IHdpdGggNSB5ZWFycyBvZiBleHBlcmllbmNlIGluIGFkdmFuY2VkIGFuYWx5dGljcyBhbmQgbWFjaGluZSBsZWFyKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKFNlbmlvciBEYXRhIFNjaWVudGlzdCB8IEFkdmFuY2VkIEFuYWx5dGljcyB8IDIwMTkgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgc29waGlzdGljYXRlZCBtYWNoaW5lIGxlYXJuaW5nIG1vZGVscykgVGoKMCAtMTQgVGQKKC0gUGVyZm9ybWVkIGFkdmFuY2VkIGRhdGEgYW5hbHlzaXMgb24gY29tcGxleCBkYXRhc2V0cykgVGoKMCAtMTQgVGQKKC0gSW1wbGVtZW50ZWQgUHl0aG9uLWJhc2VkIGFuYWx5dGljcyBwaXBlbGluZXMpIFRqCjAgLTE0IFRkCigtIE1hbmFnZWQgU1FMIGRhdGFiYXNlcyBmb3IgZGF0YSBpbnRlZ3JhdGlvbikgVGoKMCAtMTQgVGQKKC0gQXJjaGl0ZWN0ZWQgQVdTIGluZnJhc3RydWN0dXJlIGZvciBkYXRhIHByb2Nlc3NpbmcpIFRqCjAgLTE0IFRkCigtIExlZCBwcm9qZWN0IG1hbmFnZW1lbnQgZm9yIGFuYWx5dGljcyBpbml0aWF0aXZlcykgVGoKMCAtMTQgVGQKKERhdGEgU2NpZW50aXN0IHwgUmVzZWFyY2ggQW5hbHl0aWNzIHwgMjAxNyAtIDIwMTkpIFRqCjAgLTE0IFRkCigtIEJ1aWx0IG1hY2hpbmUgbGVhcm5pbmcgbW9kZWxzKSBUagowIC0xNCBUZAooLSBDb25kdWN0ZWQgc3RhdGlzdGljYWwgZGF0YSBhbmFseXNpcykgVGoKMCAtMTQgVGQKKC0gQ3JlYXRlZCBkYXRhIHZpc3VhbGl6YXRpb25zKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooTWFzdGVyIG9mIFNjaWVuY2UgaW4gU3RhdGlzdGljcyB8IFN0YXRpc3RpY3MgVW5pdmVyc2l0eSB8IDIwMTcpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBNYWNoaW5lIExlYXJuaW5nIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIERhdGEgQW5hbHlzaXMgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gU1FMIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIEFXUyBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFByb2plY3QgTWFuYWdlbWVudCBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjE1NzAKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Data Scientist with 5 years of experience in advanced analytics and machine learning. Expert in Python, statistical modeling, and data visualization.
+
+EXPERIENCE
+Senior Data Scientist | Advanced Analytics | 2019 - Present
+- Developed sophisticated machine learning models
+- Performed advanced data analysis on complex datasets
+- Implemented Python-based analytics pipelines
+- Managed SQL databases for data integration
+- Architected AWS infrastructure for data processing
+- Led project management for analytics initiatives
+
+Data Scientist | Research Analytics | 2017 - 2019
+- Built machine learning models
+- Conducted statistical data analysis
+- Created data visualizations
+
+EDUCATION
+Master of Science in Statistics | Statistics University | 2017
+
+SKILLS
+- Python (Expert)
+- Machine Learning (Expert)
+- Data Analysis (Expert)
+- SQL (Expert)
+- AWS (Advanced)
+- Project Management (Intermediate)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_laura_wright" model="hr.applicant">
+            <field name="partner_name">Laura Wright</field>
+            <field name="email_from">laura.wright@example.com</field>
+            <field name="job_id" ref="demo_job_software_developer" />
+            <field name="ai_screening_id" ref="demo_screening_software_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA5NCA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKExhdXJhIFdyaWdodCkgVGoKMCAtMjAgVGQKKFBST0ZFU1NJT05BTCBTVU1NQVJZKSBUagowIC0xNCBUZAooRnVsbCBTdGFjayBEZXZlbG9wZXIgd2l0aCA0IHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gd2ViIGFwcGxpY2F0aW9uIGRldmVsb3BtZW50LiApIFRqCjAgLTE0IFRkCihFWFBFUklFTkNFKSBUagowIC0xNCBUZAooRnVsbCBTdGFjayBEZXZlbG9wZXIgfCBXZWIgQXBwbGljYXRpb25zIEluYyB8IDIwMjAgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgZnVsbC1zdGFjayB3ZWIgYXBwbGljYXRpb25zIHVzaW5nIEphdmFTY3JpcHQgYW5kIFJlYWN0KSBUagowIC0xNCBUZAooLSBCdWlsdCBiYWNrZW5kIEFQSXMgd2l0aCBQeXRob24pIFRqCjAgLTE0IFRkCigtIE1hbmFnZWQgU1FMIGRhdGFiYXNlcykgVGoKMCAtMTQgVGQKKC0gRGVwbG95ZWQgYXBwbGljYXRpb25zIHVzaW5nIERvY2tlcikgVGoKMCAtMTQgVGQKKC0gVXRpbGl6ZWQgQVdTIGZvciBjbG91ZCBob3N0aW5nKSBUagowIC0xNCBUZAooRnJvbnRlbmQgRGV2ZWxvcGVyIHwgV2ViIFN0dWRpbyB8IDIwMTggLSAyMDIwKSBUagowIC0xNCBUZAooLSBDcmVhdGVkIHVzZXIgaW50ZXJmYWNlcyB3aXRoIEphdmFTY3JpcHQgYW5kIFJlYWN0KSBUagowIC0xNCBUZAooLSBXb3JrZWQgd2l0aCBSRVNUIEFQSXMpIFRqCjAgLTE0IFRkCigtIExlYXJuZWQgYmFja2VuZCBkZXZlbG9wbWVudCkgVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKEJhY2hlbG9yIG9mIFNjaWVuY2UgaW4gV2ViIERldmVsb3BtZW50IHwgV2ViIFVuaXZlcnNpdHkgfCAyMDE4KSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBKYXZhU2NyaXB0IFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIFJlYWN0IFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBBV1MgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxNDM2CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Full Stack Developer with 4 years of experience in web application development. Proficient in JavaScript, React, Python, and cloud technologies.
+
+EXPERIENCE
+Full Stack Developer | Web Applications Inc | 2020 - Present
+- Developed full-stack web applications using JavaScript and React
+- Built backend APIs with Python
+- Managed SQL databases
+- Deployed applications using Docker
+- Utilized AWS for cloud hosting
+
+Frontend Developer | Web Studio | 2018 - 2020
+- Created user interfaces with JavaScript and React
+- Worked with REST APIs
+- Learned backend development
+
+EDUCATION
+Bachelor of Science in Web Development | Web University | 2018
+
+SKILLS
+- JavaScript (Expert)
+- React (Expert)
+- Python (Advanced)
+- SQL (Advanced)
+- Docker (Intermediate)
+- AWS (Intermediate)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        
+        <!-- Demo Applicants for Frontend Developer Screening -->
+        <record id="demo_applicant_alex_rivera" model="hr.applicant">
+            <field name="partner_name">Alex Rivera</field>
+            <field name="email_from">alex.rivera@example.com</field>
+            <field name="job_id" ref="demo_job_frontend_developer" />
+            <field name="ai_screening_id" ref="demo_screening_frontend_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEFsZXggUml2ZXJhKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihGcm9udGVuZCBEZXZlbG9wZXIgd2l0aCAzIHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gUmVhY3QgYW5kIG1vZGVybiBKYXZhU2NyaXB0IGZyYW1ld29ya3MuKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKEZyb250ZW5kIERldmVsb3BlciB8IERpZ2l0YWwgQWdlbmN5IHwgMjAyMSAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBtb2Rlcm4gd2ViIGFwcGxpY2F0aW9ucyB1c2luZyBSZWFjdCBhbmQgSmF2YVNjcmlwdCkgVGoKMCAtMTQgVGQKKC0gQ3JlYXRlZCByZXNwb25zaXZlIHVzZXIgaW50ZXJmYWNlcykgVGoKMCAtMTQgVGQKKC0gT3B0aW1pemVkIGFwcGxpY2F0aW9uIHBlcmZvcm1hbmNlKSBUagowIC0xNCBUZAooSnVuaW9yIEZyb250ZW5kIERldmVsb3BlciB8IFdlYiBTdHVkaW8gfCAyMDIwIC0gMjAyMSkgVGoKMCAtMTQgVGQKKC0gQnVpbHQgd2ViIGludGVyZmFjZXMgd2l0aCBKYXZhU2NyaXB0KSBUagowIC0xNCBUZAooLSBMZWFybmVkIFJlYWN0IGZyYW1ld29yaykgVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKEJhY2hlbG9yIG9mIFNjaWVuY2UgaW4gQ29tcHV0ZXIgU2NpZW5jZSB8IFRlY2ggVW5pdmVyc2l0eSB8IDIwMjApIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIEphdmFTY3JpcHQgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gUmVhY3QgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxMjk1CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Frontend Developer with 3 years of experience in React and modern JavaScript frameworks.
+
+EXPERIENCE
+Frontend Developer | Digital Agency | 2021 - Present
+- Developed modern web applications using React and JavaScript
+- Created responsive user interfaces
+- Optimized application performance
+
+Junior Frontend Developer | Web Studio | 2020 - 2021
+- Built web interfaces with JavaScript
+- Learned React framework
+
+EDUCATION
+Bachelor of Science in Computer Science | Tech University | 2020
+
+SKILLS
+- JavaScript (Expert)
+- React (Expert)</field>
+            <field name="ai_score">78.5</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-14 09:15:00</field>
+        </record>
+        <record id="demo_applicant_sophia_chen" model="hr.applicant">
+            <field name="partner_name">Sophia Chen</field>
+            <field name="email_from">sophia.chen@example.com</field>
+            <field name="job_id" ref="demo_job_frontend_developer" />
+            <field name="ai_screening_id" ref="demo_screening_frontend_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKFNvcGhpYSBDaGVuKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihGcm9udGVuZCBEZXZlbG9wZXIgd2l0aCAyIHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gUmVhY3QgZGV2ZWxvcG1lbnQuKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKEZyb250ZW5kIERldmVsb3BlciB8IFVJIFNvbHV0aW9ucyB8IDIwMjIgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgUmVhY3QgY29tcG9uZW50cyBhbmQgdXNlciBpbnRlcmZhY2VzKSBUagowIC0xNCBUZAooLSBVc2VkIEphdmFTY3JpcHQgZm9yIGludGVyYWN0aXZlIGZlYXR1cmVzKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooQmFjaGVsb3Igb2YgU2NpZW5jZSBpbiBXZWIgRGV2ZWxvcG1lbnQgfCBDb2xsZWdlIHwgMjAyMikgVGoKMCAtMTQgVGQKKFNLSUxMUykgVGoKMCAtMTQgVGQKKC0gUmVhY3QgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBKYXZhU2NyaXB0IFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxMjk1CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Frontend Developer with 2 years of experience in React development.
+
+EXPERIENCE
+Frontend Developer | UI Solutions | 2022 - Present
+- Developed React components and user interfaces
+- Used JavaScript for interactive features
+
+EDUCATION
+Bachelor of Science in Web Development | College | 2022
+
+SKILLS
+- React (Advanced)
+- JavaScript (Advanced)</field>
+            <field name="ai_score">65.2</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-13 10:30:00</field>
+        </record>
+        
+        <!-- Demo Applicants for Backend Developer Screening -->
+        <record id="demo_applicant_ryan_patel" model="hr.applicant">
+            <field name="partner_name">Ryan Patel</field>
+            <field name="email_from">ryan.patel@example.com</field>
+            <field name="job_id" ref="demo_job_backend_developer" />
+            <field name="ai_screening_id" ref="demo_screening_backend_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTE1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKFJ5YW4gUGF0ZWwpIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKEJhY2tlbmQgRGV2ZWxvcGVyIHdpdGggNSB5ZWFycyBvZiBleHBlcmllbmNlIGluIFB5dGhvbiBhbmQgQVBJIGRldmVsb3BtZW50LikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihTZW5pb3IgQmFja2VuZCBEZXZlbG9wZXIgfCBBUEkgU29sdXRpb25zIHwgMjAxOSAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBzY2FsYWJsZSBBUEkgdXNpbmcgUHl0aG9uKSBUagowIC0xNCBUZAooLSBNYW5hZ2VkIFNRTCBkYXRhYmFzZXMgYW5kIG9wdGltaXplZCBxdWVyaWVzKSBUagowIC0xNCBUZAooLSBJbXBsZW1lbnRlZCBEb2NrZXIgY29udGFpbmVyaXphdGlvbikgVGoKMCAtMTQgVGQKKC0gRGVwbG95ZWQgc2VydmljZXMgb24gQVdTKSBUagowIC0xNCBUZAooQmFja2VuZCBEZXZlbG9wZXIgfCBUZWNoIENvcnAgfCAyMDE3IC0gMjAxOSkgVGoKMCAtMTQgVGQKKC0gQnVpbHQgYmFja2VuZCBzZXJ2aWNlcyB1c2luZyBQeXRob24pIFRqCjAgLTE0IFRkCigtIFdvcmtlZCB3aXRoIFNRTCBkYXRhYmFzZXMpIFRqCjAgLTE0IFRkCihFRFVDQVRJT04pIFRqCjAgLTE0IFRkCihCYWNoZWxvciBvZiBTY2llbmNlIGluIENvbXB1dGVyIFNjaWVuY2UgfCBVbml2ZXJzaXR5IHwgMjAxNykgVGoKMCAtMTQgVGQKKFNLSUxMUykgVGoKMCAtMTQgVGQKKC0gUHl0aG9uIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBEb2NrZXIgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBBV1MgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjEzOTUKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Backend Developer with 5 years of experience in Python and API development.
+
+EXPERIENCE
+Senior Backend Developer | API Solutions | 2019 - Present
+- Developed scalable API using Python
+- Managed SQL databases and optimized queries
+- Implemented Docker containerization
+- Deployed services on AWS
+
+Backend Developer | Tech Corp | 2017 - 2019
+- Built backend services using Python
+- Worked with SQL databases
+
+EDUCATION
+Bachelor of Science in Computer Science | University | 2017
+
+SKILLS
+- Python (Expert)
+- SQL (Expert)
+- Docker (Advanced)
+- AWS (Advanced)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_maria_gonzalez" model="hr.applicant">
+            <field name="partner_name">Maria Gonzalez</field>
+            <field name="email_from">maria.gonzalez@example.com</field>
+            <field name="job_id" ref="demo_job_backend_developer" />
+            <field name="ai_screening_id" ref="demo_screening_backend_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKE1hcmlhIEdvbnphbGV6KSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihCYWNrZW5kIERldmVsb3BlciB3aXRoIDQgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBQeXRob24gZGV2ZWxvcG1lbnQuKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKEJhY2tlbmQgRGV2ZWxvcGVyIHwgV2ViIFNlcnZpY2VzIHwgMjAyMCAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBQeXRob24gQVBJcykKVGoKMCAtMTQgVGQKKC0gV29ya2VkIHdpdGggU1FMIGRhdGFiYXNlcykKVGoKMCAtMTQgVGQKKC0gVXNlZCBEb2NrZXIgZm9yIGRlcGxveW1lbnQpIFRqCjAgLTE0IFRkCihKdW5pb3IgQmFja2VuZCBEZXZlbG9wZXIgfCBUZWNoIFN0YXJ0dXAgfCAyMDE4IC0gMjAyMCkgVGoKMCAtMTQgVGQKKC0gQnVpbHQgUHl0aG9uIHNlcnZpY2VzKSBUagowIC0xNCBUZAooLSBMZWFybmVkIFNRTCBhbmQgRG9ja2VyKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooQmFjaGVsb3Igb2YgU2NpZW5jZSBpbiBTb2Z0d2FyZSBFbmdpbmVlcmluZyB8IFVuaXZlcnNpdHkgfCAyMDE4KSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBTUUwgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBEb2NrZXIgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxMjk1CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Backend Developer with 4 years of experience in Python development.
+
+EXPERIENCE
+Backend Developer | Web Services | 2020 - Present
+- Developed Python APIs
+- Worked with SQL databases
+- Used Docker for deployment
+
+Junior Backend Developer | Tech Startup | 2018 - 2020
+- Built Python services
+- Learned SQL and Docker
+
+EDUCATION
+Bachelor of Science in Software Engineering | University | 2018
+
+SKILLS
+- Python (Advanced)
+- SQL (Advanced)
+- Docker (Intermediate)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        
+        <!-- Demo Applicants for DevOps Engineer Screening -->
+        <record id="demo_applicant_tom_anderson" model="hr.applicant">
+            <field name="partner_name">Tom Anderson</field>
+            <field name="email_from">tom.anderson@example.com</field>
+            <field name="job_id" ref="demo_job_devops_engineer" />
+            <field name="ai_screening_id" ref="demo_screening_devops_engineer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTE1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKFRvbSBBbmRlcnNvbikgVGoKMCAtMjAgVGQKKFBST0ZFU1NJT05BTCBTVU1NQVJZKSBUagowIC0xNCBUZAooRGV2T3BzIEVuZ2luZWVyIHdpdGggNiB5ZWFycyBvZiBleHBlcmllbmNlIGluIGNsb3VkIGluZnJhc3RydWN0dXJlLikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihEZXZPcHMgRW5naW5lZXIgfCBDbG91ZCBJbmZyYXN0cnVjdHVyZSB8IDIwMTggLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBNYW5hZ2VkIERvY2tlciBjb250YWluZXIgb3JjaGVzdHJhdGlvbikgVGoKMCAtMTQgVGQKKC0gRGVwbG95ZWQgYXBwbGljYXRpb25zIG9uIEFXUykgVGoKMCAtMTQgVGQKKC0gQXV0b21hdGVkIGRlcGxveW1lbnQgcGlwZWxpbmVzKSBUagowIC0xNCBUZAooLSBVc2VkIFB5dGhvbiBmb3IgYXV0b21hdGlvbiBzY3JpcHRzKSBUagowIC0xNCBUZAooU29mdHdhcmUgRGV2ZWxvcGVyIHwgVGVjaCBDb3JwIHwgMjAxNSAtIDIwMTgpIFRqCjAgLTE0IFRkCigtIERldmVsb3BlZCBhcHBsaWNhdGlvbnMgdXNpbmcgUHl0aG9uKSBUagowIC0xNCBUZAooLSBMZWFybmVkIERvY2tlciBhbmQgQVdTKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooQmFjaGVsb3Igb2YgU2NpZW5jZSBpbiBDb21wdXRlciBTY2llbmNlIHwgVW5pdmVyc2l0eSB8IDIwMTUpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBBV1MgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gUHl0aG9uIFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxMzk1CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+DevOps Engineer with 6 years of experience in cloud infrastructure.
+
+EXPERIENCE
+DevOps Engineer | Cloud Infrastructure | 2018 - Present
+- Managed Docker container orchestration
+- Deployed applications on AWS
+- Automated deployment pipelines
+- Used Python for automation scripts
+
+Software Developer | Tech Corp | 2015 - 2018
+- Developed applications using Python
+- Learned Docker and AWS
+
+EDUCATION
+Bachelor of Science in Computer Science | University | 2015
+
+SKILLS
+- Docker (Expert)
+- AWS (Expert)
+- Python (Advanced)</field>
+            <field name="ai_score">88.3</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-14 09:15:00</field>
+        </record>
+        <record id="demo_applicant_liam_taylor" model="hr.applicant">
+            <field name="partner_name">Liam Taylor</field>
+            <field name="email_from">liam.taylor@example.com</field>
+            <field name="job_id" ref="demo_job_devops_engineer" />
+            <field name="ai_screening_id" ref="demo_screening_devops_engineer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKExpYW0gVGF5bG9yKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihEZXZPcHMgRW5naW5lZXIgd2l0aCA1IHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gY2xvdWQgcGxhdGZvcm1zLikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihEZXZPcHMgRW5naW5lZXIgfCBDbG91ZCBTeXN0ZW1zIHwgMjAxOSAtIFByZXNlbnQpIFRqCjAgLTE0IFRkCigtIE1hbmFnZWQgRG9ja2VyIGluZnJhc3RydWN0dXJlKSBUagowIC0xNCBUZAooLSBEZXBsb3llZCBvbiBBV1MpIFRqCjAgLTE0IFRkCigtIFVzZWQgUHl0aG9uIGZvciBhdXRvbWF0aW9uKSBUagowIC0xNCBUZAooSnVuaW9yIERldk9wcyB8IFRlY2ggQ29tcGFueSB8IDIwMTcgLSAyMDE5KSBUagowIC0xNCBUZAooLSBMZWFybmVkIERvY2tlciBhbmQgQVdTKSBUagowIC0xNCBUZAooRURVQ0FUSU9OKSBUagowIC0xNCBUZAooQmFjaGVsb3Igb2YgU2NpZW5jZSBpbiBDb21wdXRlciBTY2llbmNlIHwgVW5pdmVyc2l0eSB8IDIwMTcpIFRqCjAgLTE0IFRkCihTS0lMTFMpIFRqCjAgLTE0IFRkCigtIERvY2tlciBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIEFXUyBcKEFkdmFuY2VkXCkpIFRqCjAgLTE0IFRkCigtIFB5dGhvbiBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjEyOTUKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+DevOps Engineer with 5 years of experience in cloud platforms.
+
+EXPERIENCE
+DevOps Engineer | Cloud Systems | 2019 - Present
+- Managed Docker infrastructure
+- Deployed on AWS
+- Used Python for automation
+
+Junior DevOps | Tech Company | 2017 - 2019
+- Learned Docker and AWS
+
+EDUCATION
+Bachelor of Science in Computer Science | University | 2017
+
+SKILLS
+- Docker (Advanced)
+- AWS (Advanced)
+- Python (Intermediate)</field>
+            <field name="ai_score">82.1</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-13 10:30:00</field>
+        </record>
+        
+        <!-- Demo Applicants for Full Stack Developer Screening -->
+        <record id="demo_applicant_olivia_martinez" model="hr.applicant">
+            <field name="partner_name">Olivia Martinez</field>
+            <field name="email_from">olivia.martinez@example.com</field>
+            <field name="job_id" ref="demo_job_fullstack_developer" />
+            <field name="ai_screening_id" ref="demo_screening_fullstack_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTE1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKE9saXZpYSBNYXJ0aW5leikgVGoKMCAtMjAgVGQKKFBST0ZFU1NJT05BTCBTVU1NQVJZKSBUagowIC0xNCBUZAooRnVsbCBTdGFjayBEZXZlbG9wZXIgd2l0aCA0IHllYXJzIG9mIGV4cGVyaWVuY2UgaW4gZnJvbnRlbmQgYW5kIGJhY2tlbmQgZGV2ZWxvcG1lbnQuKSBUagowIC0xNCBUZAooRVhQRVJJRU5DRSkgVGoKMCAtMTQgVGQKKEZ1bGwgU3RhY2sgRGV2ZWxvcGVyIHwgV2ViIEFwcHMgfCAyMDIwIC0gUHJlc2VudCkgVGoKMCAtMTQgVGQKKC0gRGV2ZWxvcGVkIGZ1bGwtc3RhY2sgYXBwbGljYXRpb25zIHVzaW5nIFB5dGhvbiBhbmQgSmF2YVNjcmlwdCkgVGoKMCAtMTQgVGQKKC0gQnVpbHQgUmVhY3QgY29tcG9uZW50cykgVGoKMCAtMTQgVGQKKC0gV29ya2VkIHdpdGggU1FMIGRhdGFiYXNlcykgVGoKMCAtMTQgVGQKKC0gVXNlZCBEb2NrZXIgZm9yIGRlcGxveW1lbnQpIFRqCjAgLTE0IFRkCihKdW5pb3IgRGV2ZWxvcGVyIHwgVGVjaCB8IDIwMTkgLSAyMDIwKSBUagowIC0xNCBUZAooLSBMZWFybmVkIFB5dGhvbiBhbmQgSmF2YVNjcmlwdCkgVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKEJhY2hlbG9yIG9mIFNjaWVuY2UgaW4gQ29tcHV0ZXIgU2NpZW5jZSB8IFVuaXZlcnNpdHkgfCAyMDE5KSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBKYXZhU2NyaXB0IFwoQWR2YW5jZWRcKSkgVGoKMCAtMTQgVGQKKC0gUmVhY3QgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBTUUwgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZAooLSBEb2NrZXIgXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKRVQKZW5kc3RyZWFtCmVuZG9iagp4cmVmCjAgNQowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAwMDA1OCAwMDAwMCBuIAowMDAwMDAwMTE1IDAwMDAwIG4gCjAwMDAwMDAyOTAgMDAwMDAgbiAKdHJhaWxlcgo8PCAvU2l6ZSA1IC9Sb290IDEgMCBSID4+CnN0YXJ0eHJlZgoxMzk1CiUlRU9G</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Full Stack Developer with 4 years of experience in frontend and backend development.
+
+EXPERIENCE
+Full Stack Developer | Web Apps | 2020 - Present
+- Developed full-stack applications using Python and JavaScript
+- Built React components
+- Worked with SQL databases
+- Used Docker for deployment
+
+Junior Developer | Tech | 2019 - 2020
+- Learned Python and JavaScript
+
+EDUCATION
+Bachelor of Science in Computer Science | University | 2019
+
+SKILLS
+- Python (Advanced)
+- JavaScript (Advanced)
+- React (Advanced)
+- SQL (Advanced)
+- Docker (Intermediate)</field>
+            <field name="ai_score">76.8</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-14 09:15:00</field>
+        </record>
+        <record id="demo_applicant_noah_williams" model="hr.applicant">
+            <field name="partner_name">Noah Williams</field>
+            <field name="email_from">noah.williams@example.com</field>
+            <field name="job_id" ref="demo_job_fullstack_developer" />
+            <field name="ai_screening_id" ref="demo_screening_fullstack_developer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTA1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKE5vYWggV2lsbGlhbXMpIFRqCjAgLTIwIFRkCihQUk9GRVNTSU9OQUwgU1VNTUFSWSkgVGoKMCAtMTQgVGQKKEZ1bGwgU3RhY2sgRGV2ZWxvcGVyIHdpdGggMyB5ZWFycyBvZiBleHBlcmllbmNlLikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihGdWxsIFN0YWNrIERldmVsb3BlciB8IFdlYiBEZXZlbG9wbWVudCB8IDIwMjEgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgYXBwbGljYXRpb25zIHVzaW5nIFB5dGhvbiBhbmQgSmF2YVNjcmlwdCkgVGoKMCAtMTQgVGQKKC0gVXNlZCBSZWFjdCBmb3IgZnJvbnRlbmQpIFRqCjAgLTE0IFRkCigtIFdvcmtlZCB3aXRoIFNRTCkKVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKEJhY2hlbG9yIG9mIFNjaWVuY2UgaW4gQ29tcHV0ZXIgU2NpZW5jZSB8IFVuaXZlcnNpdHkgfCAyMDIxKSBUagowIC0xNCBUZAooU0tJTExTKSBUagowIC0xNCBUZAooLSBQeXRob24gXChJbnRlcm1lZGlhdGVcKSkgVGoKMCAtMTQgVGQKKC0gSmF2YVNjcmlwdCBcKEludGVybWVkaWF0ZVwpKSBUagowIC0xNCBUZAooLSBSZWFjdCBcKEJhc2ljXCkpIFRqCjAgLTE0IFRkCigtIFNRTCBcKEJhc2ljXCkpIFRqCjAgLTE0IFRkCkVUCmVuZHN0cmVhbQplbmRvYmoKeHJlZgowIDUKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDA5IDAwMDAwIG4gCjAwMDAwMDAwNTggMDAwMDAgbiAKMDAwMDAwMDExNSAwMDAwMCBuIAowMDAwMDAwMjkwIDAwMDAwIG4gCnRyYWlsZXIKPDwgL1NpemUgNSAvUm9vdCAxIDAgUiA+PgpzdGFydHhyZWYKMTI5NQolJUVPRg==</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Full Stack Developer with 3 years of experience.
+
+EXPERIENCE
+Full Stack Developer | Web Development | 2021 - Present
+- Developed applications using Python and JavaScript
+- Used React for frontend
+- Worked with SQL
+
+EDUCATION
+Bachelor of Science in Computer Science | University | 2021
+
+SKILLS
+- Python (Intermediate)
+- JavaScript (Intermediate)
+- React (Basic)
+- SQL (Basic)</field>
+            <field name="ai_score">58.4</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-12 14:20:00</field>
+        </record>
+        
+        <!-- Demo Applicants for ML Engineer Screening -->
+        <record id="demo_applicant_ava_jackson" model="hr.applicant">
+            <field name="partner_name">Ava Jackson</field>
+            <field name="email_from">ava.jackson@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_ml_engineer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTE1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEF2YSBKYWNrc29uKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihNTCBFbmdpbmVlciB3aXRoIDUgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBtYWNoaW5lIGxlYXJuaW5nLikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihNTCBFbmdpbmVlciB8IEFJIFNvbHV0aW9ucyB8IDIwMTkgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgbWFjaGluZSBsZWFybmluZyBtb2RlbHMpIFRqCjAgLTE0IFRkCigtIFVzZWQgUHl0aG9uIGZvciBkYXRhIHByb2Nlc3NpbmcpIFRqCjAgLTE0IFRkCigtIFBlcmZvcm1lZCBkYXRhIGFuYWx5c2lzKSBUagowIC0xNCBUZAooLSBEZXBsb3llZCBvbiBBV1MpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB8IEFJIExhYiB8IDIwMTcgLSAyMDE5KSBUagowIC0xNCBUZAooLSBCdWlsdCBtYWNoaW5lIGxlYXJuaW5nIG1vZGVscykKVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKE1hc3RlciBvZiBTY2llbmNlIGluIE1hY2hpbmUgTGVhcm5pbmcgfCBVbml2ZXJzaXR5IHwgMjAxNykgVGoKMCAtMTQgVGQKKFNLSUxMUykgVGoKMCAtMTQgVGQKKC0gUHl0aG9uIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIE1hY2hpbmUgTGVhcm5pbmcgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gRGF0YSBBbmFseXNpcyBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBBV1MgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjEzOTUKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+ML Engineer with 5 years of experience in machine learning.
+
+EXPERIENCE
+ML Engineer | AI Solutions | 2019 - Present
+- Developed machine learning models
+- Used Python for data processing
+- Performed data analysis
+- Deployed on AWS
+
+Data Scientist | AI Lab | 2017 - 2019
+- Built machine learning models
+
+EDUCATION
+Master of Science in Machine Learning | University | 2017
+
+SKILLS
+- Python (Expert)
+- Machine Learning (Expert)
+- Data Analysis (Expert)
+- AWS (Advanced)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+        <record id="demo_applicant_ethan_brown" model="hr.applicant">
+            <field name="partner_name">Ethan Brown</field>
+            <field name="email_from">ethan.brown@example.com</field>
+            <field name="job_id" ref="demo_job_data_scientist" />
+            <field name="ai_screening_id" ref="demo_screening_ml_engineer" />
+            <field name="resume">JVBERi0xLjQKMSAwIG9iago8PCAvVHlwZSAvQ2F0YWxvZyAvUGFnZXMgMiAwIFIgPj4KZW5kb2JqCjIgMCBvYmoKPDwgL1R5cGUgL1BhZ2VzIC9LaWRzIFszIDAgUl0gL0NvdW50IDEgPj4KZW5kb2JqCjMgMCBvYmoKPDwgL1R5cGUgL1BhZ2UgL1BhcmVudCAyIDAgUiAvTWVkaWFCb3ggWzAgMCA2MTIgNzkyXSAvQ29udGVudHMgNCAwIFIgL1Jlc291cmNlcyA8PCAvRm9udCA8PCAvRjEgPDwgL1R5cGUgL0ZvbnQgL1N1YnR5cGUgL1R5cGUxIC9CYXNlRm9udCAvSGVsdmV0aWNhID4+ID4+ID4+ID4+CmVuZG9iago0IDAgb2JqCjw8IC9MZW5ndGggMTE1MyA+PgpzdHJlYW0KQlQKL0YxIDEyIFRmCjEwMCA3MDAgVGQKKEF2YSBKYWNrc29uKSBUagowIC0yMCBUZAooUFJPRkVTU0lPTkFMIFNVTU1BUlkpIFRqCjAgLTE0IFRkCihNTCBFbmdpbmVlciB3aXRoIDUgeWVhcnMgb2YgZXhwZXJpZW5jZSBpbiBtYWNoaW5lIGxlYXJuaW5nLikgVGoKMCAtMTQgVGQKKEVYUEVSSUVOQ0UpIFRqCjAgLTE0IFRkCihNTCBFbmdpbmVlciB8IEFJIFNvbHV0aW9ucyB8IDIwMTkgLSBQcmVzZW50KSBUagowIC0xNCBUZAooLSBEZXZlbG9wZWQgbWFjaGluZSBsZWFybmluZyBtb2RlbHMpIFRqCjAgLTE0IFRkCigtIFVzZWQgUHl0aG9uIGZvciBkYXRhIHByb2Nlc3NpbmcpIFRqCjAgLTE0IFRkCigtIFBlcmZvcm1lZCBkYXRhIGFuYWx5c2lzKSBUagowIC0xNCBUZAooLSBEZXBsb3llZCBvbiBBV1MpIFRqCjAgLTE0IFRkCihEYXRhIFNjaWVudGlzdCB8IEFJIExhYiB8IDIwMTcgLSAyMDE5KSBUagowIC0xNCBUZAooLSBCdWlsdCBtYWNoaW5lIGxlYXJuaW5nIG1vZGVscykKVGoKMCAtMTQgVGQKKEVEVUNBVElPTikgVGoKMCAtMTQgVGQKKE1hc3RlciBvZiBTY2llbmNlIGluIE1hY2hpbmUgTGVhcm5pbmcgfCBVbml2ZXJzaXR5IHwgMjAxNykgVGoKMCAtMTQgVGQKKFNLSUxMUykgVGoKMCAtMTQgVGQKKC0gUHl0aG9uIFwoRXhwZXJ0XCkpIFRqCjAgLTE0IFRkCigtIE1hY2hpbmUgTGVhcm5pbmcgXChFeHBlcnRcKSkgVGoKMCAtMTQgVGQKKC0gRGF0YSBBbmFseXNpcyBcKEV4cGVydFwpKSBUagowIC0xNCBUZAooLSBBV1MgXChBZHZhbmNlZFwpKSBUagowIC0xNCBUZApFVAplbmRzdHJlYW0KZW5kb2JqCnhyZWYKMCA1CjAwMDAwMDAwMDAgNjU1MzUgZiAKMDAwMDAwMDAwOSAwMDAwMCBuIAowMDAwMDAwMDU4IDAwMDAwIG4gCjAwMDAwMDAxMTUgMDAwMDAgbiAKMDAwMDAwMDI5MCAwMDAwMCBuIAp0cmFpbGVyCjw8IC9TaXplIDUgL1Jvb3QgMSAwIFIgPj4Kc3RhcnR4cmVmCjEzOTUKJSVFT0Y=</field>
+            <field name="resume_text">PROFESSIONAL SUMMARY
+ML Engineer with 4 years of experience.
+
+EXPERIENCE
+ML Engineer | AI Company | 2020 - Present
+- Developed ML models using Python
+- Performed data analysis
+- Used AWS for deployment
+
+EDUCATION
+Master of Science in Data Science | University | 2020
+
+SKILLS
+- Python (Advanced)
+- Machine Learning (Advanced)
+- Data Analysis (Advanced)
+- AWS (Intermediate)</field>
+            <field name="ai_score">0.0</field>
+        </record>
+
+        <!-- Additional Job Positions -->
+        <record id="demo_job_network_engineer" model="hr.job">
+            <field name="name">Network Engineer</field>
+            <field name="description">We are seeking a Network Engineer to design, implement, and maintain our network infrastructure. You will be responsible for network security, troubleshooting network issues, configuring routers and switches, and ensuring network reliability. Experience with network protocols, VPN technologies, firewall management, and network monitoring tools is required.</field>
+        </record>
+        <record id="demo_job_systems_administrator" model="hr.job">
+            <field name="name">Systems Administrator</field>
+            <field name="description">Join our IT operations team as a Systems Administrator. You will manage servers, maintain system security, perform backups, monitor system performance, and ensure high availability of IT infrastructure. Experience with Linux/Windows server administration, scripting, virtualization, and cloud platforms is essential.</field>
+        </record>
+        <record id="demo_job_data_engineer" model="hr.job">
+            <field name="name">Data Engineer</field>
+            <field name="description">We need a Data Engineer to build and maintain our data infrastructure. You will design data pipelines, optimize data processing workflows, manage data warehouses, and ensure data quality. Experience with ETL processes, big data technologies (Spark, Hadoop), SQL, Python, and cloud data platforms is required.</field>
+        </record>
+        <record id="demo_job_cybersecurity_analyst" model="hr.job">
+            <field name="name">Cybersecurity Analyst</field>
+            <field name="description">Join our security team as a Cybersecurity Analyst to protect our organization from cyber threats. You will monitor security events, conduct vulnerability assessments, respond to security incidents, and implement security controls. Knowledge of security frameworks, threat intelligence, SIEM tools, and penetration testing is required.</field>
+        </record>
+        <record id="demo_job_frontend_lead" model="hr.job">
+            <field name="name">Frontend Lead Developer</field>
+            <field name="description">Lead our frontend development team in building exceptional user experiences. You will architect frontend solutions, guide team members, make technical decisions, and ensure code quality. Strong expertise in React, JavaScript, TypeScript, modern frontend tooling, and team leadership is essential.</field>
+        </record>
+        <record id="demo_job_backend_lead" model="hr.job">
+            <field name="name">Backend Lead Developer</field>
+            <field name="description">Lead our backend development team in building scalable server-side applications. You will design APIs, optimize database performance, make architectural decisions, and mentor developers. Expertise in Python, Node.js, API design, microservices, databases, and team leadership is required.</field>
+        </record>
+        <record id="demo_job_software_architect" model="hr.job">
+            <field name="name">Software Architect</field>
+            <field name="description">We are seeking a Software Architect to design and guide the technical direction of our software systems. You will create system architectures, evaluate technologies, define technical standards, and collaborate with teams to implement solutions. Deep expertise in software design patterns, system architecture, cloud platforms, and multiple programming languages is required.</field>
+        </record>
+        <record id="demo_job_it_manager" model="hr.job">
+            <field name="name">IT Manager</field>
+            <field name="description">Lead our IT department as an IT Manager. You will manage IT operations, oversee technology projects, manage budgets, ensure IT compliance, and lead a team of IT professionals. Strong leadership skills, project management experience, strategic thinking, and technical knowledge are essential.</field>
+        </record>
+        <record id="demo_job_blockchain_developer" model="hr.job">
+            <field name="name">Blockchain Developer</field>
+            <field name="description">Join our blockchain team to develop decentralized applications and smart contracts. You will work on blockchain solutions, write smart contracts, develop DApps, and integrate blockchain technology. Experience with Solidity, Web3, blockchain platforms (Ethereum, Hyperledger), and cryptocurrency technologies is required.</field>
+        </record>
+        <record id="demo_job_game_developer" model="hr.job">
+            <field name="name">Game Developer</field>
+            <field name="description">We are looking for a Game Developer to create engaging gaming experiences. You will develop games using game engines (Unity, Unreal), implement game mechanics, optimize performance, and work on game design. Experience with C#, C++, game engines, 3D graphics, and game development pipelines is essential.</field>
+        </record>
+
+        <!-- Additional AI Screening Records -->
+        <record id="demo_screening_mobile_developer" model="ai.resume.screening">
+            <field name="name">Screening for Mobile App Developer</field>
+            <field name="job_position_id" ref="demo_job_mobile_developer" />
+            <field name="min_years_experience">3</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_javascript'), ref('demo_keyword_react')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">6</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">weekly</field>
+            <field name="max_candidates_in_email">35</field>
+            <field name="high_score_threshold">70.0</field>
+            <field name="keyword_score_weight">50.0</field>
+            <field name="experience_score_weight">25.0</field>
+            <field name="structure_score_weight">15.0</field>
+            <field name="ai_prediction_weight">10.0</field>
+        </record>
+        <record id="demo_screening_uiux_designer" model="ai.resume.screening">
+            <field name="name">Screening for UI/UX Designer</field>
+            <field name="job_position_id" ref="demo_job_uiux_designer" />
+            <field name="min_years_experience">2</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_project_management')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">False</field>
+            <field name="auto_train_threshold">10</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">monthly</field>
+            <field name="max_candidates_in_email">25</field>
+            <field name="high_score_threshold">75.0</field>
+            <field name="keyword_score_weight">30.0</field>
+            <field name="experience_score_weight">40.0</field>
+            <field name="structure_score_weight">20.0</field>
+            <field name="ai_prediction_weight">10.0</field>
+        </record>
+        <record id="demo_screening_product_manager" model="ai.resume.screening">
+            <field name="name">Screening for Product Manager</field>
+            <field name="job_position_id" ref="demo_job_product_manager" />
+            <field name="min_years_experience">4</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_project_management')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">8</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">weekly</field>
+            <field name="max_candidates_in_email">20</field>
+            <field name="high_score_threshold">80.0</field>
+            <field name="keyword_score_weight">25.0</field>
+            <field name="experience_score_weight">45.0</field>
+            <field name="structure_score_weight">15.0</field>
+            <field name="ai_prediction_weight">15.0</field>
+        </record>
+        <record id="demo_screening_qa_engineer" model="ai.resume.screening">
+            <field name="name">Screening for QA Engineer</field>
+            <field name="job_position_id" ref="demo_job_qa_engineer" />
+            <field name="min_years_experience">3</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_python'), ref('demo_keyword_javascript')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">7</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">daily</field>
+            <field name="max_candidates_in_email">30</field>
+            <field name="high_score_threshold">72.0</field>
+            <field name="keyword_score_weight">40.0</field>
+            <field name="experience_score_weight">30.0</field>
+            <field name="structure_score_weight">20.0</field>
+            <field name="ai_prediction_weight">10.0</field>
+        </record>
+        <record id="demo_screening_security_engineer" model="ai.resume.screening">
+            <field name="name">Screening for Security Engineer</field>
+            <field name="job_position_id" ref="demo_job_security_engineer" />
+            <field name="min_years_experience">4</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_python'), ref('demo_keyword_aws')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">False</field>
+            <field name="auto_train_threshold">12</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">weekly</field>
+            <field name="max_candidates_in_email">20</field>
+            <field name="high_score_threshold">78.0</field>
+            <field name="keyword_score_weight">35.0</field>
+            <field name="experience_score_weight">35.0</field>
+            <field name="structure_score_weight">15.0</field>
+            <field name="ai_prediction_weight">15.0</field>
+        </record>
+        <record id="demo_screening_technical_lead" model="ai.resume.screening">
+            <field name="name">Screening for Technical Lead</field>
+            <field name="job_position_id" ref="demo_job_technical_lead" />
+            <field name="min_years_experience">6</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_python'), ref('demo_keyword_javascript'), ref('demo_keyword_project_management')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">5</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">weekly</field>
+            <field name="max_candidates_in_email">15</field>
+            <field name="high_score_threshold">85.0</field>
+            <field name="keyword_score_weight">30.0</field>
+            <field name="experience_score_weight">40.0</field>
+            <field name="structure_score_weight">10.0</field>
+            <field name="ai_prediction_weight">20.0</field>
+        </record>
+        <record id="demo_screening_cloud_architect" model="ai.resume.screening">
+            <field name="name">Screening for Cloud Solutions Architect</field>
+            <field name="job_position_id" ref="demo_job_cloud_architect" />
+            <field name="min_years_experience">5</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_aws'), ref('demo_keyword_docker'), ref('demo_keyword_python')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">6</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">monthly</field>
+            <field name="max_candidates_in_email">18</field>
+            <field name="high_score_threshold">82.0</field>
+            <field name="keyword_score_weight">40.0</field>
+            <field name="experience_score_weight">35.0</field>
+            <field name="structure_score_weight">10.0</field>
+            <field name="ai_prediction_weight">15.0</field>
+        </record>
+        <record id="demo_screening_business_analyst" model="ai.resume.screening">
+            <field name="name">Screening for Business Analyst</field>
+            <field name="job_position_id" ref="demo_job_business_analyst" />
+            <field name="min_years_experience">3</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_project_management'), ref('demo_keyword_data_analysis'), ref('demo_keyword_sql')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">8</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">weekly</field>
+            <field name="max_candidates_in_email">25</field>
+            <field name="high_score_threshold">75.0</field>
+            <field name="keyword_score_weight">35.0</field>
+            <field name="experience_score_weight">35.0</field>
+            <field name="structure_score_weight">15.0</field>
+            <field name="ai_prediction_weight">15.0</field>
+        </record>
+        <record id="demo_screening_scrum_master" model="ai.resume.screening">
+            <field name="name">Screening for Scrum Master</field>
+            <field name="job_position_id" ref="demo_job_scrum_master" />
+            <field name="min_years_experience">2</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_project_management')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">False</field>
+            <field name="auto_train_threshold">10</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">monthly</field>
+            <field name="max_candidates_in_email">20</field>
+            <field name="high_score_threshold">70.0</field>
+            <field name="keyword_score_weight">20.0</field>
+            <field name="experience_score_weight">50.0</field>
+            <field name="structure_score_weight">20.0</field>
+            <field name="ai_prediction_weight">10.0</field>
+        </record>
+        <record id="demo_screening_sre" model="ai.resume.screening">
+            <field name="name">Screening for Site Reliability Engineer</field>
+            <field name="job_position_id" ref="demo_job_site_reliability_engineer" />
+            <field name="min_years_experience">4</field>
+            <field name="keyword_ids" eval="[Command.set([ref('demo_keyword_python'), ref('demo_keyword_docker'), ref('demo_keyword_aws')])]" />
+            <field name="model_trained">True</field>
+            <field name="auto_screen_enabled">True</field>
+            <field name="auto_train_enabled">True</field>
+            <field name="auto_train_threshold">7</field>
+            <field name="email_notification_enabled">True</field>
+            <field name="summary_notification_frequency">weekly</field>
+            <field name="max_candidates_in_email">22</field>
+            <field name="high_score_threshold">80.0</field>
+            <field name="keyword_score_weight">35.0</field>
+            <field name="experience_score_weight">35.0</field>
+            <field name="structure_score_weight">15.0</field>
+            <field name="ai_prediction_weight">15.0</field>
+        </record>
+
+        <!-- Applicants for Mobile App Developer -->
+        <record id="demo_applicant_sophia_chen" model="hr.applicant">
+            <field name="partner_name">Sophia Chen</field>
+            <field name="email_from">sophia.chen@example.com</field>
+            <field name="partner_phone">+1 (555) 234-5678</field>
+            <field name="job_id" ref="demo_job_mobile_developer" />
+            <field name="ai_screening_id" ref="demo_screening_mobile_developer" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Mobile App Developer with 4 years of experience developing iOS and Android applications. Expert in React Native and native mobile development.
+
+EXPERIENCE
+Senior Mobile Developer | Mobile Tech Inc | 2020 - Present
+- Developed cross-platform mobile apps using React Native and JavaScript
+- Built native iOS apps using Swift
+- Implemented complex UI components and animations
+- Published 10+ apps to App Store and Google Play
+
+Mobile Developer | Startup Mobile | 2018 - 2020
+- Created mobile applications using React Native
+- Worked with JavaScript and React frameworks
+- Integrated RESTful APIs into mobile apps
+
+EDUCATION
+Bachelor of Science in Computer Science | Tech University | 2018
+
+SKILLS
+- React Native (Expert)
+- JavaScript (Expert)
+- Swift (Advanced)
+- iOS Development (Advanced)
+- Android Development (Advanced)</field>
+            <field name="ai_score">88.2</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-10 14:30:00</field>
+        </record>
+        <record id="demo_applicant_lucas_martinez" model="hr.applicant">
+            <field name="partner_name">Lucas Martinez</field>
+            <field name="email_from">lucas.martinez@example.com</field>
+            <field name="partner_phone">+1 (555) 345-6789</field>
+            <field name="job_id" ref="demo_job_mobile_developer" />
+            <field name="ai_screening_id" ref="demo_screening_mobile_developer" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Mobile Developer with 3 years of experience in React Native and Flutter development.
+
+EXPERIENCE
+Mobile Developer | App Solutions | 2021 - Present
+- Built mobile apps using React Native
+- Developed with JavaScript and React
+- Created user-friendly interfaces
+
+EDUCATION
+Bachelor of Science in Software Engineering | University | 2021
+
+SKILLS
+- React Native (Advanced)
+- JavaScript (Advanced)
+- Flutter (Intermediate)</field>
+            <field name="ai_score">74.5</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-11 10:15:00</field>
+        </record>
+
+        <!-- Applicants for UI/UX Designer -->
+        <record id="demo_applicant_emma_williams" model="hr.applicant">
+            <field name="partner_name">Emma Williams</field>
+            <field name="email_from">emma.williams@example.com</field>
+            <field name="partner_phone">+1 (555) 456-7890</field>
+            <field name="job_id" ref="demo_job_uiux_designer" />
+            <field name="ai_screening_id" ref="demo_screening_uiux_designer" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+UI/UX Designer with 5 years of experience creating intuitive and beautiful user interfaces. Expert in user-centered design and design systems.
+
+EXPERIENCE
+Senior UI/UX Designer | Design Studio | 2019 - Present
+- Led design projects and managed design teams
+- Created wireframes, prototypes, and final designs
+- Conducted user research and usability testing
+- Managed project timelines and deliverables
+
+UI/UX Designer | Creative Agency | 2017 - 2019
+- Designed web and mobile interfaces
+- Created design systems and style guides
+- Collaborated with developers on implementation
+
+EDUCATION
+Bachelor of Design in Interaction Design | Design School | 2017
+
+SKILLS
+- UI/UX Design (Expert)
+- Figma (Expert)
+- User Research (Advanced)
+- Project Management (Advanced)</field>
+            <field name="ai_score">82.7</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-09 16:45:00</field>
+        </record>
+        <record id="demo_applicant_noah_taylor" model="hr.applicant">
+            <field name="partner_name">Noah Taylor</field>
+            <field name="email_from">noah.taylor@example.com</field>
+            <field name="partner_phone">+1 (555) 567-8901</field>
+            <field name="job_id" ref="demo_job_uiux_designer" />
+            <field name="ai_screening_id" ref="demo_screening_uiux_designer" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+UI Designer with 2 years of experience in creating modern web interfaces.
+
+EXPERIENCE
+UI Designer | Web Design Co | 2022 - Present
+- Designed user interfaces for web applications
+- Created wireframes and mockups
+- Worked on project delivery
+
+EDUCATION
+Bachelor of Arts in Graphic Design | Art College | 2022
+
+SKILLS
+- UI Design (Advanced)
+- Figma (Advanced)
+- Project Management (Basic)</field>
+            <field name="ai_score">68.3</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-12 11:20:00</field>
+        </record>
+
+        <!-- Applicants for Product Manager -->
+        <record id="demo_applicant_olivia_anderson" model="hr.applicant">
+            <field name="partner_name">Olivia Anderson</field>
+            <field name="email_from">olivia.anderson@example.com</field>
+            <field name="partner_phone">+1 (555) 678-9012</field>
+            <field name="job_id" ref="demo_job_product_manager" />
+            <field name="ai_screening_id" ref="demo_screening_product_manager" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Product Manager with 6 years of experience driving product strategy and execution. Expert in agile methodologies and cross-functional collaboration.
+
+EXPERIENCE
+Senior Product Manager | Tech Corp | 2018 - Present
+- Led product strategy and roadmap planning
+- Managed product development lifecycle
+- Collaborated with engineering, design, and business teams
+- Drove product launches and feature releases
+- Managed multiple projects simultaneously
+
+Product Manager | Software Solutions | 2016 - 2018
+- Defined product requirements and specifications
+- Led agile project management processes
+- Analyzed user data and market research
+
+EDUCATION
+MBA in Product Management | Business School | 2016
+
+SKILLS
+- Product Management (Expert)
+- Project Management (Expert)
+- Agile Methodologies (Expert)
+- Strategy & Planning (Advanced)</field>
+            <field name="ai_score">91.5</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-08 09:30:00</field>
+        </record>
+        <record id="demo_applicant_liam_thomas" model="hr.applicant">
+            <field name="partner_name">Liam Thomas</field>
+            <field name="email_from">liam.thomas@example.com</field>
+            <field name="partner_phone">+1 (555) 789-0123</field>
+            <field name="job_id" ref="demo_job_product_manager" />
+            <field name="ai_screening_id" ref="demo_screening_product_manager" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Product Manager with 4 years of experience managing digital products.
+
+EXPERIENCE
+Product Manager | Digital Products | 2020 - Present
+- Managed product development and launches
+- Worked on project planning and execution
+- Coordinated with development teams
+
+EDUCATION
+Bachelor of Business Administration | University | 2020
+
+SKILLS
+- Product Management (Advanced)
+- Project Management (Advanced)</field>
+            <field name="ai_score">76.8</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-10 15:00:00</field>
+        </record>
+
+        <!-- Applicants for QA Engineer -->
+        <record id="demo_applicant_isabella_garcia" model="hr.applicant">
+            <field name="partner_name">Isabella Garcia</field>
+            <field name="email_from">isabella.garcia@example.com</field>
+            <field name="partner_phone">+1 (555) 890-1234</field>
+            <field name="job_id" ref="demo_job_qa_engineer" />
+            <field name="ai_screening_id" ref="demo_screening_qa_engineer" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+QA Engineer with 5 years of experience in software testing and quality assurance. Expert in test automation and quality processes.
+
+EXPERIENCE
+Senior QA Engineer | Quality Tech | 2019 - Present
+- Designed and executed comprehensive test plans
+- Developed automated test scripts using Python and JavaScript
+- Performed manual and automated testing
+- Identified and reported bugs, tracked resolution
+- Led QA processes and best practices
+
+QA Engineer | Software Testing Inc | 2017 - 2019
+- Executed test cases and test scenarios
+- Wrote test automation scripts in Python
+- Performed regression testing
+
+EDUCATION
+Bachelor of Science in Computer Science | University | 2017
+
+SKILLS
+- Test Automation (Expert)
+- Python (Advanced)
+- JavaScript (Advanced)
+- Manual Testing (Expert)
+- Quality Assurance (Expert)</field>
+            <field name="ai_score">86.4</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-09 13:20:00</field>
+        </record>
+        <record id="demo_applicant_mason_rodriguez" model="hr.applicant">
+            <field name="partner_name">Mason Rodriguez</field>
+            <field name="email_from">mason.rodriguez@example.com</field>
+            <field name="partner_phone">+1 (555) 901-2345</field>
+            <field name="job_id" ref="demo_job_qa_engineer" />
+            <field name="ai_screening_id" ref="demo_screening_qa_engineer" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+QA Engineer with 3 years of experience in software testing.
+
+EXPERIENCE
+QA Engineer | Testing Solutions | 2021 - Present
+- Performed manual testing of web applications
+- Wrote test cases and test documentation
+- Used Python for basic test automation
+- Worked with JavaScript testing frameworks
+
+EDUCATION
+Bachelor of Science in Software Engineering | Tech College | 2021
+
+SKILLS
+- Manual Testing (Advanced)
+- Python (Intermediate)
+- JavaScript (Intermediate)
+- Test Automation (Intermediate)</field>
+            <field name="ai_score">71.2</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-11 14:10:00</field>
+        </record>
+
+        <!-- Applicants for Technical Lead -->
+        <record id="demo_applicant_amelia_lee" model="hr.applicant">
+            <field name="partner_name">Amelia Lee</field>
+            <field name="email_from">amelia.lee@example.com</field>
+            <field name="partner_phone">+1 (555) 012-3456</field>
+            <field name="job_id" ref="demo_job_technical_lead" />
+            <field name="ai_screening_id" ref="demo_screening_technical_lead" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Technical Lead with 8 years of experience leading development teams and architecting software solutions. Expert in multiple technologies and team leadership.
+
+EXPERIENCE
+Technical Lead | Engineering Corp | 2018 - Present
+- Led team of 8 developers across multiple projects
+- Architected scalable software solutions
+- Made technical decisions and set coding standards
+- Mentored junior and mid-level developers
+- Managed project timelines and technical deliverables
+
+Senior Software Developer | Tech Solutions | 2016 - 2018
+- Developed complex software systems using Python and JavaScript
+- Led project management initiatives
+- Collaborated with cross-functional teams
+
+Software Developer | Startup Tech | 2014 - 2016
+- Built web applications using Python and JavaScript
+- Worked on agile development processes
+
+EDUCATION
+Master of Science in Computer Science | Tech University | 2014
+
+SKILLS
+- Python (Expert)
+- JavaScript (Expert)
+- Team Leadership (Expert)
+- Project Management (Expert)
+- Software Architecture (Expert)</field>
+            <field name="ai_score">94.2</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-07 10:00:00</field>
+        </record>
+        <record id="demo_applicant_henry_white" model="hr.applicant">
+            <field name="partner_name">Henry White</field>
+            <field name="email_from">henry.white@example.com</field>
+            <field name="partner_phone">+1 (555) 123-4567</field>
+            <field name="job_id" ref="demo_job_technical_lead" />
+            <field name="ai_screening_id" ref="demo_screening_technical_lead" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Technical Lead with 6 years of experience in software development and team leadership.
+
+EXPERIENCE
+Technical Lead | Development Team | 2020 - Present
+- Led development team of 5 developers
+- Designed system architecture
+- Managed technical projects
+- Mentored team members
+
+Senior Developer | Software Company | 2018 - 2020
+- Developed applications using Python and JavaScript
+- Participated in project management
+
+EDUCATION
+Bachelor of Science in Computer Science | University | 2018
+
+SKILLS
+- Python (Advanced)
+- JavaScript (Advanced)
+- Team Leadership (Advanced)
+- Project Management (Advanced)</field>
+            <field name="ai_score">81.7</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-09 11:30:00</field>
+        </record>
+
+        <!-- Applicants for Cloud Architect -->
+        <record id="demo_applicant_charlotte_harris" model="hr.applicant">
+            <field name="partner_name">Charlotte Harris</field>
+            <field name="email_from">charlotte.harris@example.com</field>
+            <field name="partner_phone">+1 (555) 234-5678</field>
+            <field name="job_id" ref="demo_job_cloud_architect" />
+            <field name="ai_screening_id" ref="demo_screening_cloud_architect" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Cloud Solutions Architect with 7 years of experience designing and implementing cloud infrastructure. Expert in AWS, Docker, and scalable architectures.
+
+EXPERIENCE
+Cloud Architect | Cloud Solutions Inc | 2019 - Present
+- Designed and implemented cloud architectures on AWS
+- Managed Docker containerization strategies
+- Optimized cloud costs and performance
+- Architected highly available and scalable systems
+- Used Python for infrastructure automation
+
+Cloud Engineer | Infrastructure Tech | 2017 - 2019
+- Deployed applications on AWS
+- Managed Docker containers
+- Automated infrastructure using Python scripts
+
+EDUCATION
+Master of Science in Cloud Computing | Tech University | 2017
+
+SKILLS
+- AWS (Expert)
+- Docker (Expert)
+- Cloud Architecture (Expert)
+- Python (Advanced)
+- Infrastructure as Code (Advanced)</field>
+            <field name="ai_score">89.6</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-08 14:15:00</field>
+        </record>
+        <record id="demo_applicant_alexander_clark" model="hr.applicant">
+            <field name="partner_name">Alexander Clark</field>
+            <field name="email_from">alexander.clark@example.com</field>
+            <field name="partner_phone">+1 (555) 345-6789</field>
+            <field name="job_id" ref="demo_job_cloud_architect" />
+            <field name="ai_screening_id" ref="demo_screening_cloud_architect" />
+            <field name="resume_text">PROFESSIONAL SUMMARY
+Cloud Architect with 5 years of experience in AWS and cloud solutions.
+
+EXPERIENCE
+Cloud Architect | Cloud Services | 2021 - Present
+- Designed cloud solutions on AWS
+- Worked with Docker for containerization
+- Used Python for automation
+
+Cloud Engineer | Tech Infrastructure | 2019 - 2021
+- Managed AWS infrastructure
+- Deployed Docker containers
+
+EDUCATION
+Bachelor of Science in Computer Science | University | 2019
+
+SKILLS
+- AWS (Advanced)
+- Docker (Advanced)
+- Python (Intermediate)
+- Cloud Architecture (Advanced)</field>
+            <field name="ai_score">78.3</field>
+            <field name="auto_screened">True</field>
+            <field name="screening_date">2024-01-10 16:00:00</field>
+        </record>
+    </data>
+</odoo>

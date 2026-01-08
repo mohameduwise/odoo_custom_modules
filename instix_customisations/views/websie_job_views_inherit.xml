@@ -1,0 +1,91 @@
+<odoo>
+    <template id="job_apply_inherit_documents"
+              inherit_id="website_hr_recruitment.apply">
+
+        <!-- Insert AFTER existing Resume field -->
+        <xpath expr="//input[@name='Resume']/ancestor::div[contains(@class,'s_website_form_field')]"
+               position="after">
+
+            <!-- Documents Section Title -->
+            <div class="col-12 mt-4 mb-2">
+                <h4 class="fw-bold">Supporting Documents</h4>
+                <p class="text-muted small">
+                    Upload clear and readable documents (PDF / JPG / PNG)
+                </p>
+                <hr/>
+            </div>
+
+            <!-- IC / Passport -->
+            <div class="col-12 py-2 s_website_form_field s_website_form_custom"
+                 data-type="binary">
+                <div class="row">
+                    <label class="col-4 col-sm-auto s_website_form_label"
+                           style="width: 200px">
+                        IC / Passport Copy
+                    </label>
+                    <div class="col-sm">
+                        <input type="file"
+                               class="form-control s_website_form_input"
+                               name="ic_passport_copy"
+                               accept=".pdf,.jpg,.jpeg,.png"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Resume Attachment -->
+<!--            <div class="col-12 py-2 s_website_form_field s_website_form_custom"-->
+<!--                 data-type="binary">-->
+<!--                <div class="row">-->
+<!--                    <label class="col-4 col-sm-auto s_website_form_label"-->
+<!--                           style="width: 200px">-->
+<!--                        Resume-->
+<!--                    </label>-->
+<!--                    <div class="col-sm">-->
+<!--                        <input type="file"-->
+<!--                               class="form-control s_website_form_input"-->
+<!--                               name="resume_attachment"-->
+<!--                               accept=".pdf,.doc,.docx"/>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <!-- Degree Certificate -->
+            <div class="col-12 py-2 s_website_form_field s_website_form_custom"
+                 data-type="binary">
+                <div class="row">
+                    <label class="col-4 col-sm-auto s_website_form_label"
+                           style="width: 200px">
+                        Degree Certificate
+                    </label>
+                    <div class="col-sm">
+                        <input type="file"
+                               class="form-control s_website_form_input"
+                               name="degree_certificate"
+                               accept=".pdf,.jpg,.jpeg,.png"/>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Courses -->
+            <div class="col-12 py-2 s_website_form_field s_website_form_custom"
+                 data-type="binary">
+                <div class="row">
+                    <label class="col-4 col-sm-auto s_website_form_label"
+                           style="width: 200px">
+                        Other Courses Certificate
+                    </label>
+                    <div class="col-sm">
+                        <input type="file"
+                               class="form-control s_website_form_input"
+                               name="other_certificate"
+                               accept=".pdf,.jpg,.jpeg,.png"/>
+                    </div>
+                </div>
+            </div>
+
+        </xpath>
+        <xpath expr="//input[@id='recruitment6']" position="attributes">
+            <attribute name="name">resume</attribute>
+        </xpath>
+    </template>
+</odoo>

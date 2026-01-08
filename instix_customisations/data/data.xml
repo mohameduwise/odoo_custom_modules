@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_send_analytical_survey_server" model="ir.actions.server">
+        <field name="name">Send Analytical Skills Survey</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.sudo().action_send_analytical_skills_survey()
+        </field>
+    </record>
+
+
+    <record id="automation_send_analytical_survey" model="base.automation">
+        <field name="name">Send Analytical Skills Survey</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="trigger">on_write</field>
+        <field name="trigger_field_ids" eval="[(6, 0, [ref('hr_recruitment.field_hr_applicant__stage_id')])]"/>
+        <field name="filter_domain">[('stage_id.name', '=', 'Analytical Skills Screening')]</field>
+        <field name="action_server_ids" eval="[(6, 0, [ref('action_send_analytical_survey_server')])]"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="action_send_logic_survey_server" model="ir.actions.server">
+        <field name="name">Send Logic Survey</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.sudo().action_send_logical_skills_survey()
+        </field>
+    </record>
+
+
+    <record id="automation_send_logic_survey" model="base.automation">
+        <field name="name">Send Logic Survey</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="trigger">on_write</field>
+        <field name="trigger_field_ids" eval="[(6, 0, [ref('hr_recruitment.field_hr_applicant__stage_id')])]"/>
+        <field name="filter_domain">[('stage_id.name', '=', 'Logical Skills Screening')]</field>
+        <field name="action_server_ids" eval="[(6, 0, [ref('action_send_logic_survey_server')])]"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="action_send_gems_stone_survey_server" model="ir.actions.server">
+        <field name="name">Send Gems Stone Survey</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.sudo().action_send_gems_stone_survey()
+        </field>
+    </record>
+
+
+    <record id="automation_send_gems_stone_survey" model="base.automation">
+        <field name="name">Send Gems Stone Survey</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="trigger">on_write</field>
+        <field name="trigger_field_ids" eval="[(6, 0, [ref('hr_recruitment.field_hr_applicant__stage_id')])]"/>
+        <field name="filter_domain">[('stage_id.name', '=', 'GEMS Stone Screening')]</field>
+        <field name="action_server_ids" eval="[(6, 0, [ref('action_send_gems_stone_survey_server')])]"/>
+        <field name="active" eval="True"/>
+    </record>
+
+
+        <!-- Enable website form for hr.applicant -->
+        <record id="hr_recruitment.model_hr_applicant" model="ir.model">
+            <field name="website_form_key">apply_job</field>
+            <field name="website_form_access">True</field>
+            <field name="website_form_label">Apply for a Job</field>
+        </record>
+
+        <!-- Whitelist fields allowed from website form -->
+        <function model="ir.model.fields" name="formbuilder_whitelist">
+            <value>hr.applicant</value>
+            <value eval="[
+            'email_from',
+            'partner_name',
+            'partner_phone',
+            'job_id',
+            'department_id',
+            'linkedin_profile',
+            'applicant_properties',
+            'ic_passport_copy',
+            'resume',
+            'degree_certificate',
+            'other_certificate'
+        ]"/>
+        </function>
+
+</odoo>

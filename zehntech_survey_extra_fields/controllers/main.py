@@ -24,7 +24,7 @@ class SurveyFileController(http.Controller):
         except Exception as e:
             return json.dumps({'error': str(e)})
     
-    @http.route('/survey/save_signature', type='json', auth='public', methods=['POST'])
+    @http.route('/survey/save_signature', type='jsonrpc', auth='public', methods=['POST'])
     def save_signature(self, signature_data, question_id, **kwargs):
         try:
             if not signature_data or not signature_data.startswith('data:image/'):
