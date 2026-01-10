@@ -71,7 +71,8 @@
                         <page string="Model Info">
                             <group>
                                 <field name="model_data" readonly="1" widget="binary"/>
-                                <label string="This model is trained using:"/>
+                                <label class="o_form_label"
+                                       string="This model is trained using:"/>
                                 <ul>
                                     <li>Applicant resumes (auto-labelled)</li>
                                     <li>Manually uploaded resumes (good / bad)</li>
