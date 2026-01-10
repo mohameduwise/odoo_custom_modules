@@ -19,7 +19,7 @@ Designed for enterprise hiring workflows with manual HR control.
     "website": "https://www.instix.com",
 
     "category": "Human Resources",
-    "version": "19.0.3",
+    "version": "19.0.5",
     "license": "LGPL-3",
 
     "depends": [
