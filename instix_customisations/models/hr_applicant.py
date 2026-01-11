@@ -244,7 +244,6 @@ class HrApplicant(models.Model):
 
     def action_send_analytical_skills_survey(self):
         self.ensure_one()
-        odoobot = self.env.ref('base.partner_root')
         # if an applicant does not already has associated partner_id create it
         if not self.partner_id:
             if not self.partner_name:
@@ -268,7 +267,7 @@ class HrApplicant(models.Model):
         })
 
         # 2️⃣ Call invite action (send email + create user_input)
-        invite.with_user(odoobot).action_invite()
+        invite.with_user(self.user_id).action_invite()
 
         return True
     
@@ -276,7 +275,6 @@ class HrApplicant(models.Model):
 
     def action_send_logical_skills_survey(self):
         self.ensure_one()
-        odoobot = self.env.ref('base.partner_root')
         # if an applicant does not already has associated partner_id create it
         if not self.partner_id:
             if not self.partner_name:
@@ -300,7 +298,7 @@ class HrApplicant(models.Model):
         })
         
         # 2️⃣ Call invite action (send email + create user_input)
-        invite.with_user(odoobot).action_invite()
+        invite.with_user(self.user_id).action_invite()
 
         return True
     
@@ -308,7 +306,6 @@ class HrApplicant(models.Model):
 
     def action_send_gems_stone_survey(self):
         self.ensure_one()
-        odoobot = self.env.ref('base.partner_root')
         # if an applicant does not already has associated partner_id create it
         if not self.partner_id:
             if not self.partner_name:
@@ -332,19 +329,18 @@ class HrApplicant(models.Model):
         })
 
         # 2️⃣ Call invite action (send email + create user_input)
-        invite.with_user(odoobot).action_invite()
+        invite.with_user(self.user_id).action_invite()
 
         return True
     
 
     def action_send_level_2_failed_email(self):
         self.ensure_one()
-        odoobot = self.env.ref('base.partner_root')
         # XML ID of the email template
         template = self.env.ref('instix_customisations.email_level_2_failed', raise_if_not_found=False)
 
         if template:
-            template.with_user(odoobot).send_mail(
+            template.with_user(self.user_id).send_mail(
                 self.id,
                 force_send=True,   # Send immediately
             )

@@ -7,7 +7,6 @@ class SurveyUser_Input(models.Model):
 
     def _mark_done(self):
         res = super()._mark_done()
-        odoobot = self.env.ref('base.partner_root')
         for user_input in self:
             if user_input.applicant_id:
                 if user_input.applicant_id.stage_id.name == 'Analytical Skills Screening':
@@ -21,7 +20,7 @@ class SurveyUser_Input(models.Model):
                                     ('name', '=', 'Logical Skills Screening')
                                 ], limit=1)
                             if next_stage:
-                                user_input.applicant_id.with_user(odoobot).write({
+                                user_input.applicant_id.with_user(user_input.applicant_id.user_id).write({
                                                 'stage_id': next_stage.id
                                             })
 
@@ -42,7 +41,7 @@ class SurveyUser_Input(models.Model):
                                     ('name', '=', 'GEMS Stone Screening')
                                 ], limit=1)
                             if next_stage:
-                                user_input.applicant_id.with_user(odoobot).write({
+                                user_input.applicant_id.with_user(user_input.applicant_id.user_id).write({
                                                 'stage_id': next_stage.id
                                             })
                         else:
@@ -75,7 +74,7 @@ class SurveyUser_Input(models.Model):
                                         ('name', '=', 'OAD Ideal Profile Screening')
                                     ], limit=1)
                                 if next_stage:
-                                    user_input.applicant_id.with_user(odoobot).write({
+                                    user_input.applicant_id.with_user(user_input.applicant_id.user_id).write({
                                                 'stage_id': next_stage.id
                                             })
         return res

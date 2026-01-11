@@ -1,0 +1,28 @@
+<odoo>
+    <record id="survey_user_input_form_inherit" model="ir.ui.view">
+        <field name="name">survey.user.input.form.inherit</field>
+        <field name="model">survey.user_input</field>
+        <field name="inherit_id" ref="survey.survey_user_input_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='page_answers']//list//field[@name='question_id']" position="after">
+                <field name="attachment_id"/>
+                <button name="action_download_attachment"
+                    type="object"
+                    icon="fa-download"
+                    string=""
+                    invisible="not attachment_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="survey_user_input_line_form_inherit" model="ir.ui.view">
+        <field name="name">survey.user_input.line.form.inherit</field>
+        <field name="model">survey.user_input.line</field>
+        <field name="inherit_id" ref="survey.survey_user_input_line_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='answer_type']" position="after">
+                <field name="attachment_id" widget="many2one" options="{'no_open': False}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

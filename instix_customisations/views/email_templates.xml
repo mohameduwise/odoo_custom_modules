@@ -153,10 +153,9 @@
         <field name="name">Applicant Link Mail</field>
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
         <field name="subject">OAD Test Link</field>
-        <field name="email_from">{{object.user_id.email}}</field>
+        <field name="email_from">{{object.user_id.partner_id.email}}</field>
         <field name="email_to">{{object.email_from}}</field>
         <field name="body_html" type="html">
-        <p>haii</p>
             <p>Dear <t t-out="object.partner_name"/>,</p>
             <p>Please use the following link for OAD Test:</p>
 
