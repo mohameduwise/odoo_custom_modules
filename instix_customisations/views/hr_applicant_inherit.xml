@@ -43,6 +43,7 @@
         <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
         <field name="arch" type="xml">
 
+            <!-- Add Score Resume Button in Header -->
             <xpath expr="//header" position="inside">
                 <button name="action_score_resume"
                         string="Score Resume"
@@ -51,16 +52,77 @@
                 />
             </xpath>
 
-            <xpath expr="//group" position="inside">
-                <group>
+            <!-- Add AI Score Fields After Main Group -->
+            <xpath expr="//sheet/group" position="after">
 
-                    <field name="ai_score" widget="percentpie" readonly="1"/>
-                    <field name="ai_score_range" readonly="1"/></group>
+                <!-- AI Score Summary Card -->
+                <group string="AI Resume Scoring" name="ai_scoring_group">
+                    <group>
+                        <field name="ai_score" widget="percentpie"/>
+                        <field name="ai_score_range" widget="badge"
+                               decoration-success="ai_score_range == 'excellent'"
+                               decoration-primary="ai_score_range == 'great'"
+                               decoration-info="ai_score_range == 'good'"
+                               decoration-warning="ai_score_range == 'fair'"
+                               decoration-danger="ai_score_range == 'poor'"/>
+                    </group>
+                    <group>
+                        <field name="extracted_experience_years"
+                               string="Experience (Years)"
+                               widget="float"/>
+                        <field name="stage_name" invisible="1"/>
+                    </group>
+                </group>
+
+                <!-- Detailed Breakdown in Notebook -->
+                <notebook>
+                    <page string="Score Breakdown" name="score_breakdown"
+                          invisible="ai_score == 0">
+
+                        <!-- HTML Score Breakdown -->
+                        <group>
+                            <field name="ai_score_breakdown" widget="html" nolabel="1"/>
+                        </group>
+
+                        <separator string="Detailed Match Analysis"/>
+
+                        <!-- Skills Match Details -->
+                        <group string="Skills Analysis">
+                            <group>
+                                <field name="matched_skills"
+                                       widget="text"
+                                       placeholder="No matched skills"/>
+                            </group>
+                            <group>
+                                <field name="missing_skills"
+                                       widget="text"
+                                       placeholder="No missing skills"/>
+                            </group>
+                        </group>
+
+                        <!-- Keywords Match -->
+                        <group string="Keywords Found">
+                            <field name="matched_keywords"
+                                   widget="text"
+                                   nolabel="1"
+                                   placeholder="No matched keywords"/>
+                        </group>
+
+                    </page>
+
+                    <!-- Resume Text (for debugging/verification) -->
+                    <page string="Extracted Resume Text" name="resume_text"
+                          invisible=" resume_text == False"
+                          groups="hr_recruitment.group_hr_recruitment_manager">
+                        <field name="resume_text" widget="text" nolabel="1"/>
+                    </page>
+                </notebook>
 
             </xpath>
 
         </field>
     </record>
+
     <record id="hr_applicant_kanban_view_ai_score" model="ir.ui.view">
         <field name="name">hr.applicant.kanban.ai.score</field>
         <field name="model">hr.applicant</field>

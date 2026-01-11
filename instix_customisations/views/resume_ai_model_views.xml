@@ -35,8 +35,7 @@
                     <button name="action_train_model"
                             type="object"
                             string="Train AI Model"
-                            class="btn-primary"
-                            icon="fa-cogs"/>
+                            class="btn-primary"/>
                 </header>
 
                 <sheet>
@@ -56,7 +55,7 @@
                         <!-- TRAINING RESUMES TAB -->
                         <!-- ============================= -->
                         <page string="Training Resumes">
-                            <field name="training_resume_ids" context="{'default_ai_model_id': active_id}">
+                            <field name="training_resume_ids">
                                 <list editable="bottom">
                                     <field name="name"/>
                                     <field name="label"/>
@@ -71,8 +70,6 @@
                         <page string="Model Info">
                             <group>
                                 <field name="model_data" readonly="1" widget="binary"/>
-                                <label class="o_form_label"
-                                       string="This model is trained using:"/>
                                 <ul>
                                     <li>Applicant resumes (auto-labelled)</li>
                                     <li>Manually uploaded resumes (good / bad)</li>
@@ -131,11 +128,7 @@
     <menuitem id="menu_resume_ai_root"
               name="AI Resume Screening"
               sequence="60"
-              groups="hr_recruitment.menu_hr_recruitment_root"/>
-
-    <menuitem id="menu_resume_ai_models"
-              name="AI Models"
-              parent="menu_resume_ai_root"
               action="action_resume_ai_model"
-              sequence="10"/>
+              parent="hr_recruitment.menu_hr_recruitment_root"/>
+
 </odoo>
