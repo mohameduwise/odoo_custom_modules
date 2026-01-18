@@ -28,6 +28,12 @@ class HrApplicant(models.Model):
     resume_attachment = fields.Binary(string="Resume (Attachment)")
     degree_certificate = fields.Binary(string="Degree Certificate")
     other_certificate = fields.Binary(string="Other Courses Certificate")
+    three_minute_video_survey_id = fields.Many2one(
+        'survey.survey',
+        related='job_id.three_minute_video_survey_id',
+        string="3 Minute Video Screening Survey",
+        readonly=True
+    )
     analytical_skills_screening_survey_id = fields.Many2one(
         'survey.survey',
         related='job_id.analytical_skills_screening_survey_id',
@@ -68,6 +74,67 @@ class HrApplicant(models.Model):
     missing_skills = fields.Text(readonly=True, string="Missing Skills")
     matched_keywords = fields.Text(readonly=True, string="Matched Keywords")
     extracted_experience_years = fields.Float(readonly=True, string="Experience (Years)")
+
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        applicants = super().create(vals_list)
+
+        for applicant, vals in zip(applicants, vals_list):
+            # Auto-score ONLY if resume is provided at creation
+            if vals.get('resume'):
+                try:
+                    applicant._auto_score_resume_safe()
+                except Exception as e:
+                    _logger.error(
+                        "Auto resume scoring failed for applicant %s: %s",
+                        applicant.id, str(e)
+                    )
+
+        return applicants
+
+    def write(self, vals):
+        res = super().write(vals)
+
+        # Resume uploaded or replaced
+        if 'resume' in vals:
+            for applicant in self:
+                if applicant.resume:
+                    try:
+                        applicant._auto_score_resume_safe()
+                    except Exception as e:
+                        _logger.error(
+                            "Auto resume scoring failed for applicant %s: %s",
+                            applicant.id, str(e)
+                        )
+
+        return res
+
+    def _auto_score_resume_safe(self):
+        """
+        Safely auto-score resume:
+        - no UserError
+        - no infinite loop
+        - no re-scoring if already scored
+        """
+        self.ensure_one()
+
+        # Do not rescore if already scored
+        if self.ai_score and self.resume_text:
+            return
+
+        if not self.resume:
+            return
+
+        try:
+            self.action_score_resume()
+        except UserError as e:
+            # Do NOT block applicant creation
+            _logger.warning(
+                "Resume scoring skipped for applicant %s: %s",
+                self.id, e.name if hasattr(e, 'name') else str(e)
+            )
+
 
     @api.depends('ai_score')
     def _compute_ai_score_range(self):
@@ -699,6 +766,63 @@ class HrApplicant(models.Model):
         if stage and self.stage_id != stage:
             _logger.info(f"Moving applicant {self.partner_name} to Qualified Resume stage")
             self.stage_id = stage.id
+
+    def action_send_video_survey(self):
+        self.ensure_one()
+
+        # 1️⃣ Ensure partner exists
+        if not self.partner_id:
+            if not self.partner_name:
+                raise UserError(_('Please provide an applicant name.'))
+
+            self.partner_id = self.env['res.partner'].sudo().create({
+                'is_company': False,
+                'name': self.partner_name,
+                'email': self.email_from,
+                'phone': self.partner_phone,
+            })
+
+        # 2️⃣ Validate survey
+        if not self.job_id or not self.job_id.three_minute_video_survey_id:
+            raise UserError(_('No 3-Minute Video Survey configured for this job.'))
+
+        survey = self.job_id.three_minute_video_survey_id
+        survey.check_validity()
+
+        # 3️⃣ Email template
+        template = self.env.ref(
+            'instix_customisations.email_three_minute_video_survey',
+            raise_if_not_found=False
+        )
+
+        # 4️⃣ Create invite
+        invite = self.env['survey.invite'].create({
+            'survey_id': survey.id,
+            'partner_ids': [(6, 0, self.partner_id.ids)],
+            'applicant_id': self.id,
+            'template_id': template.id if template else False,
+            'deadline': fields.Datetime.now() + timedelta(days=7),
+        })
+
+        invite.with_user(self.user_id).action_invite()
+        next_stage = self.env['hr.recruitment.stage'].search([
+            ('name', '=', '3 Minute Video Posting'),
+            '|',
+            ('job_ids', 'in', self.job_id.id),
+            ('job_ids', '=', False)
+        ], limit=1)
+
+        if next_stage:
+            self.with_user(self.user_id).write({
+                'stage_id': next_stage.id
+            })
+        else:
+            _logger.warning(
+                "Stage '3 Minute Video Posting' not found for applicant %s",
+                self.id
+            )
+
+        return True
 
     def action_send_analytical_skills_survey(self):
         self.ensure_one()

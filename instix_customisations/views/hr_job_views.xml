@@ -7,10 +7,19 @@
             <field name="arch" type="xml">
                 <field name="interviewer_ids" position="after">
 
+                    <field name="analytical_logical_survey_pass_criteria_enabled" widget="boolean_toggle"/>
+
                     <field name="analytical_skills_screening_survey_id" required="1"/>
+                    <field name="analytical_survey_passing_score"
+                           required="analytical_logical_survey_pass_criteria_enabled == True"
+                           invisible="analytical_logical_survey_pass_criteria_enabled == False"/>
 
                     <field name="logical_skills_screening_survey_id" required="1"/>
+                    <field name="logical_survey_passing_score"
+                           required="analytical_logical_survey_pass_criteria_enabled == True"
+                           invisible="analytical_logical_survey_pass_criteria_enabled == False"/>
 
+                    <field name="three_minute_video_survey_id" required="1"/>
                     <field name="gems_stone_screening_id" required="1"/>
                     <field name="resume_pass_score"/>
 

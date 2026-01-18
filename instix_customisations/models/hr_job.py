@@ -9,17 +9,34 @@ class HrJob(models.Model):
         domain=[('survey_type', '=', 'recruitment')],
         string='Analytical Skills Screening Survey'
     )
+    analytical_survey_passing_score = fields.Float(
+        string='Analytical Survey Passing Score (%)',
+        help="Minimum score percentage required to pass (0-100%)"
+    )
 
     logical_skills_screening_survey_id = fields.Many2one(
         'survey.survey',
         domain=[('survey_type', '=', 'recruitment')],
         string='Logical Skills Screening Survey'
     )
-
+    logical_survey_passing_score = fields.Float(
+        string='Logical Survey Passing Score (%)',
+        help="Minimum score percentage required to pass (0-100%)"
+    )
+    analytical_logical_survey_pass_criteria_enabled = fields.Boolean(
+        string='Enable Analytical Survey And Logical Passing Criteria',
+        default=True,
+        help="Enable to enforce passing criteria for these surveys"
+    )
     gems_stone_screening_id = fields.Many2one(
         'survey.survey',
         domain=[('survey_type', '=', 'recruitment')],
         string='GEMS Stone Screening Survey'
+    )
+    three_minute_video_survey_id = fields.Many2one(
+        'survey.survey',
+        domain=[('survey_type', '=', 'recruitment')],
+        string='3 Minute Video Screening Survey'
     )
     resume_min_experience = fields.Integer(
         string="Minimum Experience (Years)",

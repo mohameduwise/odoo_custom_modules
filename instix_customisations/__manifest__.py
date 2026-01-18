@@ -19,7 +19,7 @@ Designed for enterprise hiring workflows with manual HR control.
     "website": "https://www.instix.com",
 
     "category": "Human Resources",
-    "version": "19.0.6",
+    "version": "19.0.7",
     "license": "LGPL-3",
 
     "depends": [
@@ -44,12 +44,12 @@ Designed for enterprise hiring workflows with manual HR control.
 		"views/resume_ai_model_views.xml",
 ],
 
-    # 'assets': {
+    'assets': {
         
-    #     'website.website_builder_assets': [
-    #         'instix_customisations/static/src/js/website_hr_recruitment_editor.js'
-    #     ]
-    # },
+        "web.assets_frontend": [
+            'instix_customisations/static/src/js/website_form_no_file_validation.js'
+        ]
+    },
 
     "installable": True,
     "application": False,

@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="action_send_three_minute_video_survey_server" model="ir.actions.server">
+        <field name="name">Send 3Minute video Survey</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="state">code</field>
+        <field name="code">
+            for record in records:
+                record.sudo().action_send_video_survey()
+        </field>
+    </record>
+
+    <record id="automation_send_video_survey" model="base.automation">
+        <field name="name">Send Analytical Skills Survey</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+        <field name="trigger">on_write</field>
+        <field name="trigger_field_ids" eval="[(6, 0, [ref('hr_recruitment.field_hr_applicant__stage_id')])]"/>
+        <field name="filter_domain">[('stage_id.name', '=', 'Qualified Resume')]</field>
+        <field name="action_server_ids" eval="[(6, 0, [ref('action_send_three_minute_video_survey_server')])]"/>
+        <field name="active" eval="True"/>
+    </record>
+
 
     <record id="action_send_analytical_survey_server" model="ir.actions.server">
         <field name="name">Send Analytical Skills Survey</field>
