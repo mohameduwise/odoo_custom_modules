@@ -1,18 +1,20 @@
-from odoo import models, fields,_
-from odoo.exceptions import UserError
-from datetime import timedelta
-from odoo import models, fields, api
 import base64
-import re
 import logging
-from io import BytesIO
-import pdfplumber
 import nltk
+import pdfplumber
+import re
+from datetime import timedelta
+from io import BytesIO
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.naive_bayes import MultinomialNB
 from sklearn.pipeline import make_pipeline
+
+from odoo import models, fields, _
+from odoo import models, fields, api
+from odoo.exceptions import UserError
+
 _logger = logging.getLogger(__name__)
 nltk.download('stopwords')
 nltk.download('wordnet')
@@ -940,6 +942,26 @@ class HrApplicant(models.Model):
             }
         }
 
+    def action_open_all_surveys(self):
+        self.ensure_one()
+
+        if not self.job_id or not self.job_id.three_minute_video_survey_id:
+            raise UserError(_("No 3-Minute Video Survey configured for this job."))
+
+        return {
+            'name': _('Applicant Surveys'),
+            'type': 'ir.actions.act_window',
+            'res_model': 'survey.user_input',
+            'view_mode': 'list,form',
+            'domain': [
+                ('applicant_id', '=', self.id),
+            ],
+            'context': {
+                'default_applicant_id': self.id,
+                'search_default_group_by_survey': 1,
+
+            },
+        }
 class HRSkill(models.Model):
     _name = 'resume.skill'
     _description = 'HR Skill'

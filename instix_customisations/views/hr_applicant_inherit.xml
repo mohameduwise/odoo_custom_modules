@@ -4,12 +4,23 @@
         <field name="model">hr.applicant</field>
         <field name="inherit_id" ref="hr_recruitment.hr_applicant_view_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//sheet/div[@class='oe_button_box']" position="inside">
+                <button
+                        name="action_open_all_surveys"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-list-alt">
+                    <span class="o_stat_text">Surveys</span>
+                </button>
+            </xpath>
+
             <xpath expr="//header" position="inside">
                 <button name="action_open_link_wizard"
                         type="object"
                         string="Send OAD Test"
                         class="oe_highlight"
                         invisible="stage_name != 'OAD Ideal Profile Screening'"/>
+
             </xpath>
             <field name="linkedin_profile" position="after">
                 <field name="resume"/>

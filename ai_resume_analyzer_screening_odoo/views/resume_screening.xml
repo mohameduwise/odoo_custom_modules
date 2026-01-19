@@ -626,5 +626,5 @@
     </record>
 
     <!-- Menu -->
-    <menuitem id="menu_ai_resume_screening" name="AI Resume Screening" parent="hr_recruitment.menu_hr_recruitment_root" action="action_ai_resume_screening" sequence="20"/>
+<!--    <menuitem id="menu_ai_resume_screening" name="AI Resume Screening" parent="hr_recruitment.menu_hr_recruitment_root" action="action_ai_resume_screening" sequence="20"/>-->
 </odoo>

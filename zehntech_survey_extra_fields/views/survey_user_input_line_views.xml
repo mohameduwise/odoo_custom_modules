@@ -9,7 +9,7 @@
                 <button name="action_download_attachment"
                     type="object"
                     icon="fa-download"
-                    string=""
+                    string="Download"
                     invisible="not attachment_id"/>
             </xpath>
         </field>

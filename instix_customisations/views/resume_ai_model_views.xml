@@ -125,10 +125,5 @@
             </form>
         </field>
     </record>
-    <menuitem id="menu_resume_ai_root"
-              name="AI Resume Screening"
-              sequence="60"
-              action="action_resume_ai_model"
-              parent="hr_recruitment.menu_hr_recruitment_root"/>
 
 </odoo>

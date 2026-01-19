@@ -19,7 +19,7 @@ Designed for enterprise hiring workflows with manual HR control.
     "website": "https://www.instix.com",
 
     "category": "Human Resources",
-    "version": "19.0.7",
+    "version": "19.0.9",
     "license": "LGPL-3",
 
     "depends": [
@@ -32,7 +32,6 @@ Designed for enterprise hiring workflows with manual HR control.
     ],
 
     "data": [
-        # Security (add later if needed)
         "security/ir.model.access.csv",
         'data/data.xml',
         "views/email_templates.xml",

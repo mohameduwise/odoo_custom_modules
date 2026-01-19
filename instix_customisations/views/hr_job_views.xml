@@ -1,29 +1,48 @@
 <odoo>
     <data>
-        <record model="ir.ui.view" id="view_hr_job_inherit">   <!-- Payment Term inherited -->
+        <record model="ir.ui.view" id="view_hr_job_inherit">
             <field name="name">hr.job.inherit</field>
             <field name="model">hr.job</field>
             <field name="inherit_id" ref="hr.view_hr_job_form"/>
             <field name="arch" type="xml">
-                <field name="interviewer_ids" position="after">
 
-                    <field name="analytical_logical_survey_pass_criteria_enabled" widget="boolean_toggle"/>
+                <!-- Add a new page in the notebook for Screening Configuration -->
+                <xpath expr="//page[@name='recruitment_page']" position="after">
+                    <page string="Screening Configuration" name="screening_config_page">
+                        <group>
+                            <group string="Pass Criteria Settings">
+                                <field name="analytical_logical_survey_pass_criteria_enabled"
+                                       widget="boolean_toggle"
+                                       string="Enable Passing Score Criteria"/>
+                            </group>
+                        </group>
 
-                    <field name="analytical_skills_screening_survey_id" required="1"/>
-                    <field name="analytical_survey_passing_score"
-                           required="analytical_logical_survey_pass_criteria_enabled == True"
-                           invisible="analytical_logical_survey_pass_criteria_enabled == False"/>
+                        <group string="Skills Assessment">
+                            <group string="Analytical Skills">
+                                <field name="analytical_skills_screening_survey_id"/>
+                                <field name="analytical_survey_passing_score"
+                                       string="Passing Score (%)"
+                                       invisible="not analytical_logical_survey_pass_criteria_enabled"/>
+                            </group>
 
-                    <field name="logical_skills_screening_survey_id" required="1"/>
-                    <field name="logical_survey_passing_score"
-                           required="analytical_logical_survey_pass_criteria_enabled == True"
-                           invisible="analytical_logical_survey_pass_criteria_enabled == False"/>
+                            <group string="Logical Skills">
+                                <field name="logical_skills_screening_survey_id"/>
+                                <field name="logical_survey_passing_score"
+                                       string="Passing Score (%)"
+                                       invisible="not analytical_logical_survey_pass_criteria_enabled"/>
+                            </group>
+                        </group>
 
-                    <field name="three_minute_video_survey_id" required="1"/>
-                    <field name="gems_stone_screening_id" required="1"/>
-                    <field name="resume_pass_score"/>
-
-                </field>
+                        <group string="Additional Assessments">
+                            <group>
+                                <field name="three_minute_video_survey_id"
+                                       string="3-Minute Video Survey"/>
+                                <field name="gems_stone_screening_id"
+                                       string="Gems Stone Screening"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
 
             </field>
         </record>

@@ -157,6 +157,8 @@
         <field name="email_from" >{{ object.survey_id.user_id.partner_id.email }}</field>
         <field name="use_default_to" eval="True"/>
          <field name="body_html" type="html">
+             <p>Stage 5: Logical Test Invitation
+</p>
             <p>Dear <t t-out="object.partner_id.name"/>,</p>
 
             <!-- <p>Your <strong>Analytical Test Score</strong>: {{ object.analytical_score }}%</p> -->
@@ -204,9 +206,10 @@
         <field name="email_from" >{{ object.survey_id.user_id.partner_id.email }}</field>
         <field name="use_default_to" eval="True"/>
          <field name="body_html" type="html">
-            <p>Dear <t t-out="object.partner_id.name"/>,</p>
 
-            <!-- <p>Your <strong>Logical Test Score</strong>: {{ object.logical_score }}%</p> -->
+             <p>Stage 6: GEMS Personality Screeing
+             </p>
+                         <p>Dear <t t-out="object.partner_id.name"/>,</p>
 
             <p>Please proceed with the <strong>Gemstone Personality Test</strong>:</p>
 
