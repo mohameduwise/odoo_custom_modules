@@ -16,10 +16,10 @@ Designed for enterprise hiring workflows with manual HR control.
     """,
 
     "author": "INSTIX",
-    "website": "https://www.instix.com",
+    "website": "https://internal.insytx.com/",
 
     "category": "Human Resources",
-    "version": "19.0.9",
+    "version": "19.1.0",
     "license": "LGPL-3",
 
     "depends": [
@@ -49,8 +49,9 @@ Designed for enterprise hiring workflows with manual HR control.
             'instix_customisations/static/src/js/website_form_no_file_validation.js'
         ]
     },
-
     "installable": True,
     "application": False,
     "auto_install": False,
+    'icon': '/instix_customisations/static/src/img/icon.png'
+
 }
