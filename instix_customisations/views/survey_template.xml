@@ -1,17 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="survey_fill_form_done_gems_inherit" inherit_id="survey.survey_fill_form_done">
-        <xpath expr="//div[hasclass('o_survey_finished')]/h1[2]" position="after">
+        <!-- Replace the h1 that shows scoring percentage -->
+        <xpath expr="//div[hasclass('o_survey_finished')]/h1[2]" position="replace">
             <t t-set="gems_data" t-value="answer.get_gems_data()"/>
 
+            <!-- If it's a GEMS survey, show gemstone results instead of score -->
             <t t-if="gems_data">
-                <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 15px;">
-                    <p><strong>🎉 Congratulations!</strong></p>
-                    <p>
-                        Primary Gem: <strong t-esc="gems_data['primary_gem']"/> |
-                        Secondary Gem: <strong t-esc="gems_data['secondary_gem']"/>
-                    </p>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin-top: 20px; margin-bottom: 20px; border-left: 5px solid #007bff;">
+                    <h3 style="color: #007bff; margin-bottom: 15px;">
+                        <i class="fa fa-gem me-2"></i>Gemstone Assessment Results
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div style="margin-bottom: 15px; padding: 15px; background: white; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <strong>Primary Gem:</strong>
+                                <div style="font-size: 20px; color: #dc3545; font-weight: bold;">
+                                    <i class="fa fa-star me-2"></i>
+                                    <t t-esc="gems_data['primary_gem']"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div style="margin-bottom: 15px; padding: 15px; background: white; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                                <strong>Secondary Gem:</strong>
+                                <div style="font-size: 20px; color: #ffc107; font-weight: bold;">
+                                    <i class="fa fa-star me-2"></i>
+                                    <t t-esc="gems_data['secondary_gem']"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+            </t>
+
+            <!-- If NOT a GEMS survey, show the original scoring message -->
+            <t t-else="">
+                <h1 class="fs-2">
+                    <t t-if="survey.scoring_type != 'no_scoring'">
+                        You scored<t t-out="answer.scoring_percentage"/>%
+                    </t>
+                    <t t-else="">Thank you!</t>
+                </h1>
             </t>
         </xpath>
     </template>

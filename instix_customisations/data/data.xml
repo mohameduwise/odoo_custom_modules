@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record model="hr.recruitment.stage" id="stage_job_failed">
+        <field name="name">Dropped</field>
+        <field name="sequence">99</field>
+    </record>
     <record id="action_send_three_minute_video_survey_server" model="ir.actions.server">
         <field name="name">Send 3Minute video Survey</field>
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>

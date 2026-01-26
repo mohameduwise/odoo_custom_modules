@@ -1,274 +1,803 @@
 <odoo>
 
     <!-- EMAIL 1: Application Received -->
-    <record id="email_application_received" model="mail.template">
-        <field name="name">Application Received</field>
+    <record id="email_template_stage1_resume_acknowledgement" model="mail.template">
+        <field name="name">Stage 1 - Acknowledgement of Receiving Your Resume</field>
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
-        <field name="subject">Application Received – {{ object.job_id.name }}</field>
-        <field name="email_to">{{ object.email_from }}</field>
-        <field name="body_html">
-            <![CDATA[
-            <p>Dear {{ object.partner_name }},</p>
-
-            <p>Thank you for applying for the position of <strong>{{ object.job_id.name }}</strong>.</p>
-
-            <p>Our team will review your profile and notify you about the next step.</p>
-
-            <p>Best regards,<br/>HR Team</p>
-            ]]>
+        <field name="subject">Application Received: {{ object.job_id.name or 'Position' }} | INSYTX Technology
+            Intelligence
         </field>
+        <field name="email_from">{{ object.job_id.user_id.partner_id.email }}</field>
+        <field name="email_to">{{ object.email_from }}</field>
+        <field name="use_default_to" eval="False"/>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+                <p>Dear
+                    <strong>
+                        <t t-out="object.partner_name or 'Candidate'"/>
+                    </strong>
+                    ,
+                </p>
+
+                <p>Thank you for your interest in joining INSYTX. We have successfully received your application for the
+                    <strong>
+                        <t t-out="object.job_id.name or 'position'"/>
+                    </strong>
+                    .
+                </p>
+
+                <p>At INSYTX, we design integrated ecosystems that transform static infrastructure into intelligent
+                    assets.
+                </p>
+
+                <p>Because we deal in mission-critical trust, our selection process is intentionally rigorous.</p>
+
+                <p>Our Talent Acquisition Team is currently reviewing your credentials to see how your expertise aligns
+                    with our commitment to engineering excellence and business performance.
+                </p>
+
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">What to Expect Next:</h3>
+
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 10px;">
+                        <strong>Review Period:</strong>
+                        Our screening process is thorough; we anticipate providing an update within 1–2 working days.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Communication:</strong>
+                        Should your profile align with our current operational needs, you will receive an invitation via
+                        email to proceed to our initial screening phase.
+                    </li>
+                </ul>
+
+                <p style="margin-top: 20px;">We appreciate the initiative you've shown in applying to a team that values
+                    contribution over position and solutions over excuses.
+                </p>
+
+                <p style="margin-top: 30px;">
+                    Best regards,
+                    <br/>
+                    <strong>The Talent Acquisition Team</strong>
+                    <br/>
+                    Resource Administrator | INSYTX
+                </p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="False"/>
+        <field name="lang">{{ object.partner_id.lang }}</field>
     </record>
 
     <!-- EMAIL 2: Resume Shortlisted → Analytical Test -->
     <record id="email_analytical_test" model="mail.template">
-        <field name="name">Analytical Test Invitation</field>
-        <field name="model_id" ref="survey.model_survey_user_input" />
-        <field name="subject">Participate to {{ object.survey_id.display_name }} interview</field>
+        <field name="name">Stage 4 - Analytical Skills Screening</field>
+        <field name="model_id" ref="survey.model_survey_user_input"/>
+
+        <field name="subject">
+            Assessment Phase: Analytical Skills Evaluation | {{ object.applicant_id.job_id.name if object.applicant_id
+            and object.applicant_id.job_id else 'Position' }}
+        </field>
+
         <field name="email_to" eval="False"/>
-        <field name="email_from" >{{ object.survey_id.user_id.partner_id.email }}</field>
         <field name="use_default_to" eval="True"/>
-         <field name="body_html" type="html">
-            <p>Dear <t t-out="object.partner_id.name"/>,</p>
 
-            <p>You have been shortlisted based on your resume.</p>
+        <field name="email_from">
+            {{ object.survey_id.user_id.partner_id.email }}
+        </field>
 
-            <p>Please complete the <strong>Analytical Skills Test</strong> using the link below:</p>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+                <p>
+                    Dear
+                    <strong>
+                        <t t-out="object.partner_id.name or 'Candidate'"/>
+                    </strong>
+                    ,
+                </p>
 
-            <div style="margin: 16px 0px 16px 0px;">
-            <a t-att-href="(object.get_start_url())"
-                t-attf-style="background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{user.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;">
-                <t>
-                    Start the written interview
-                </t>
-            </a>
-        </div>
+                <p>
+                    Following a review of your video introduction, we are pleased to inform you that your candidacy for
+                    the
+                    <strong>
+                        <t t-out="object.applicant_id.job_id.name or 'position'"/>
+                    </strong>
+                    is advancing to the
+                    <strong>Analytical Skills Screening</strong>
+                    phase.
+                </p>
 
-            <p>Duration: 10 minutes</p>
+                <p>
+                    At INSYTX, we transform static infrastructure into intelligent assets. This requires a team with the
+                    cognitive precision to make "smarter, faster decisions."
+                </p>
 
-            <p>Best of luck,<br/>HR Team</p>
+                <p>
+                    To ensure your technical strengths align with our high-stakes operational requirements, we utilize
+                    objective benchmarking to measure analytical capabilities.
+                </p>
+
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Assessment Details:</h3>
+
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 10px;">
+                        <strong>The Objective:</strong>
+                        This evaluation measures your ability to process complex information
+                        and derive actionable logic—core pillars of our "Relentless Innovation" philosophy.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Duration:</strong>
+                        Approximately 10 minutes.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Environment:</strong>
+                        We require you to complete this on a desktop or laptop in a controlled,
+                        quiet environment with a stable internet connection to ensure the integrity of your results.
+                    </li>
+                </ul>
+
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Access Your Evaluation Here:</h3>
+
+                <div style="margin: 20px 0px 20px 0px; text-align: center;">
+                    <a t-att-href="object.get_start_url()"
+                       style="background-color:#875A7B; padding:12px 24px; text-decoration:none; color:#FFFFFF; border-radius:5px; font-size:15px; display:inline-block;">
+                        Start Analytical Skills Assessment
+                    </a>
+                </div>
+
+                <p style="margin-top: 20px;">
+                    <strong>Deadline:</strong>
+                    To maintain the momentum of our recruitment ecosystem, please complete this
+                    assessment within <strong>2 Business Days</strong>.
+                </p>
+
+                <p>
+                    Upon completion, your results will be automatically integrated into your candidate profile for
+                    assessment
+                    review by our technical leadership.
+                </p>
+
+                <p>
+                    We look forward to seeing how your analytical approach aligns with the INSYTX standard.
+                </p>
+
+                <p style="margin-top: 30px;">
+                    Best regards,
+                    <br/>
+                    <strong>The Talent Acquisition Team</strong>
+                    <br/>
+                    Resource Administrator
+                    <br/>
+                    INSYTX
+                </p>
+            </div>
         </field>
     </record>
 
     <!-- EMAIL 3: 3 MINUTE VIDEO -->
     <record id="email_three_minute_video_survey" model="mail.template">
-    <field name="name">3-Minute Video Interview Invitation</field>
+        <field name="name">Stage 2 - Qualified Resume Process</field>
     <field name="model_id" ref="survey.model_survey_user_input"/>
 
     <field name="subject">
-        Video Interview - {{ object.applicant_id.job_id.name if object.applicant_id and object.applicant_id.job_id else '' }}
+        Moving Forward: Video Introduction Request for {{ object.applicant_id.job_id.name or object.survey_id.title or
+        'Position' }} | INSYTX
     </field>
 
     <field name="email_to" eval="False"/>
     <field name="use_default_to" eval="True"/>
 
     <field name="email_from">
-        {{ object.survey_id.user_id.partner_id.email }}
+        {{ object.survey_id.user_id.partner_id.email or 'careers@insytx.com' }}
     </field>
 
     <field name="body_html" type="html">
+        <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+            <p>
+                Dear
+                <strong>
+                    <t t-out="object.partner_id.name or 'Candidate'"/>
+                </strong>
+                ,
+            </p>
 
-        <p>
-            Dear <strong><t t-esc="object.partner_id.name"/></strong>,
-        </p>
+            <p>
+                Thank you for your patience while our team conducted a technical review of your credentials.
+                We are pleased to confirm that your background aligns with the high standards we maintain at INSYTX.
+            </p>
 
-        <p>
-            Thank you for your interest in the
-            <strong>
-                <t t-esc="object.applicant_id.job_id.name"/>
-            </strong>
-            position at
-            <strong>
-                <t t-esc="object.applicant_id.company_id.name"/>
-            </strong>.
-            We have reviewed your application and are impressed by your background.
-        </p>
+            <p>
+                As a technology intelligence partner, we prioritize clarity and communication as much as technical
+                expertise.
+            </p>
 
-        <p>
-            To help us better understand your personality and professional vision beyond your resume,
-            we would like to invite you to the next stage of our recruitment process.
-        </p>
+            <p>
+                Before moving to the formal skill-screening phase, we require a <strong>3-minute Video
+                Introduction</strong>.
+            </p>
 
-        <p>
-            <strong>3-Minute Video Introduction</strong>
-        </p>
+            <p>
+                This stage is designed to assess your professional alignment with our culture of accountability and
+                innovation.
+            </p>
 
-        <p>
-            At
-            <strong><t t-esc="object.applicant_id.company_id.name"/></strong>,
-            we value cultural alignment and clear communication as much as technical skills.
-            This is your opportunity to introduce yourself and explain why you are a great fit for our team.
-        </p>
+            <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Your Brief:</h3>
 
-        <p><strong>Instructions to get started:</strong></p>
+            <p>In approximately 3 minutes, please address the following:</p>
 
-        <ul>
-            <li><strong>Prepare:</strong> Find a quiet, well-lit space.</li>
-            <li><strong>Access:</strong> Click the personalized link below.</li>
-            <li><strong>Record:</strong> Record directly in your browser. No special software required.</li>
-        </ul>
+            <ul style="margin-left: 20px;">
+                <li style="margin-bottom: 10px;">
+                    <strong>Professional Intent:</strong>
+                    What specifically draws you to the
+                    <strong>
+                        <t t-out="object.applicant_id.job_id.name or 'this'"/>
+                    </strong>
+                    role at INSYTX?
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Market Insight:</strong>
+                    Based on our mission to transform static infrastructure into intelligent assets,
+                    what is your understanding of our impact on the industry?
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Environment &amp; Strengths:</strong>
+                    Describe your ideal work environment and the core strengths you offer
+                    a team that values solutions over excuses.
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Trajectory:</strong>
+                    How does this role fit into your 5-year plan for career growth and leadership?
+                </li>
+            </ul>
 
-        <p>
-            <a t-att-href="object.get_start_url()"
-               style="background-color:#875A7B;padding:10px 18px;text-decoration:none;color:#FFFFFF;border-radius:5px;font-size:14px;">
-                Click Here to Start Your Video Introduction
-            </a>
-        </p>
+            <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Submission Guidelines:</h3>
 
-        <p><strong>Key questions you may be asked:</strong></p>
+            <ul style="margin-left: 20px;">
+                <li style="margin-bottom: 10px;">
+                    <strong>Precision &amp; Impact:</strong>
+                    Be concise. We value the ability to communicate complex ideas
+                    effectively within the 3-minute window.
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Technical Specs:</strong>
+                    Please record at 720p resolution and ensure the file size remains under 100MB.
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Deadline:</strong>
+                    To maintain the momentum of our "smarter, faster" decision-making process,
+                    please submit your video within <strong>1 Business Day</strong>.
+                </li>
+            </ul>
 
-        <ol>
-            <li>Why are you interested in this position?</li>
-            <li>What do you know about our company?</li>
-            <li>What is your ideal work environment?</li>
-            <li>What are your strengths?</li>
-            <li>Where do you see yourself in 5 years?</li>
-        </ol>
+            <div style="margin: 20px 0px 20px 0px; text-align: center;">
+                <a t-att-href="object.get_start_url()"
+                   style="background-color:#875A7B; padding:12px 24px; text-decoration:none; color:#FFFFFF; border-radius:5px; font-size:15px; display:inline-block;">
+                    Access Secure Upload Portal
+                </a>
+            </div>
 
-        <p><strong>Tips for success:</strong></p>
+            <p style="margin-top: 20px;">
+                At INSYTX, we believe that learning is not optional and that excellence should be celebrated.
+            </p>
 
-        <ul>
-            <li><strong>Be authentic:</strong> We want to know the real you.</li>
-            <li><strong>Be concise:</strong> You have approximately 3 minutes.</li>
-            <li><strong>Deadline:</strong> Please complete within 3 business days.</li>
-        </ul>
+            <p>
+                We look forward to seeing how you might contribute to our mission-critical work.
+            </p>
 
-        <p>
-            If you face any technical issues, reply to this email and our team will assist you.
-        </p>
-
-        <p>
-            Best regards,<br/>
-            <strong>
-                Resource Admin<br/>
-                <t t-esc="object.applicant_id.company_id.name"/>
-            </strong>
-        </p>
-
+            <p style="margin-top: 30px;">
+                Best regards,
+                <br/>
+                <strong>The Talent Acquisition Team</strong>
+                <br/>
+                Resource Administrator
+                <br/>
+                INSYTX
+            </p>
+        </div>
     </field>
 </record>
 
 
     <!-- EMAIL 3: Analytical Result → Logical Test -->
     <record id="email_logical_test" model="mail.template">
-        <field name="name">Logical Test Invitation</field>
-        <field name="model_id" ref="survey.model_survey_user_input" />
-        <field name="subject">Participate to {{ object.survey_id.display_name }} interview</field>
+        <field name="name">Stage 5 - Logical Skills Screening</field>
+        <field name="model_id" ref="survey.model_survey_user_input"/>
+
+        <field name="subject">
+            Progression Update: Logical Skills Assessment | {{ object.applicant_id.job_id.name if object.applicant_id
+            and object.applicant_id.job_id else 'Position' }}
+        </field>
+
         <field name="email_to" eval="False"/>
-        <field name="email_from" >{{ object.survey_id.user_id.partner_id.email }}</field>
         <field name="use_default_to" eval="True"/>
-         <field name="body_html" type="html">
-             <p>Stage 5: Logical Test Invitation
-</p>
-            <p>Dear <t t-out="object.partner_id.name"/>,</p>
 
-            <!-- <p>Your <strong>Analytical Test Score</strong>: {{ object.analytical_score }}%</p> -->
+        <field name="email_from">
+            {{ object.survey_id.user_id.partner_id.email }}
+        </field>
 
-            <p>You are invited to attend the <strong>Logical Skills Test</strong>:</p>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+                <p>
+                    Dear
+                    <strong>
+                        <t t-out="object.partner_id.name or 'Candidate'"/>
+                    </strong>
+                    ,
+                </p>
 
-            <div style="margin: 16px 0px 16px 0px;">
-            <a t-att-href="(object.get_start_url())"
-                t-attf-style="background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{user.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;">
-                <t>
-                    Start the written interview
-                </t>
-            </a>
-        </div>
+                <p>
+                    We have successfully received and analyzed your results from the <strong>Analytical Skills
+                    Assessment</strong>.
+                </p>
 
-            <p>Regards,<br/>HR Team</p>
+                <p>
+                    Based on your performance, we are advancing your candidacy to the next phase of our evaluation
+                    ecosystem.
+                </p>
+
+                <p>
+                    While the previous stage measured your data interpretation, the
+                    <strong>Logical Skills Assessment</strong>
+                    is designed to evaluate your abstract reasoning, pattern recognition, and critical thinking
+                    capabilities.
+                </p>
+
+                <p>
+                    At INSYTX, our ability to build practical and scalable systems relies on team members who possess
+                    the
+                    cognitive precision to solve complex problems under pressure.
+                </p>
+
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Assessment Directives:</h3>
+
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 10px;">
+                        <strong>The Focus:</strong>
+                        This stage benchmarks your strategic reasoning—a vital component of our
+                        "Relentless Innovation" pillar.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Duration:</strong>
+                        Approximately 10 minutes.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Environment:</strong>
+                        Ensure you are in a distraction-free environment on a desktop or laptop
+                        to maintain focus and accuracy.
+                    </li>
+                </ul>
+
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Access the Assessment Here:</h3>
+
+                <div style="margin: 20px 0px 20px 0px; text-align: center;">
+                    <a t-att-href="object.get_start_url()"
+                       style="background-color:#875A7B; padding:12px 24px; text-decoration:none; color:#FFFFFF; border-radius:5px; font-size:15px; display:inline-block;">
+                        Start Logical Skills Assessment
+                    </a>
+                </div>
+
+                <p style="margin-top: 20px;">
+                    <strong>Timeline:</strong>
+                    To ensure a timely review of your full profile, please complete this assessment
+                    within <strong>1–2 Business Days</strong>.
+                </p>
+
+                <p>
+                    Upon completion, our team will conduct a comprehensive review of your collective results to
+                    determine your
+                    eligibility for the GEMS Stone and OAD Profile screening stages.
+                </p>
+
+                <p>
+                    We value the discipline you have shown throughout this process.
+                </p>
+
+                <p style="margin-top: 30px;">
+                    Best regards,
+                    <br/>
+                    <strong>The Talent Acquisition Team</strong>
+                    <br/>
+                    Resource Administrator
+                    <br/>
+                    INSYTX
+                </p>
+            </div>
         </field>
     </record>
 
     <record id="email_level_2_failed" model="mail.template">
         <field name="name">Level 2 Failed</field>
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
-        <field name="subject">Level 2 Failed – {{ object.job_id.name }}</field>
+        <field name="subject">Level 2 Failed – {{ object.job_id.name or "Position" }}</field>
         <field name="email_to">{{ object.email_from }}</field>
-        <field name="email_from" >{{ object.job_id.user_id.partner_id.email }}</field>
+        <field name="email_from">{{ object.job_id.user_id.partner_id.email if object.job_id and object.job_id.user_id
+            else '' }}
+        </field>
         <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+                <p>
+                    Dear
+                    <strong>
+                        <t t-out="object.partner_id.name or object.name or 'Candidate'"/>
+                    </strong>
+                    ,
+                </p>
+                <p>
+                    Thank you for completing the assessment for the
+                    <strong>
+                        <t t-out="object.job_id.name or 'position'"/>
+                    </strong>
+                    at INSYTX.
+                </p>
 
-            <p>Dear <t t-out="object.partner_name"/>,</p>
+                <!-- Remove or fix the survey reference if not available -->
+                <!-- If you need survey title, you might need to pass it through context or add a field -->
 
-            <p>You have not successfully screened for the Level 2.</p>
+                <p>
+                    After a thorough evaluation of your assessment results, we regret to inform you that your
+                    performance
+                    did not meet the minimum benchmarks required to advance to the next stage of our selection process.
+                </p>
 
-            <p>Congratulation for Participating in the interview selection process for the <t t-out="object.job_id.name"/> at INSYTX.</p>
+                <!-- Rest of your HTML remains the same -->
+                <p>
+                    At INSYTX, we maintain exceptionally high standards to ensure mission-critical excellence in every
+                    role.
+                    Our assessments are designed to objectively measure the precise cognitive and technical capabilities
+                    required for success in demanding, high-stakes environments.
+                </p>
 
-            <p>Best regards,<br/>HR Team</p>
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">What This Means:</h3>
 
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 10px;">
+                        <strong>Objective Evaluation:</strong>
+                        This decision is based solely on standardized assessment criteria
+                        and does not reflect on your overall professional capabilities or potential in other contexts.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Skill Development:</strong>
+                        We encourage you to continue developing your analytical and logical
+                        reasoning skills, as these are highly valued across the technology sector.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Future Opportunities:</strong>
+                        Should you strengthen your capabilities in the assessed areas,
+                        we welcome you to reapply for future positions that may align with your enhanced skill set.
+                    </li>
+                </ul>
+
+                <p style="margin-top: 20px;">
+                    We recognize that our evaluation process is rigorous and demanding. We appreciate the time and
+                    effort
+                    you invested in participating, and we commend your professionalism throughout the process.
+                </p>
+
+                <p>
+                    We wish you continued success in your career development and encourage you to pursue opportunities
+                    that allow you to leverage your unique strengths.
+                </p>
+
+                <p style="margin-top: 30px;">
+                    Best regards,
+                    <br/>
+                    <strong>The Talent Acquisition Team</strong>
+                    <br/>
+                    Resource Administrator
+                    <br/>
+                    INSYTX
+                </p>
+            </div>
         </field>
     </record>
 
     <!-- EMAIL 4: Logical Result → Gemstone Test -->
     <record id="email_gemstone_test" model="mail.template">
-        <field name="name">Gemstone Personality Test</field>
-        <field name="model_id" ref="survey.model_survey_user_input" />
-        <field name="subject">Participate to {{ object.survey_id.display_name }} interview</field>
+        <field name="name">Stage 6 - GEMS Stone Screening</field>
+        <field name="model_id" ref="survey.model_survey_user_input"/>
+
+        <field name="subject">
+            Progression Update: GEMS Personality Assessment | {{ object.applicant_id.job_id.name if object.applicant_id
+            and object.applicant_id.job_id else 'Position' }}
+        </field>
+
         <field name="email_to" eval="False"/>
-        <field name="email_from" >{{ object.survey_id.user_id.partner_id.email }}</field>
         <field name="use_default_to" eval="True"/>
-         <field name="body_html" type="html">
 
-             <p>Stage 6: GEMS Personality Screeing
-             </p>
-                         <p>Dear <t t-out="object.partner_id.name"/>,</p>
+        <field name="email_from">
+            {{ object.survey_id.user_id.partner_id.email }}
+        </field>
 
-            <p>Please proceed with the <strong>Gemstone Personality Test</strong>:</p>
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+                <p>
+                    Dear
+                    <strong>
+                        <t t-out="object.partner_id.name or 'Candidate'"/>
+                    </strong>
+                    ,
+                </p>
 
-            <div style="margin: 16px 0px 16px 0px;">
-            <a t-att-href="(object.get_start_url())"
-                t-attf-style="background-color: {{user.company_id.email_secondary_color or '#875A7B'}}; padding: 8px 16px 8px 16px; text-decoration: none; color: {{user.company_id.email_primary_color or '#FFFFFF'}}; border-radius: 5px; font-size:13px;">
-                <t>
-                    Start the written interview
-                </t>
-            </a>
-        </div>
+                <p>
+                    Thank you for your performance in the <strong>Analytical and Logical Skills Assessments</strong>.
+                </p>
 
-            <p>Regards,<br/>HR Team</p>
+                <p>
+                    Based on your cumulative scores meeting our internal benchmarks, your application has successfully
+                    advanced to the <strong>GEMS Stone Screening</strong> phase.
+                </p>
+
+                <p>
+                    At INSYTX, we believe that "great results come from great people working in harmony." While your
+                    cognitive skills have been validated, this stage focuses on <strong>behavioral alignment</strong>.
+                </p>
+
+                <p>
+                    We value character, integrity, and solutions-oriented thinking; this screening allows us to
+                    understand
+                    your professional drivers and how you will integrate into our high-performance culture.
+                </p>
+
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Assessment Directives:</h3>
+
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 10px;">
+                        <strong>The Focus:</strong>
+                        To measure your preferred work style and communication patterns against
+                        our core pillar of Accountability.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Duration:</strong>
+                        Approximately 10 minutes.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>The Approach:</strong>
+                        There are no "correct" answers. We require honest and spontaneous
+                        responses to ensure an authentic match with our team dynamics.
+                    </li>
+                </ul>
+
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Access the GEMS Stone Screening
+                    here:
+                </h3>
+
+                <div style="margin: 20px 0px 20px 0px; text-align: center;">
+                    <a t-att-href="object.get_start_url()"
+                       style="background-color:#875A7B; padding:12px 24px; text-decoration:none; color:#FFFFFF; border-radius:5px; font-size:15px; display:inline-block;">
+                        Start GEMS Personality Assessment
+                    </a>
+                </div>
+
+                <p style="margin-top: 20px;">
+                    <strong>Timeline:</strong>
+                    To maintain our "smarter, faster" recruitment cycle, please complete this
+                    assessment within <strong>1–2 Business Days</strong> of receiving this email.
+                </p>
+
+                <p>
+                    Your results will be reviewed alongside your technical profile to determine a holistic fit for the
+                    <strong>
+                        <t t-out="object.applicant_id.job_id.name or 'position'"/>
+                    </strong>
+                    role.
+                </p>
+
+                <p>
+                    Successful candidates will be invited to the final profiling and interview stages shortly
+                    thereafter.
+                </p>
+
+                <p style="margin-top: 30px;">
+                    Best regards,
+                    <br/>
+                    <strong>The Talent Acquisition Team</strong>
+                    <br/>
+                    Resource Administrator
+                    <br/>
+                    INSYTX
+                </p>
+            </div>
         </field>
     </record>
 
-    <!-- EMAIL 5: Gemstone Result → OAD Test -->
-<!--    <record id="email_oad_test" model="mail.template">-->
-<!--        <field name="name">OAD Personality Test</field>-->
-<!--        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>-->
-<!--        <field name="subject">Gemstone Result &amp; OAD Assessment</field>-->
-<!--        <field name="email_to">{{ object.email_from }}</field>-->
-<!--        <field name="body_html">-->
-<!--            <![CDATA[-->
-<!--            <p>Dear {{ object.partner_name }},</p>-->
-
-<!--            <p>-->
-<!--                <strong>Gemstone Result:</strong><br/>-->
-<!--                Type: {{ object.gemstone_type }}<br/>-->
-<!--                Score: {{ object.gemstone_score }}%-->
-<!--            </p>-->
-
-<!--            <p>Please complete the <strong>OAD Personality Test</strong>:</p>-->
-
-<!--            <p><a href="{{ object.oad_test_link }}">{{ object.oad_test_link }}</a></p>-->
-
-<!--            <p>Regards,<br/>HR Team</p>-->
-<!--            ]]>-->
-<!--        </field>-->
-<!--    </record>-->
-
 <record id="mail_template_oad_link" model="mail.template">
-        <field name="name">Applicant Link Mail</field>
-        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
-        <field name="subject">OAD Test Link</field>
-        <field name="email_from">{{object.user_id.partner_id.email}}</field>
-        <field name="email_to">{{object.email_from}}</field>
-        <field name="body_html" type="html">
-            <p>Dear <t t-out="object.partner_name"/>,</p>
-            <p>Please use the following link for OAD Test:</p>
+    <field name="name">Stage 7 - OAD Profile Screening</field>
+    <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
 
+    <field name="subject">
+        Final Profiling: OAD Strategic Alignment | {{ object.job_id.name or 'Position' }}
+    </field>
+
+    <field name="email_from">{{ object.user_id.partner_id.email }}</field>
+    <field name="email_to">{{ object.email_from }}</field>
+
+    <field name="body_html" type="html">
+        <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
             <p>
-                OAD Link:-<a t-att-href="ctx.get('link')" target="_blank">
-                   <t t-out="ctx.get('link')"/>
-                </a>
+                Dear
+                <strong>
+                    <t t-out="object.partner_name or 'Candidate'"/>
+                </strong>
+                ,
+            </p>
+            <p>
+                Congratulations on reaching this significant milestone in our selection process.
             </p>
 
-             <p>Regards,<br/>HR Team</p>
+            <p>
+                Your performance across our technical and behavioral assessments has been impressive, and you are now
+                entering the final screening phase: the <strong>OAD (Organization Analysis Design) Profile</strong>.
+            </p>
+
+            <p>
+                At INSYTX, we reject subjectivity in favor of precision.
+            </p>
+
+            <p>
+                We utilize the OAD survey to scientifically determine the "Right Fit"—ensuring a perfect alignment
+                between your natural behavioral strengths and the specific demands of the
+                <strong>
+                    <t t-out="object.job_id.name or 'position'"/>
+                </strong>
+                role.
+            </p>
+
+            <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Why this is Critical:</h3>
+
+            <ul style="margin-left: 20px;">
+                <li style="margin-bottom: 10px;">
+                    <strong>Scientific Alignment:</strong>
+                    This is not a test, but a data-driven survey designed to
+                    highlight your innate workplace traits. It ensures that your contribution to our mission-critical
+                    work is both sustainable and impactful.
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Mutual Benefit:</strong>
+                    Our goal is to place you in an environment where you will naturally
+                    thrive. This tool removes guesswork, ensuring that your transition into the INSYTX culture is
+                    seamless
+                    and rewarding.
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Professional Growth:</strong>
+                    Regardless of the outcome, the OAD provides deep insight into
+                    your professional profile, helping you refine your trajectory for long-term career advancement.
+                </li>
+            </ul>
+
+            <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Directives for Completion:</h3>
+
+            <ul style="margin-left: 20px;">
+                <li style="margin-bottom: 10px;">
+                    <strong>Duration:</strong>
+                    Approximately 5 minutes.
+                </li>
+                <li style="margin-bottom: 10px;">
+                    <strong>Approach:</strong>
+                    To ensure an accurate profile, do not overthink. We require your immediate
+                    gut instincts to capture your most authentic professional self.
+                </li>
+            </ul>
+
+            <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">Access Link:</h3>
+
+            <div style="margin: 20px 0px 20px 0px; text-align: center;">
+                <a t-att-href="ctx.get('link')"
+                   style="background-color:#875A7B; padding:12px 24px; text-decoration:none; color:#FFFFFF; border-radius:5px; font-size:15px; display:inline-block;"
+                   target="_blank">
+                    Start OAD Survey
+                </a>
+            </div>
+
+            <p style="margin-top: 20px;">
+                <strong>Next Steps:</strong>
+                Once the system analyzes your profile against our "Ideal Role Requirements,"
+                we will reach out regarding the scheduling of your One-to-One Interview.
+            </p>
+
+            <p>
+                We value the ownership you have shown throughout this rigorous process.
+            </p>
+
+            <p style="margin-top: 30px;">
+                Best regards,
+                <br/>
+                <strong>The Talent Acquisition Team</strong>
+                <br/>
+                Resource Administrator
+                <br/>
+                INSYTX
+            </p>
+        </div>
+    </field>
+</record>
+    <record id="email_template_resume_rejected" model="mail.template">
+        <field name="name">Resume Rejection Notification</field>
+        <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
+
+        <field name="subject">
+            Application Update: {{ object.job_id.name or 'Position' }} | INSYTX
         </field>
+        <field name="email_from">{{ object.job_id.user_id.partner_id.email }}</field>
+        <field name="email_to">{{ object.email_from }}</field>
+        <field name="use_default_to" eval="False"/>
+
+        <field name="body_html" type="html">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+                <p>
+                    Dear
+                    <strong>
+                        <t t-out="object.partner_name or 'Candidate'"/>
+                    </strong>
+                    ,
+                </p>
+
+                <p>
+                    Thank you for your interest in the
+                    <strong>
+                        <t t-out="object.job_id.name or 'position'"/>
+                    </strong>
+                    at INSYTX and for submitting your application materials for our review.
+                </p>
+
+                <p>
+                    After a careful evaluation of your resume and professional background, we regret to inform you that
+                    we will not be moving forward with your application at this time.
+                </p>
+
+                <p>
+                    At INSYTX, we design integrated ecosystems that transform static infrastructure into intelligent
+                    assets.
+                    This requires a highly specialized skill set and experience profile that aligns precisely with our
+                    mission-critical operational requirements.
+                </p>
+
+                <h3 style="color: #007bff; margin-top: 20px; margin-bottom: 15px;">What This Means:</h3>
+
+                <ul style="margin-left: 20px;">
+                    <li style="margin-bottom: 10px;">
+                        <strong>Specific Role Requirements:</strong>
+                        This decision is based on the specific technical and
+                        experiential requirements for this particular position and does not diminish your professional
+                        value
+                        in other contexts.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Profile Alignment:</strong>
+                        While your background demonstrates notable achievements, the
+                        precise alignment required for this role was not achieved during our initial screening.
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Future Consideration:</strong>
+                        We encourage you to continue building your expertise in areas
+                        relevant to technology intelligence and infrastructure transformation. You are welcome to apply
+                        for
+                        future opportunities that may better match your evolving skill set.
+                    </li>
+                </ul>
+
+                <p style="margin-top: 20px;">
+                    We maintain a competitive and rigorous selection process to ensure excellence in every hire. We
+                    appreciate
+                    your interest in joining our team and recognize the effort you invested in your application.
+                </p>
+
+                <p>
+                    We wish you success in your career journey and encourage you to pursue opportunities where your
+                    unique
+                    strengths can be fully leveraged.
+                </p>
+
+                <p style="margin-top: 30px;">
+                    Best regards,
+                    <br/>
+                    <strong>The Talent Acquisition Team</strong>
+                    <br/>
+                    Resource Administrator
+                    <br/>
+                    INSYTX
+                </p>
+            </div>
+        </field>
+        <field name="auto_delete" eval="False"/>
     </record>
 
 </odoo>

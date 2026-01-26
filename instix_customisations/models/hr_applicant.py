@@ -87,6 +87,8 @@ class HrApplicant(models.Model):
             if vals.get('resume'):
                 try:
                     applicant._auto_score_resume_safe()
+                    # Send acknowledgement email
+                    applicant._send_resume_acknowledgement_email()
                 except Exception as e:
                     _logger.error(
                         "Auto resume scoring failed for applicant %s: %s",
@@ -104,6 +106,8 @@ class HrApplicant(models.Model):
                 if applicant.resume:
                     try:
                         applicant._auto_score_resume_safe()
+                        # Send acknowledgement email (only if not sent before)
+                        applicant._send_resume_acknowledgement_email()
                     except Exception as e:
                         _logger.error(
                             "Auto resume scoring failed for applicant %s: %s",
@@ -112,6 +116,22 @@ class HrApplicant(models.Model):
 
         return res
 
+    def _send_resume_acknowledgement_email(self):
+        """Send acknowledgement email when resume is received"""
+        self.ensure_one()
+        try:
+            template = self.env.ref('instix_customisations.email_template_stage1_resume_acknowledgement')
+            if template:
+                template.send_mail(self.id, force_send=True)
+                _logger.info(
+                    "Resume acknowledgement email sent to %s for applicant %s",
+                    self.email_from, self.id
+                )
+        except Exception as e:
+            _logger.error(
+                "Failed to send resume acknowledgement email for applicant %s: %s",
+                self.id, str(e)
+            )
     def _auto_score_resume_safe(self):
         """
         Safely auto-score resume:
@@ -755,6 +775,16 @@ class HrApplicant(models.Model):
 
         required_score = self.job_id.resume_pass_score or 70.0
         if self.ai_score < required_score:
+            failed_stage = self.env['hr.recruitment.stage'].search([
+                ('name', '=', 'Dropped'),
+                '|',
+                ('job_ids', 'in', self.job_id.id),
+                ('job_ids', '=', False)
+            ], limit=1)
+
+            if failed_stage:
+                self.write({'stage_id': failed_stage.id})
+                applicant.action_send_level_2_failed_email(failure_type='resume')
             _logger.info(f"Applicant {self.partner_name} score {self.ai_score} below threshold {required_score}")
             return
 
@@ -916,18 +946,43 @@ class HrApplicant(models.Model):
         invite.with_user(self.user_id).action_invite()
 
         return True
-    
 
-    def action_send_level_2_failed_email(self):
-        self.ensure_one()
-        # XML ID of the email template
-        template = self.env.ref('instix_customisations.email_level_2_failed', raise_if_not_found=False)
+    from odoo import models, fields, api
+    import logging
 
-        if template:
-            template.with_user(self.user_id).send_mail(
-                self.id,
-                force_send=True,   # Send immediately
-            )
+    _logger = logging.getLogger(__name__)
+
+    class HrApplicant(models.Model):
+        _inherit = 'hr.applicant'
+
+        # Existing fields...
+
+        def action_send_level_2_failed_email(self, failure_type='assessment'):
+            """
+            Send failure email based on type
+
+            :param failure_type: 'assessment' for test failures, 'resume' for resume rejection
+            """
+            self.ensure_one()
+
+            # Determine which template to use
+            if failure_type == 'resume':
+                template_xml_id = 'instix_customisations.email_template_resume_rejected'
+            else:  # default to assessment
+                template_xml_id = 'instix_customisations.email_level_2_failed'
+
+            # Get the template
+            template = self.env.ref(template_xml_id, raise_if_not_found=False)
+
+            if template:
+                template.with_user(self.user_id).send_mail(
+                    self.id,
+                    force_send=True,  # Send immediately
+                )
+                _logger.info(
+                    "%s failure email sent to %s for applicant %s",
+                    failure_type.capitalize(), self.email_from, self.id
+                )
 
     def action_open_link_wizard(self):
         self.ensure_one()

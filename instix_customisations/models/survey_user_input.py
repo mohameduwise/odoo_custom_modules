@@ -68,9 +68,7 @@ class SurveyUser_Input(models.Model):
                         user_input.state == 'done'):
 
                     # Check if job has specific passing criteria
-                    if (hasattr(job, 'analytical_survey_pass_criteria_enabled') and
-                            job.analytical_survey_pass_criteria_enabled):
-
+                    if job.analytical_logical_survey_pass_criteria_enabled:
                         score = user_input.scoring_percentage or 0
                         min_score = job.analytical_survey_passing_score or 0
 
@@ -85,7 +83,7 @@ class SurveyUser_Input(models.Model):
                             if next_stage:
                                 applicant.write({'stage_id': next_stage.id})
                     else:
-                        # Default behavior - just move forward
+                        # If criteria is disabled, just move forward without checking score
                         next_stage = self.env['hr.recruitment.stage'].search([
                             ('name', '=', 'Logical Skills Screening'),
                             '|',
@@ -114,13 +112,12 @@ class SurveyUser_Input(models.Model):
                         analytical_score = analytical_responses.scoring_percentage or 0
                         logical_score = user_input.scoring_percentage or 0
 
-                        # Check if job has combined criteria
-                        if (hasattr(job, 'analytical_logical_survey_pass_criteria_enabled') and
-                                job.analytical_logical_survey_pass_criteria_enabled):
-
+                        # Check if individual passing criteria is enabled
+                        if job.analytical_logical_survey_pass_criteria_enabled:
                             analytical_min = job.analytical_survey_passing_score or 0
                             logical_min = job.logical_survey_passing_score or 0
 
+                            # Both scores must meet their individual criteria
                             if (analytical_score >= analytical_min and
                                     logical_score >= logical_min):
 
@@ -134,10 +131,20 @@ class SurveyUser_Input(models.Model):
                                 if next_stage:
                                     applicant.write({'stage_id': next_stage.id})
                             else:
-                                if hasattr(applicant, 'action_send_level_2_failed_email'):
-                                    applicant.sudo().action_send_level_2_failed_email()
+                                failed_stage = self.env['hr.recruitment.stage'].search([
+                                    ('name', '=', 'Dropped'),
+                                    '|',
+                                    ('job_ids', '=', False),
+                                    ('job_ids', 'in', [job.id])
+                                ], limit=1)
+
+                                if failed_stage:
+                                    applicant.write({'stage_id': failed_stage.id})
+
+                                # Failed individual criteria
+                                    applicant.action_send_level_2_failed_email(failure_type='assessment')
                         else:
-                            # Old average-based logic
+                            # Average-based logic (when criteria is disabled)
                             avg_score = (analytical_score + logical_score) / 2
                             if avg_score > 70:
                                 next_stage = self.env['hr.recruitment.stage'].search([
@@ -150,8 +157,16 @@ class SurveyUser_Input(models.Model):
                                 if next_stage:
                                     applicant.write({'stage_id': next_stage.id})
                             else:
-                                if hasattr(applicant, 'action_send_level_2_failed_email'):
-                                    applicant.sudo().action_send_level_2_failed_email()
+                                failed_stage = self.env['hr.recruitment.stage'].search([
+                                    ('name', '=', 'Dropped'),
+                                    '|',
+                                    ('job_ids', '=', False),
+                                    ('job_ids', 'in', [job.id])
+                                ], limit=1)
+
+                                if failed_stage:
+                                    applicant.write({'stage_id': failed_stage.id})
+                                    applicant.action_send_level_2_failed_email(failure_type='assessment')
 
             # =========================================================
             # 4. GEMS STONE SCREENING → OAD IDEAL PROFILE SCREENING
@@ -226,6 +241,7 @@ class SurveyUser_Input(models.Model):
                             applicant.write({'stage_id': next_stage.id})
 
         return res
+
     def get_gems_data(self):
         """
         Get GEMS calculation data for template use
@@ -234,10 +250,15 @@ class SurveyUser_Input(models.Model):
         self.ensure_one()
         if self.survey_id.survey_type != 'recruitment':
             return False
+        if not self.applicant_id or not self.applicant_id.job_id:
+            return False
+        job = self.applicant_id.job_id
+        # Check if this is the gemstone screening survey for this job
+        if not job.gems_stone_screening_id or self.survey_id.id != job.gems_stone_screening_id.id:
+            return False
         total_score = self.scoring_total or 0
         if total_score == 0:
             return False
         gems_data = self.survey_id._get_gems_stone_mapping(total_score)
         gems_data['total_score'] = total_score
-
         return gems_data
