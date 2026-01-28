@@ -4,14 +4,12 @@
     <record id="email_template_stage1_resume_acknowledgement" model="mail.template">
         <field name="name">Stage 1 - Acknowledgement of Receiving Your Resume</field>
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
-        <field name="subject">Application Received: {{ object.job_id.name or 'Position' }} | INSYTX Technology
-            Intelligence
-        </field>
+        <field name="subject">Application Received: {{ object.job_id.name or 'Position' }} | INSYTX Technology Intelligence</field>
         <field name="email_from">{{ object.job_id.user_id.partner_id.email }}</field>
         <field name="email_to">{{ object.email_from }}</field>
         <field name="use_default_to" eval="False"/>
         <field name="body_html" type="html">
-            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.6;">
                 <p>Dear
                     <strong>
                         <t t-out="object.partner_name or 'Candidate'"/>
@@ -72,20 +70,15 @@
         <field name="name">Stage 4 - Analytical Skills Screening</field>
         <field name="model_id" ref="survey.model_survey_user_input"/>
 
-        <field name="subject">
-            Assessment Phase: Analytical Skills Evaluation | {{ object.applicant_id.job_id.name if object.applicant_id
-            and object.applicant_id.job_id else 'Position' }}
-        </field>
+        <field name="subject">Assessment Phase: Analytical Skills Evaluation | {{ object.applicant_id.job_id.name if object.applicant_id and object.applicant_id.job_id else 'Position' }}</field>
 
         <field name="email_to" eval="False"/>
         <field name="use_default_to" eval="True"/>
 
-        <field name="email_from">
-            {{ object.survey_id.user_id.partner_id.email }}
-        </field>
+        <field name="email_from">{{ object.survey_id.user_id.partner_id.email }}</field>
 
         <field name="body_html" type="html">
-            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.6;">
                 <p>
                     Dear
                     <strong>
@@ -177,20 +170,15 @@
         <field name="name">Stage 2 - Qualified Resume Process</field>
     <field name="model_id" ref="survey.model_survey_user_input"/>
 
-    <field name="subject">
-        Moving Forward: Video Introduction Request for {{ object.applicant_id.job_id.name or object.survey_id.title or
-        'Position' }} | INSYTX
-    </field>
+    <field name="subject">Moving Forward: Video Introduction Request for {{ object.applicant_id.job_id.name or object.survey_id.title or 'Position' }} | INSYTX</field>
 
     <field name="email_to" eval="False"/>
     <field name="use_default_to" eval="True"/>
 
-    <field name="email_from">
-        {{ object.survey_id.user_id.partner_id.email or 'careers@insytx.com' }}
-    </field>
+    <field name="email_from">{{ object.survey_id.user_id.partner_id.email or 'hr@insytx.com' }}</field>
 
     <field name="body_html" type="html">
-        <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+        <div style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.6;">
             <p>
                 Dear
                 <strong>
@@ -301,20 +289,15 @@
         <field name="name">Stage 5 - Logical Skills Screening</field>
         <field name="model_id" ref="survey.model_survey_user_input"/>
 
-        <field name="subject">
-            Progression Update: Logical Skills Assessment | {{ object.applicant_id.job_id.name if object.applicant_id
-            and object.applicant_id.job_id else 'Position' }}
-        </field>
+        <field name="subject">Progression Update: Logical Skills Assessment | {{ object.applicant_id.job_id.name if object.applicant_id and object.applicant_id.job_id else 'Position' }}</field>
 
         <field name="email_to" eval="False"/>
         <field name="use_default_to" eval="True"/>
 
-        <field name="email_from">
-            {{ object.survey_id.user_id.partner_id.email }}
-        </field>
+        <field name="email_from">{{ object.survey_id.user_id.partner_id.email }}</field>
 
         <field name="body_html" type="html">
-            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.6;">
                 <p>
                     Dear
                     <strong>
@@ -408,11 +391,9 @@
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
         <field name="subject">Level 2 Failed – {{ object.job_id.name or "Position" }}</field>
         <field name="email_to">{{ object.email_from }}</field>
-        <field name="email_from">{{ object.job_id.user_id.partner_id.email if object.job_id and object.job_id.user_id
-            else '' }}
-        </field>
+        <field name="email_from">{{ object.job_id.user_id.partner_id.email if object.job_id and object.job_id.user_id else '' }}</field>
         <field name="body_html" type="html">
-            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.6;">
                 <p>
                     Dear
                     <strong>
@@ -494,20 +475,15 @@
         <field name="name">Stage 6 - GEMS Stone Screening</field>
         <field name="model_id" ref="survey.model_survey_user_input"/>
 
-        <field name="subject">
-            Progression Update: GEMS Personality Assessment | {{ object.applicant_id.job_id.name if object.applicant_id
-            and object.applicant_id.job_id else 'Position' }}
-        </field>
+        <field name="subject">Progression Update: GEMS Personality Assessment | {{ object.applicant_id.job_id.name if object.applicant_id and object.applicant_id.job_id else 'Position' }}</field>
 
         <field name="email_to" eval="False"/>
         <field name="use_default_to" eval="True"/>
 
-        <field name="email_from">
-            {{ object.survey_id.user_id.partner_id.email }}
-        </field>
+        <field name="email_from">{{ object.survey_id.user_id.partner_id.email }}</field>
 
         <field name="body_html" type="html">
-            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.6;">
                 <p>
                     Dear
                     <strong>
@@ -602,15 +578,13 @@
     <field name="name">Stage 7 - OAD Profile Screening</field>
     <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
 
-    <field name="subject">
-        Final Profiling: OAD Strategic Alignment | {{ object.job_id.name or 'Position' }}
-    </field>
+    <field name="subject">Final Profiling: OAD Strategic Alignment | {{ object.job_id.name or 'Position' }}</field>
 
     <field name="email_from">{{ object.user_id.partner_id.email }}</field>
     <field name="email_to">{{ object.email_from }}</field>
 
     <field name="body_html" type="html">
-        <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+        <div style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.6;">
             <p>
                 Dear
                 <strong>
@@ -713,15 +687,13 @@
         <field name="name">Resume Rejection Notification</field>
         <field name="model_id" ref="hr_recruitment.model_hr_applicant"/>
 
-        <field name="subject">
-            Application Update: {{ object.job_id.name or 'Position' }} | INSYTX
-        </field>
+        <field name="subject">Application Update: {{ object.job_id.name or 'Position' }} | INSYTX</field>
         <field name="email_from">{{ object.job_id.user_id.partner_id.email }}</field>
         <field name="email_to">{{ object.email_from }}</field>
         <field name="use_default_to" eval="False"/>
 
         <field name="body_html" type="html">
-            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #FFFFFF; line-height: 1.6;">
+            <div style="font-family: Arial, sans-serif; font-size: 14px; color: #000; line-height: 1.6;">
                 <p>
                     Dear
                     <strong>

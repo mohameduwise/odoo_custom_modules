@@ -784,7 +784,7 @@ class HrApplicant(models.Model):
 
             if failed_stage:
                 self.write({'stage_id': failed_stage.id})
-                applicant.action_send_level_2_failed_email(failure_type='resume')
+                self.action_send_level_2_failed_email(failure_type='resume')
             _logger.info(f"Applicant {self.partner_name} score {self.ai_score} below threshold {required_score}")
             return
 

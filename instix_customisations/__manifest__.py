@@ -19,7 +19,7 @@ Designed for enterprise hiring workflows with manual HR control.
     "website": "https://internal.insytx.com/",
 
     "category": "Human Resources",
-    "version": "19.1.2",
+    "version": "19.1.3",
     "license": "LGPL-3",
 
     "depends": [
@@ -46,7 +46,7 @@ Designed for enterprise hiring workflows with manual HR control.
     'assets': {
         
         "web.assets_frontend": [
-            'instix_customisations/static/src/js/website_form_no_file_validation.js'
+            'instix_customisations/static/src/js/website_form_no_file_validation.js',
         ]
     },
     "installable": True,
