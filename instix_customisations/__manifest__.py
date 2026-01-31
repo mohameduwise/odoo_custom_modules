@@ -41,6 +41,7 @@ Designed for enterprise hiring workflows with manual HR control.
         "views/survey_template.xml",
         "wizard/oda_link_view.xml",
 		"views/resume_ai_model_views.xml",
+		"views/survey_user_input_line_views.xml",
 ],
 
     'assets': {

@@ -1,4 +1,5 @@
-from odoo import fields, models, _
+from odoo import fields, models,api, _
+from odoo.exceptions import UserError
 
 
 class SurveyUser_Input(models.Model):
@@ -262,3 +263,37 @@ class SurveyUser_Input(models.Model):
         gems_data = self.survey_id._get_gems_stone_mapping(total_score)
         gems_data['total_score'] = total_score
         return gems_data
+
+
+class SurveyUserInputLine(models.Model):
+    _inherit = 'survey.user_input.line'
+
+    attachment_id = fields.Many2one('ir.attachment', 'Attachment')
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+
+        for record in records:
+            question = record.question_id
+            attachment = record.value_char_box  # assuming this holds attachment id or record
+
+            if not (question and attachment):
+                continue
+
+            # Check if question type is file upload
+            if question.question_type != 'file':
+                continue
+
+            # Assign attachment
+            record.attachment_id = int(attachment)
+
+        return records
+
+    def action_download_attachment(self):
+        """ Download the XML file linked to the document. """
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_url',
+            'url': f'/web/content/{self.attachment_id.id}?download=true',
+        }
