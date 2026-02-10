@@ -94,91 +94,140 @@ function applyPatchTo(SurveyForm) {
     // Wrap prepareSubmitValues
     const _origPrepare = SurveyForm.prototype.prepareSubmitValues;
     SurveyForm.prototype.prepareSubmitValues = function (formData, params) {
-        _origPrepare && _origPrepare.call(this, formData, params);
-        const $root = $(this.el);
+    _origPrepare && _origPrepare.call(this, formData, params);
+    const $root = $(this.el);
 
-        $root.find('[data-question-type="color"]').each(function () { params[this.name] = this.value; });
-        $root.find('[data-question-type="email"]').each(function () { params[this.name] = this.value; });
-        $root.find('[data-question-type="url"]').each(function () { params[this.name] = this.value; });
-        $root.find('[data-question-type="time"]').each(function () { params[this.name] = this.value; });
-        $root.find('[data-question-type="range"]').each(function () { params[this.name] = this.value; });
-        $root.find('[data-question-type="week"]').each(function () { params[this.name] = this.value; });
-        $root.find('[data-question-type="password"]').each(function () { params[this.name] = this.value; });
-        $root.find('[data-question-type="signature"]').each(function () {
-            const $hiddenInput = $(this);
-            const signatureData = $hiddenInput.val();
-            if (signatureData && signatureData.startsWith('data:image/')) {
-                params[this.name] = signatureData;
-            }
-        });
-        $root.find('[data-question-type="month"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="color"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="email"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="url"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="time"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="range"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="week"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="password"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="signature"]').each(function () {
+        const $hiddenInput = $(this);
+        const signatureData = $hiddenInput.val();
+        if (signatureData && signatureData.startsWith('data:image/')) {
+            params[this.name] = signatureData;
+        }
+    });
+    $root.find('[data-question-type="month"]').each(function () { params[this.name] = this.value; });
 
-        $root.find('[data-question-type="address"]').each(function () {
-            const $hiddenInput = $(this);
-            const $addressContainer = $hiddenInput.closest('.o_survey_answer_wrapper').find('.address-fields');
-            const addressData = {
-                street: $addressContainer.find('.address-street').val() || '',
-                street2: $addressContainer.find('.address-street2').val() || '',
-                zip: $addressContainer.find('.address-zip').val() || '',
-                city: $addressContainer.find('.address-city').val() || '',
-                state: $addressContainer.find('.address-state').val() || '',
-                country: $addressContainer.find('.address-country').val() || ''
-            };
-            params[this.name] = JSON.stringify(addressData);
-        });
+    $root.find('[data-question-type="address"]').each(function () {
+        const $hiddenInput = $(this);
+        const $addressContainer = $hiddenInput.closest('.o_survey_answer_wrapper').find('.address-fields');
+        const addressData = {
+            street: $addressContainer.find('.address-street').val() || '',
+            street2: $addressContainer.find('.address-street2').val() || '',
+            zip: $addressContainer.find('.address-zip').val() || '',
+            city: $addressContainer.find('.address-city').val() || '',
+            state: $addressContainer.find('.address-state').val() || '',
+            country: $addressContainer.find('.address-country').val() || ''
+        };
+        params[this.name] = JSON.stringify(addressData);
+    });
 
-        $root.find('[data-question-type="name"]').each(function () {
-            const $hiddenInput = $(this);
-            const $nameContainer = $hiddenInput.closest('.o_survey_answer_wrapper').find('.name-fields');
-            const nameData = {
-                first_name: $nameContainer.find('.name-first').val() || '',
-                middle_name: $nameContainer.find('.name-middle').val() || '',
-                last_name: $nameContainer.find('.name-last').val() || ''
-            };
-            params[this.name] = JSON.stringify(nameData);
-        });
+    $root.find('[data-question-type="name"]').each(function () {
+        const $hiddenInput = $(this);
+        const $nameContainer = $hiddenInput.closest('.o_survey_answer_wrapper').find('.name-fields');
+        const nameData = {
+            first_name: $nameContainer.find('.name-first').val() || '',
+            middle_name: $nameContainer.find('.name-middle').val() || '',
+            last_name: $nameContainer.find('.name-last').val() || ''
+        };
+        params[this.name] = JSON.stringify(nameData);
+    });
 
-        $root.find('[data-question-type="many2one"]').each(function () { params[this.name] = this.value; });
+    $root.find('[data-question-type="many2one"]').each(function () { params[this.name] = this.value; });
 
-        $root.find('[data-question-type="many2many"]').each(function () {
-            const selectedIds = Array.from(this.selectedOptions).map(option => option.value).filter(id => id);
-            params[this.name] = selectedIds.join(',');
-        });
+    $root.find('[data-question-type="many2many"]').each(function () {
+        const selectedIds = Array.from(this.selectedOptions).map(option => option.value).filter(id => id);
+        params[this.name] = selectedIds.join(',');
+    });
 
-        $root.find('[data-question-type="file"]').each(function () {
-            const $input = $(this);
-            const files = $input[0].files;
-            if (files && files.length > 0) {
-                const fd = new FormData();
-                fd.append('file', files[0]);
-                // Keep synchronous ajax for parity with original behaviour
-                $.ajax({
-                    url: '/survey/upload_file',
-                    type: 'POST',
-                    data: fd,
-                    processData: false,
-                    contentType: false,
-                    async: false
-                }).done(function(response) {
-                    let result;
-                    try {
-                        result = JSON.parse(response);
-                    } catch (e) {
-                        result = response;
-                    }
-                    if (result && result.attachment_id) {
-                        // original code used data-question-id to set
-                        params[$input.data('question-id')] = result.attachment_id;
-                    }
-                }).fail(function (jqXHR, status, err) {
-                    console.error('File upload failed:', status, err);
-                });
-            }
-        });
+    $root.find('[data-question-type="file"]').each(function () {
+        const $input = $(this);
+        const files = $input[0].files;
+        if (files && files.length > 0) {
+            const file = files[0];
+            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
 
-        return params;
-    };
+            // Create loading overlay
+            const $wrapper = $input.closest('.o_survey_answer_wrapper');
+            const loadingHtml = `
+                <div class="file-upload-loading" style="
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.7);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    z-index: 9999;
+                ">
+                    <div style="
+                        background: white;
+                        padding: 30px;
+                        border-radius: 8px;
+                        text-align: center;
+                        min-width: 300px;
+                    ">
+                        <div class="spinner-border text-primary mb-3" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                        <h5>Uploading File...</h5>
+                        <p class="mb-0">${file.name} (${fileSizeMB} MB)</p>
+                        <small class="text-muted">Please wait, do not close this page</small>
+                    </div>
+                </div>
+            `;
+            $('body').append(loadingHtml);
 
+            const fd = new FormData();
+            fd.append('file', file);
+
+            $.ajax({
+                url: '/survey/upload_file',
+                type: 'POST',
+                data: fd,
+                processData: false,
+                contentType: false,
+                async: false,
+                xhr: function() {
+                    const xhr = new window.XMLHttpRequest();
+                    // Optional: Add upload progress
+                    xhr.upload.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            const percentComplete = (evt.loaded / evt.total) * 100;
+                            console.log('Upload progress:', percentComplete.toFixed(2) + '%');
+                        }
+                    }, false);
+                    return xhr;
+                }
+            }).done(function(response) {
+                let result;
+                try {
+                    result = JSON.parse(response);
+                } catch (e) {
+                    result = response;
+                }
+                if (result && result.attachment_id) {
+                    params[$input.data('question-id')] = result.attachment_id;
+                }
+            }).fail(function (jqXHR, status, err) {
+                console.error('File upload failed:', status, err);
+                alert('File upload failed. Please try again.');
+            }).always(function() {
+                // Remove loading overlay
+                $('.file-upload-loading').remove();
+            });
+        }
+    });
+
+    return params;
+};
     // Wrap validateForm
     const _origValidate = SurveyForm.prototype.validateForm;
     SurveyForm.prototype.validateForm = function (formEl, formData) {

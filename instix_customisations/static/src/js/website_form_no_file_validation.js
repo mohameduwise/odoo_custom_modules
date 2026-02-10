@@ -3,7 +3,6 @@
 import { registry } from "@web/core/registry";
 import { patch } from "@web/core/utils/patch";
 
-console.log("patch file loaded");
 
 /**
  * Patch the website form interaction to disable file validation
