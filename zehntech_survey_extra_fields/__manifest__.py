@@ -12,7 +12,7 @@
     "support": "odoo-support@zehntech.com",
     "live_test_url": "https://zehntechodoo.com/app_name=zehntech_survey_extra_fields/app_version=19.0",
     "category": "Marketing/Surveys",
-    "version": "19.0.1.5",
+    "version": "19.0.1.6",
     "depends": ["survey"],
     "data": [
         "views/survey_question_views.xml",

@@ -74,3 +74,8 @@ class HrJob(models.Model):
         string="Resume Keywords",
         help="Keywords expected to appear in resumes"
     )
+
+    require_supporting_documents = fields.Boolean(
+        string="Require Supporting Documents",
+        help="If enabled, applicants must upload all supporting documents."
+    )

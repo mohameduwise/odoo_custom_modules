@@ -2,12 +2,13 @@
     <template id="job_apply_inherit_documents"
               inherit_id="website_hr_recruitment.apply">
 
-        <!-- Insert AFTER existing Resume field -->
         <xpath expr="//input[@name='Resume']/ancestor::div[hasclass('s_website_form_field')]"
                position="after">
 
-            <!-- Documents Section Title -->
-            <div class="col-12 mt-4 mb-2">
+            <!-- SHOW ONLY IF BOOLEAN IS TRUE -->
+            <t t-if="job.require_supporting_documents">
+
+                <div class="col-12 mt-4 mb-2">
                 <h4 class="fw-bold">Supporting Documents</h4>
                 <p class="text-muted small">
                     Upload clear and readable documents (PDF / JPG / PNG)
@@ -27,7 +28,8 @@
                         <input type="file"
                                class="form-control s_website_form_input"
                                name="ic_passport_copy"
-                               accept=".pdf,.jpg,.jpeg,.png"/>
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required="required"/>
                     </div>
                 </div>
             </div>
@@ -44,12 +46,13 @@
                         <input type="file"
                                class="form-control s_website_form_input"
                                name="degree_certificate"
-                               accept=".pdf,.jpg,.jpeg,.png"/>
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required="required"/>
                     </div>
                 </div>
             </div>
 
-            <!-- Other Courses -->
+                <!-- Other Certificate -->
             <div class="col-12 py-2 s_website_form_field s_website_form_custom"
                  data-type="binary">
                 <div class="row">
@@ -61,12 +64,16 @@
                         <input type="file"
                                class="form-control s_website_form_input"
                                name="other_certificate"
-                               accept=".pdf,.jpg,.jpeg,.png"/>
+                               accept=".pdf,.jpg,.jpeg,.png"
+                               required="required"/>
                     </div>
                 </div>
             </div>
 
+            </t>
+
         </xpath>
+
 
         <!-- Update resume field name -->
         <xpath expr="//input[@id='recruitment6']" position="attributes">

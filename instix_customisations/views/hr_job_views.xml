@@ -15,6 +15,10 @@
                                        widget="boolean_toggle"
                                        string="Enable Passing Score Criteria"/>
                             </group>
+                            <group string="Supporting Documents">
+                                <field name="require_supporting_documents"
+                                       widget="boolean_toggle"/>
+                            </group>
                         </group>
 
                         <group string="Skills Assessment">
