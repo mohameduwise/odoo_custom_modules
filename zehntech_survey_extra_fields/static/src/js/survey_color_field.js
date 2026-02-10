@@ -145,43 +145,36 @@ function applyPatchTo(SurveyForm) {
         params[this.name] = selectedIds.join(',');
     });
 
+    // Handle file uploads with spinner
+    const $fileInputs = $root.find('[data-question-type="file"]');
+    if ($fileInputs.length > 0 && $fileInputs[0].files && $fileInputs[0].files.length > 0) {
+
+        // Show spinner
+        const $spinner = $('<div class="file-upload-spinner"></div>').css({
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            background: 'rgba(0,0,0,0.8)',
+            zIndex: 999999,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+        }).html(`
+            <div style="background:white;padding:40px;border-radius:10px;text-align:center;">
+                <div class="spinner-border text-primary" style="width:3rem;height:3rem;"></div>
+                <h5 style="margin-top:20px;margin-bottom:10px;">Uploading file...</h5>
+                <p style="color:#666;margin:0;">Please wait</p>
+            </div>
+        `);
+        $('body').append($spinner);
+    }
+
     $root.find('[data-question-type="file"]').each(function () {
         const $input = $(this);
         const files = $input[0].files;
         if (files && files.length > 0) {
-            // Create and show loading spinner
-            const loadingHtml = `
-                <div class="file-upload-loading" style="
-                    position: fixed;
-                    top: 0;
-                    left: 0;
-                    width: 100%;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.7);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    z-index: 99999;
-                ">
-                    <div style="
-                        background: white;
-                        padding: 30px;
-                        border-radius: 10px;
-                        text-align: center;
-                    ">
-                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
-                            <span class="sr-only">Loading...</span>
-                        </div>
-                        <h5 class="mt-3">Uploading file...</h5>
-                        <p class="text-muted">Please wait</p>
-                    </div>
-                </div>
-            `;
-
-            $('.file-upload-loading').remove();
-            $('body').append(loadingHtml);
-            $('.file-upload-loading')[0].offsetHeight;
-
             const fd = new FormData();
             fd.append('file', files[0]);
 
@@ -191,7 +184,7 @@ function applyPatchTo(SurveyForm) {
                 data: fd,
                 processData: false,
                 contentType: false,
-                async: false
+                async: true
             }).done(function(response) {
                 let result;
                 try {
@@ -204,8 +197,9 @@ function applyPatchTo(SurveyForm) {
                 }
             }).fail(function (jqXHR, status, err) {
                 console.error('File upload failed:', status, err);
+                alert('File upload failed');
             }).always(function() {
-                $('.file-upload-loading').remove();
+                $('.file-upload-spinner').remove();
             });
         }
     });
