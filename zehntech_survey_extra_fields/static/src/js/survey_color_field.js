@@ -149,11 +149,7 @@ function applyPatchTo(SurveyForm) {
         const $input = $(this);
         const files = $input[0].files;
         if (files && files.length > 0) {
-            const file = files[0];
-            const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-
-            // Create loading overlay
-            const $wrapper = $input.closest('.o_survey_answer_wrapper');
+            // Create and show loading spinner
             const loadingHtml = `
                 <div class="file-upload-loading" style="
                     position: fixed;
@@ -165,28 +161,29 @@ function applyPatchTo(SurveyForm) {
                     display: flex;
                     align-items: center;
                     justify-content: center;
-                    z-index: 9999;
+                    z-index: 99999;
                 ">
                     <div style="
                         background: white;
                         padding: 30px;
-                        border-radius: 8px;
+                        border-radius: 10px;
                         text-align: center;
-                        min-width: 300px;
                     ">
-                        <div class="spinner-border text-primary mb-3" role="status">
+                        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;">
                             <span class="sr-only">Loading...</span>
                         </div>
-                        <h5>Uploading File...</h5>
-                        <p class="mb-0">${file.name} (${fileSizeMB} MB)</p>
-                        <small class="text-muted">Please wait, do not close this page</small>
+                        <h5 class="mt-3">Uploading file...</h5>
+                        <p class="text-muted">Please wait</p>
                     </div>
                 </div>
             `;
+
+            $('.file-upload-loading').remove();
             $('body').append(loadingHtml);
+            $('.file-upload-loading')[0].offsetHeight;
 
             const fd = new FormData();
-            fd.append('file', file);
+            fd.append('file', files[0]);
 
             $.ajax({
                 url: '/survey/upload_file',
@@ -194,18 +191,7 @@ function applyPatchTo(SurveyForm) {
                 data: fd,
                 processData: false,
                 contentType: false,
-                async: false,
-                xhr: function() {
-                    const xhr = new window.XMLHttpRequest();
-                    // Optional: Add upload progress
-                    xhr.upload.addEventListener("progress", function(evt) {
-                        if (evt.lengthComputable) {
-                            const percentComplete = (evt.loaded / evt.total) * 100;
-                            console.log('Upload progress:', percentComplete.toFixed(2) + '%');
-                        }
-                    }, false);
-                    return xhr;
-                }
+                async: false
             }).done(function(response) {
                 let result;
                 try {
@@ -218,9 +204,7 @@ function applyPatchTo(SurveyForm) {
                 }
             }).fail(function (jqXHR, status, err) {
                 console.error('File upload failed:', status, err);
-                alert('File upload failed. Please try again.');
             }).always(function() {
-                // Remove loading overlay
                 $('.file-upload-loading').remove();
             });
         }
