@@ -149,8 +149,27 @@ function applyPatchTo(SurveyForm) {
 
             const $input = $(this);
             const files = $input[0].files;
-            this._showLoadingOverlay();
-            if (files && files.length > 0) {
+if ($('.o_survey_loading_screen').length) return;
+
+    const loadingHtml = `
+        <div class="o_survey_loading_screen">
+            <div class="o_survey_loading_content">
+                <div class="o_survey_spinner"></div>
+                <h3>Processing your response...</h3>
+                <p>Please wait...</p>
+            </div>
+        </div>
+    `;
+    $('body').append(loadingHtml);
+
+    const observer = new MutationObserver(() => {
+        if ($('.o_survey_finished, .o_survey_form_done').length) {
+            $('.o_survey_loading_screen').remove();
+            observer.disconnect();
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });            if (files && files.length > 0) {
                 const fd = new FormData();
                 fd.append('file', files[0]);
                 // Keep synchronous ajax for parity with original behaviour
