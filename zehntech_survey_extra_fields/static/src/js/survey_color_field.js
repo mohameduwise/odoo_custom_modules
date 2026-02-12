@@ -175,6 +175,8 @@ function applyPatchTo(SurveyForm) {
                 }).fail(function (jqXHR, status, err) {
                     console.error('File upload failed:', status, err);
                 });
+                            console.log("===================after closing===============")
+
             }
         });
 
