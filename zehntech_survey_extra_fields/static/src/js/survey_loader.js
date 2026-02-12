@@ -57,6 +57,8 @@ patch(SurveyForm.prototype, {
                     return;
                 }
             }
+                        this._showLoadingOverlay();
+
             this.prepareSubmitValues(formData, params);
         }
 
