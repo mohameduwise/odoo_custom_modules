@@ -90,16 +90,27 @@ patch(SurveyForm.prototype, {
     },
 
     _showLoadingOverlay() {
-        const loadingHtml = `
-            <div class="o_survey_loading_screen">
-                <div class="o_survey_loading_content">
-                    <div class="o_survey_spinner"></div>
-                    <h3>Processing your response...</h3>
-                    <p>Please wait</p>
-                </div>
+        if ($('.o_survey_loading_screen').length) return;
+
+    const loadingHtml = `
+        <div class="o_survey_loading_screen">
+            <div class="o_survey_loading_content">
+                <div class="o_survey_spinner"></div>
+                <h3>Processing your response...</h3>
+                <p>Please wait...</p>
             </div>
-        `;
-        $('body').append(loadingHtml);
+        </div>
+    `;
+    $('body').append(loadingHtml);
+
+    const observer = new MutationObserver(() => {
+        if ($('.o_survey_finished, .o_survey_form_done').length) {
+            $('.o_survey_loading_screen').remove();
+            observer.disconnect();
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
     }
 
 })

@@ -12,7 +12,7 @@
     "support": "odoo-support@zehntech.com",
     "live_test_url": "https://zehntechodoo.com/app_name=zehntech_survey_extra_fields/app_version=19.0",
     "category": "Marketing/Surveys",
-    "version": "19.0.1.7",
+    "version": "19.0.1.8",
     "depends": ["survey"],
     "data": [
         "views/survey_question_views.xml",
@@ -30,6 +30,7 @@
             "zehntech_survey_extra_fields/static/src/js/survey_signature_field.js",
             "zehntech_survey_extra_fields/static/src/js/survey_range_field.js",
             "zehntech_survey_extra_fields/static/src/js/survey_loader.js",
+            "zehntech_survey_extra_fields/static/src/css/loader.scss",
         ],
     },
     "images": ["static/description/banner.gif"],

@@ -1,0 +1,28 @@
+.o_survey_loading_screen {
+    position: fixed;
+    inset: 0;                 /* top:0; right:0; bottom:0; left:0 */
+    background: rgba(255,255,255,0.95);
+    z-index: 99999;           /* higher than Odoo content */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.o_survey_loading_content {
+    text-align: center;
+}
+
+.o_survey_spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #ddd;
+    border-top: 5px solid #875A7B;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: auto;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
