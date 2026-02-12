@@ -146,8 +146,10 @@ function applyPatchTo(SurveyForm) {
         });
 
         $root.find('[data-question-type="file"]').each(function () {
+
             const $input = $(this);
             const files = $input[0].files;
+            console.log("===================test===============")
             if (files && files.length > 0) {
                 const fd = new FormData();
                 fd.append('file', files[0]);
