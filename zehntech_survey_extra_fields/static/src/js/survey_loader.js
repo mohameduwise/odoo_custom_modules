@@ -3,6 +3,7 @@ import { patch } from '@web/core/utils/patch';
 import {SurveyForm} from '@survey/interactions/survey_form'
 import { fadeIn, fadeOut } from "@survey/utils";
 import { rpc } from "@web/core/network/rpc";
+import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 
 patch(SurveyForm.prototype, {
 
