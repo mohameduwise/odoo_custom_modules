@@ -114,46 +114,36 @@ patch(SurveyForm.prototype, {
     onSubmit(ev) {
         ev.preventDefault();
         const targetEl = ev.currentTarget;
+        const button = targetEl;
         if (targetEl.value === "previous") {
             this.submitForm({ previousPageId: parseInt(targetEl.dataset.previousPageId) });
         } else if (targetEl.value === "next_skipped") {
             this.submitForm({ nextSkipped: true });
         } else if (targetEl.value === "finish" && !this.options.sessionInProgress) {
-        console.log("=======================",targetEl)
-            const $button = targetEl;
 
         // Prevent double click
-        if ($button.prop('disabled')) {
+         // Native DOM button
+
+        // Prevent double click
+        if (button.disabled) {
             return;
         }
-
-        // Disable button
-        $button.prop('disabled', true);
-
-        // Save original text
-        const originalHtml = $button.html();
-        $button.data('original-html', originalHtml);
-
-        // Add spinner inside button
-        $button.html(`
-            <span class="o_btn_spinner me-2"></span>
-            Processing...
-        `);
             // Adding pop-up before the survey is submitted when not in live session
             this.dialog.add(ConfirmationDialog, {
                 title: _t("Submit confirmation"),
                 body: _t("Are you sure you want to submit the survey?"),
                 confirmLabel: _t("Submit"),
                 confirm: () => {
-                    $button.prop('disabled', true);
+                    button.disabled = true;
 
-                const originalHtml = $button.html();
-                $button.data('original-html', originalHtml);
+                    // Save original content
+                    button.dataset.originalHtml = button.innerHTML;
 
-                $button.html(`
-                    <span class="spinner-border spinner-border-sm me-2"></span>
-                    Processing...
-                `);
+                    // Add spinner (Bootstrap 5 native)
+                    button.innerHTML = `
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        Processing...
+                    `;
 
                 this.waitForTimeout(() => {
                     this.submitForm({ isFinish: true });
@@ -162,6 +152,16 @@ patch(SurveyForm.prototype, {
                 cancel: () => {},
             });
         } else if (targetEl.value === "finish") {
+            button.disabled = true;
+
+                    // Save original content
+                    button.dataset.originalHtml = button.innerHTML;
+
+                    // Add spinner (Bootstrap 5 native)
+                    button.innerHTML = `
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        Processing...
+                    `;
             this.submitForm({ isFinish: true });
         } else {
             this.submitForm();
