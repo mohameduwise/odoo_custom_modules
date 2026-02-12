@@ -149,7 +149,7 @@ function applyPatchTo(SurveyForm) {
 
             const $input = $(this);
             const files = $input[0].files;
-            console.log("===================test===============")
+            this._showLoadingOverlay();
             if (files && files.length > 0) {
                 const fd = new FormData();
                 fd.append('file', files[0]);
