@@ -67,7 +67,7 @@ patch(SurveyForm.prototype, {
         }
 
         const submitPromise = rpc(
-            ${route}/${this.options.surveyToken}/${this.options.answerToken},
+            `${route}/${this.options.surveyToken}/${this.options.answerToken}`,
             params
         );
 
