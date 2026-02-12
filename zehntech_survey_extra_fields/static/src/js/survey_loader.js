@@ -4,6 +4,7 @@ import {SurveyForm} from '@survey/interactions/survey_form'
 import { fadeIn, fadeOut } from "@survey/utils";
 import { rpc } from "@web/core/network/rpc";
 import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
+import { _t } from "@web/core/l10n/translation";
 
 patch(SurveyForm.prototype, {
 
