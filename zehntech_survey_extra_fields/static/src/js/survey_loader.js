@@ -119,7 +119,8 @@ patch(SurveyForm.prototype, {
         } else if (targetEl.value === "next_skipped") {
             this.submitForm({ nextSkipped: true });
         } else if (targetEl.value === "finish" && !this.options.sessionInProgress) {
-            const $button = this.$el.find('button[type="submit"]');
+        console.log("=======================",el)
+            const $button = this.targetEl.find('button[type="submit"]');
 
         // Prevent double click
         if ($button.prop('disabled')) {
