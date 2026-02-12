@@ -26,3 +26,13 @@
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
 }
+.o_btn_spinner {
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid #fff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: o_spin 0.6s linear infinite;
+    vertical-align: middle;
+}

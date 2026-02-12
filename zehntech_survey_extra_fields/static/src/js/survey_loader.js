@@ -89,7 +89,82 @@ patch(SurveyForm.prototype, {
     },
 
     _showLoadingOverlay() {
+        if ($('.o_survey_loading_screen').length) return;
 
+    const loadingHtml = `
+        <div class="o_survey_loading_screen">
+            <div class="o_survey_loading_content">
+                <div class="o_survey_spinner"></div>
+                <h3>Uploading the data...</h3>
+                <p>Please wait...</p>
+            </div>
+        </div>
+    `;
+    $('body').append(loadingHtml);
+
+    const observer = new MutationObserver(() => {
+        if ($('.o_survey_finished, .o_survey_form_done').length) {
+            $('.o_survey_loading_screen').remove();
+            observer.disconnect();
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    },
+    onSubmit(ev) {
+        ev.preventDefault();
+        const targetEl = ev.currentTarget;
+        if (targetEl.value === "previous") {
+            this.submitForm({ previousPageId: parseInt(targetEl.dataset.previousPageId) });
+        } else if (targetEl.value === "next_skipped") {
+            this.submitForm({ nextSkipped: true });
+        } else if (targetEl.value === "finish" && !this.options.sessionInProgress) {
+            const $button = this.$el.find('button[type="submit"]');
+
+        // Prevent double click
+        if ($button.prop('disabled')) {
+            return;
+        }
+
+        // Disable button
+        $button.prop('disabled', true);
+
+        // Save original text
+        const originalHtml = $button.html();
+        $button.data('original-html', originalHtml);
+
+        // Add spinner inside button
+        $button.html(`
+            <span class="o_btn_spinner me-2"></span>
+            Processing...
+        `);
+            // Adding pop-up before the survey is submitted when not in live session
+            this.dialog.add(ConfirmationDialog, {
+                title: _t("Submit confirmation"),
+                body: _t("Are you sure you want to submit the survey?"),
+                confirmLabel: _t("Submit"),
+                confirm: () => {
+                    $button.prop('disabled', true);
+
+                const originalHtml = $button.html();
+                $button.data('original-html', originalHtml);
+
+                $button.html(`
+                    <span class="spinner-border spinner-border-sm me-2"></span>
+                    Processing...
+                `);
+
+                this.waitForTimeout(() => {
+                    this.submitForm({ isFinish: true });
+                }, 0);
+                },
+                cancel: () => {},
+            });
+        } else if (targetEl.value === "finish") {
+            this.submitForm({ isFinish: true });
+        } else {
+            this.submitForm();
+        }
     }
 
 })
