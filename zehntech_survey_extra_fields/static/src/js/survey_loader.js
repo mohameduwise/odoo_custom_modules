@@ -126,87 +126,60 @@ patch(SurveyForm.prototype, {
     observer.observe(document.body, { childList: true, subtree: true });
 },
     onSubmit(ev) {
-    ev.preventDefault();
-    const targetEl = ev.currentTarget;
-    const button = targetEl;
-    if (targetEl.value === "previous") {
-        this.submitForm({ previousPageId: parseInt(targetEl.dataset.previousPageId) });
-    } else if (targetEl.value === "next_skipped") {
-        this.submitForm({ nextSkipped: true });
-    } else if (targetEl.value === "finish" && !this.options.sessionInProgress) {
+        ev.preventDefault();
+        const targetEl = ev.currentTarget;
+        const button = targetEl;
+        if (targetEl.value === "previous") {
+            this.submitForm({ previousPageId: parseInt(targetEl.dataset.previousPageId) });
+        } else if (targetEl.value === "next_skipped") {
+            this.submitForm({ nextSkipped: true });
+        } else if (targetEl.value === "finish" && !this.options.sessionInProgress) {
+
+        // Prevent double click
+         // Native DOM button
 
         // Prevent double click
         if (button.disabled) {
             return;
         }
+            // Adding pop-up before the survey is submitted when not in live session
+            this.dialog.add(ConfirmationDialog, {
+                title: _t("Submit confirmation"),
+                body: _t("Are you sure you want to submit the survey?"),
+                confirmLabel: _t("Submit"),
+                confirm: () => {
+                    button.disabled = true;
 
-        // Adding pop-up before the survey is submitted when not in live session
-        this.dialog.add(ConfirmationDialog, {
-            title: _t("Submit confirmation"),
-            body: _t("Are you sure you want to submit the survey?"),
-            confirmLabel: _t("Submit"),
-            confirm: () => {
-                button.disabled = true;
+                    // Save original content
+                    button.dataset.originalHtml = button.innerHTML;
 
-                // Save original content
-                button.dataset.originalHtml = button.innerHTML;
-
-                // Rotating messages for button
-                const buttonMessages = ['Processing...', 'Finalizing...'];
-                let btnMessageIndex = 0;
-
-                button.innerHTML = `
-                    <span class="spinner-border spinner-border-sm me-2"></span>
-                    ${buttonMessages[0]}
-                `;
-
-                const btnInterval = setInterval(() => {
-                    btnMessageIndex = (btnMessageIndex + 1) % buttonMessages.length;
+                    // Add spinner (Bootstrap 5 native)
                     button.innerHTML = `
                         <span class="spinner-border spinner-border-sm me-2"></span>
-                        ${buttonMessages[btnMessageIndex]}
+                        Processing...
                     `;
-                }, 4000);
-
-                // Store interval to clear later if needed
-                button.dataset.intervalId = btnInterval;
 
                 this.waitForTimeout(() => {
                     this.submitForm({ isFinish: true });
                 }, 0);
-            },
-            cancel: () => {},
-        });
-    } else if (targetEl.value === "finish") {
-        button.disabled = true;
+                },
+                cancel: () => {},
+            });
+        } else if (targetEl.value === "finish") {
+            button.disabled = true;
 
-        // Save original content
-        button.dataset.originalHtml = button.innerHTML;
+                    // Save original content
+                    button.dataset.originalHtml = button.innerHTML;
 
-        // Rotating messages for button
-        const buttonMessages = ['Processing...', 'Finalizing...'];
-        let btnMessageIndex = 0;
-
-        button.innerHTML = `
-            <span class="spinner-border spinner-border-sm me-2"></span>
-            ${buttonMessages[0]}
-        `;
-
-        const btnInterval = setInterval(() => {
-            btnMessageIndex = (btnMessageIndex + 1) % buttonMessages.length;
-            button.innerHTML = `
-                <span class="spinner-border spinner-border-sm me-2"></span>
-                ${buttonMessages[btnMessageIndex]}
-            `;
-        }, 4000);
-
-        // Store interval to clear later if needed
-        button.dataset.intervalId = btnInterval;
-
-        this.submitForm({ isFinish: true });
-    } else {
-        this.submitForm();
+                    // Add spinner (Bootstrap 5 native)
+                    button.innerHTML = `
+                        <span class="spinner-border spinner-border-sm me-2"></span>
+                        Processing...
+                    `;
+            this.submitForm({ isFinish: true });
+        } else {
+            this.submitForm();
+        }
     }
-}
 
 })
