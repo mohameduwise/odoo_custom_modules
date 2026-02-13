@@ -114,4 +114,7 @@
         ]"/>
         </function>
 
+    <delete model="mail.template"
+            id="hr_recruitment.email_template_data_applicant_congratulations"/>
+
 </odoo>
