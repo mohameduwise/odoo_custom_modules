@@ -99,7 +99,7 @@ patch(SurveyForm.prototype, {
         <div class="o_survey_loading_screen">
             <div class="o_survey_loading_content">
                 <div class="o_survey_spinner"></div>
-                <h3>Saving Your Answers</h3>
+                <h3>Uploading the data...</h3>
                 <p>Please wait...</p>
             </div>
         </div>
