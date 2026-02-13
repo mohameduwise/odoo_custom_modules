@@ -93,38 +93,28 @@ patch(SurveyForm.prototype, {
     },
 
     _showLoadingOverlay() {
-    if ($('.o_survey_loading_screen').length) return;
+        if ($('.o_survey_loading_screen').length) return;
 
     const loadingHtml = `
         <div class="o_survey_loading_screen">
             <div class="o_survey_loading_content">
                 <div class="o_survey_spinner"></div>
-                <h3 class="o_survey_loading_title">Uploading the data...</h3>
+                <h3>Saving Your Answers</h3>
                 <p>Please wait...</p>
             </div>
         </div>
     `;
     $('body').append(loadingHtml);
 
-    // Rotating messages every 4 seconds
-    const messages = ['Uploading the data...', 'Saving your answers...', 'Almost there...'];
-    let messageIndex = 0;
-
-    const messageInterval = setInterval(() => {
-        messageIndex = (messageIndex + 1) % messages.length;
-        $('.o_survey_loading_title').text(messages[messageIndex]);
-    }, 4000);
-
     const observer = new MutationObserver(() => {
         if ($('.o_survey_finished, .o_survey_form_done').length) {
-            clearInterval(messageInterval);
             $('.o_survey_loading_screen').remove();
             observer.disconnect();
         }
     });
 
     observer.observe(document.body, { childList: true, subtree: true });
-},
+    },
     onSubmit(ev) {
         ev.preventDefault();
         const targetEl = ev.currentTarget;
