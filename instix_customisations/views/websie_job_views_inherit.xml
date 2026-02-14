@@ -2,6 +2,28 @@
     <template id="job_apply_inherit_documents"
               inherit_id="website_hr_recruitment.apply">
 
+
+        <xpath expr="//input[@name='Resume']/ancestor::div[contains(@class,'s_website_form_field')]"
+               position="after">
+
+            <!-- IC / Passport -->
+            <div class="col-12 py-2 s_website_form_field s_website_form_custom"
+                 data-type="binary">
+                <div class="row">
+                    <label class="col-4 col-sm-auto s_website_form_label"
+                           style="width: 200px">
+                        IC / Passport Copy
+                    </label>
+                    <div class="col-sm">
+                        <input type="file"
+                               class="form-control s_website_form_input"
+                               name="ic_passport_copy"
+                               accept=".pdf,.jpg,.jpeg,.png"/>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
         <xpath expr="//input[@name='Resume']/ancestor::div[hasclass('s_website_form_field')]"
                position="after">
 
@@ -16,25 +38,8 @@
                 <hr/>
             </div>
 
-            <!-- IC / Passport -->
-            <div class="col-12 py-2 s_website_form_field s_website_form_custom"
-                 data-type="binary">
-                <div class="row">
-                    <label class="col-4 col-sm-auto s_website_form_label"
-                           style="width: 200px">
-                        IC / Passport Copy
-                    </label>
-                    <div class="col-sm">
-                        <input type="file"
-                               class="form-control s_website_form_input"
-                               name="ic_passport_copy"
-                               accept=".pdf,.jpg,.jpeg,.png"
-                               required="required"/>
-                    </div>
-                </div>
-            </div>
 
-            <!-- Degree Certificate -->
+                <!-- Degree Certificate -->
             <div class="col-12 py-2 s_website_form_field s_website_form_custom"
                  data-type="binary">
                 <div class="row">
@@ -46,8 +51,7 @@
                         <input type="file"
                                class="form-control s_website_form_input"
                                name="degree_certificate"
-                               accept=".pdf,.jpg,.jpeg,.png"
-                               required="required"/>
+                               accept=".pdf,.jpg,.jpeg,.png"/>
                     </div>
                 </div>
             </div>
@@ -64,8 +68,7 @@
                         <input type="file"
                                class="form-control s_website_form_input"
                                name="other_certificate"
-                               accept=".pdf,.jpg,.jpeg,.png"
-                               required="required"/>
+                               accept=".pdf,.jpg,.jpeg,.png"/>
                     </div>
                 </div>
             </div>
