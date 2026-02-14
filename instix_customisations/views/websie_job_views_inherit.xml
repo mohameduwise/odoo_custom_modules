@@ -3,7 +3,7 @@
               inherit_id="website_hr_recruitment.apply">
 
 
-        <xpath expr="//input[@name='Resume']/ancestor::div[contains(@class,'s_website_form_field')]"
+        <xpath expr="//input[@name='partner_phone']/ancestor::div[contains(@class,'s_website_form_field')]"
                position="after">
 
             <!-- IC / Passport -->
