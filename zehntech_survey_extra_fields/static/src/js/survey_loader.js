@@ -129,14 +129,8 @@ patch(SurveyForm.prototype, {
             this.submitForm({ nextSkipped: true });
         } else if (targetEl.value === "finish" && !this.options.sessionInProgress) {
 
-        // Prevent double click
-         // Native DOM button
-
-        // Prevent double click
-                        console.log("===========bbbbbbbb==============================")
 
         if (button.disabled) {
-                console.log("===========aaa==============================")
 
             return;
         }
@@ -164,7 +158,6 @@ patch(SurveyForm.prototype, {
                 cancel: () => {},
             });
         } else if (targetEl.value === "finish") {
-        console.log("===================sss======================")
             button.disabled = true;
 
                     // Save original content

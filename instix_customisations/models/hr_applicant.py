@@ -76,7 +76,10 @@ class HrApplicant(models.Model):
     missing_skills = fields.Text(readonly=True, string="Missing Skills")
     matched_keywords = fields.Text(readonly=True, string="Matched Keywords")
     extracted_experience_years = fields.Float(readonly=True, string="Experience (Years)")
-
+    gemstone_result_html = fields.Html(
+        string="Gemstone Result",
+        sanitize=True
+    )
 
     @api.model_create_multi
     def create(self, vals_list):

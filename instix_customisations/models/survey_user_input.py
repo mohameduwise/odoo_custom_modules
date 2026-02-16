@@ -196,7 +196,46 @@ class SurveyUser_Input(models.Model):
                             if len(sorted_gems) >= 2:
                                 primary_gem = sorted_gems[0][0]
                                 secondary_gem = sorted_gems[1][0]
+                                gem_colors = {
+                                    "EMERALD": "#2ECC71",
+                                    "RUBY": "#E74C3C",
+                                    "SAPPHIRE": "#3498DB",
+                                    "PEARL": "#DCCCA3",
+                                }
 
+                                primary_color = gem_colors.get(primary_gem, "#777")
+                                secondary_color = gem_colors.get(secondary_gem, "#777")
+
+                                gemstone_html = f"""
+                                <div style="padding:8px;border:1px solid #ddd;border-radius:8px;background:#f9f9f9;color:black;">
+                                     <b style="color:black;">Gemstone Result</b><br/>
+                                    Primary:
+                                    <span style="
+                                        background:{primary_color};
+                                        color:black !important;
+                                        padding:2px 8px;
+                                        border-radius:10px;
+                                        font-weight:600;
+                                    ">
+                                        {primary_gem}
+                                    </span>
+                                    &nbsp;
+                                    Secondary:
+                                    <span style="
+                                        background:{secondary_color};
+                                        color:black !important;
+                                        padding:2px 8px;
+                                        border-radius:10px;
+                                        font-weight:600;
+                                    ">
+                                        {secondary_gem}
+                                    </span>
+                                </div>
+                                """
+
+                                applicant.write({
+                                    'gemstone_result_html': gemstone_html
+                                })
                                 if (hasattr(job, 'x_studio_primary') and
                                         hasattr(job, 'x_studio_secondary') and
                                         job.x_studio_primary == primary_gem and
