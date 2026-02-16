@@ -5,6 +5,7 @@ import { fadeIn, fadeOut } from "@survey/utils";
 import { rpc } from "@web/core/network/rpc";
 import { ConfirmationDialog } from "@web/core/confirmation_dialog/confirmation_dialog";
 import { _t } from "@web/core/l10n/translation";
+        console.log("=========zzzzzzzzzzzzzzzz================================")
 
 patch(SurveyForm.prototype, {
 
@@ -57,7 +58,9 @@ patch(SurveyForm.prototype, {
                     return;
                 }
             }
+            if(options.isFinish){
                         this._showLoadingOverlay();
+                        }
 
             this.prepareSubmitValues(formData, params);
         }
@@ -115,6 +118,7 @@ patch(SurveyForm.prototype, {
 
     observer.observe(document.body, { childList: true, subtree: true });
     },
+
     onSubmit(ev) {
         ev.preventDefault();
         const targetEl = ev.currentTarget;
@@ -129,7 +133,11 @@ patch(SurveyForm.prototype, {
          // Native DOM button
 
         // Prevent double click
+                        console.log("===========bbbbbbbb==============================")
+
         if (button.disabled) {
+                console.log("===========aaa==============================")
+
             return;
         }
             // Adding pop-up before the survey is submitted when not in live session
@@ -156,6 +164,7 @@ patch(SurveyForm.prototype, {
                 cancel: () => {},
             });
         } else if (targetEl.value === "finish") {
+        console.log("===================sss======================")
 //            button.disabled = true;
 //
 //                    // Save original content
