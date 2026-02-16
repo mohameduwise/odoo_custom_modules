@@ -156,16 +156,16 @@ patch(SurveyForm.prototype, {
                 cancel: () => {},
             });
         } else if (targetEl.value === "finish") {
-            button.disabled = true;
-
-                    // Save original content
-                    button.dataset.originalHtml = button.innerHTML;
-
-                    // Add spinner (Bootstrap 5 native)
-                    button.innerHTML = `
-                        <span class="spinner-border spinner-border-sm me-2"></span>
-                        Processing...
-                    `;
+//            button.disabled = true;
+//
+//                    // Save original content
+//                    button.dataset.originalHtml = button.innerHTML;
+//
+//                    // Add spinner (Bootstrap 5 native)
+//                    button.innerHTML = `
+//                        <span class="spinner-border spinner-border-sm me-2"></span>
+//                        Processing...
+//                    `;
             this.submitForm({ isFinish: true });
         } else {
             this.submitForm();
