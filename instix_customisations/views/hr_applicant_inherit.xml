@@ -88,15 +88,15 @@
 
                 <!-- Detailed Breakdown in Notebook -->
                 <notebook>
-                    <page string="Score Breakdown" name="score_breakdown"
-                          invisible="ai_score == 0">
+                        <page string="Score Breakdown" name="score_breakdown"
+                              invisible="ai_score == 0">
 
-                        <!-- HTML Score Breakdown -->
-                        <group>
-                            <field name="ai_score_breakdown" widget="html" nolabel="1"/>
-                        </group>
+                            <!-- HTML Score Breakdown -->
+                            <group>
+                                <field name="ai_score_breakdown" widget="html" nolabel="1"/>
+                            </group>
 
-                        <separator string="Detailed Match Analysis"/>
+                            <separator string="Detailed Match Analysis"/>
 
                         <!-- Skills Match Details -->
                         <group string="Skills Analysis">

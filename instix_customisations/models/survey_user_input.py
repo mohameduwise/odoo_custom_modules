@@ -1,5 +1,8 @@
-from odoo import fields, models,api, _
+import logging
+
+from odoo import fields, models, api, _
 from odoo.exceptions import UserError
+_logger = logging.getLogger('odoo')
 
 
 class SurveyUser_Input(models.Model):
@@ -12,6 +15,22 @@ class SurveyUser_Input(models.Model):
         MAX_ATTACHMENT_SIZE = 20 * 1024 * 1024  # 20 MB
 
         for user_input in self:
+            # =========================================================
+            # CHECK IF THIS IS THE EAGLES SURVEY (from settings)
+            # =========================================================
+            eagles_survey_id = self.env['ir.config_parameter'].sudo().get_param(
+                'instix_customisations.eagles_survey_id'
+            )
+
+            if eagles_survey_id and user_input.survey_id.id == int(eagles_survey_id):
+                # This is an EAGLES assessment - auto-save to employee
+                try:
+                    user_input.action_save_eagles_report_to_employee()
+                except Exception as e:
+                    # Log error but don't break the flow
+                    _logger = logging.getLogger(__name__)
+                    _logger.error(f"Failed to auto-save EAGLES report: {str(e)}")
+
             applicant = user_input.applicant_id
             if not applicant:
                 continue
@@ -142,7 +161,7 @@ class SurveyUser_Input(models.Model):
                                 if failed_stage:
                                     applicant.write({'stage_id': failed_stage.id})
 
-                                # Failed individual criteria
+                                    # Failed individual criteria
                                     applicant.action_send_level_2_failed_email(failure_type='assessment')
                         else:
                             # Average-based logic (when criteria is disabled)
@@ -281,6 +300,305 @@ class SurveyUser_Input(models.Model):
                             applicant.write({'stage_id': next_stage.id})
 
         return res
+
+    def action_save_eagles_report_to_employee(self):
+        """Auto-save EAGLES assessment PDF to employee record history"""
+        self.ensure_one()
+
+        # Get data to verify it's a valid EAGLES assessment
+        data = self._get_eagles_data()
+
+        # Check if we have any questions with answers
+        has_answers = False
+        for cat in data.get('categories', []):
+            if cat.get('questions') and any(q.get('score', 0) > 0 for q in cat['questions']):
+                has_answers = True
+                break
+
+        if not has_answers:
+            return False  # Silently skip if no answers
+
+        # Find employee based on survey data
+        employee = False
+
+        # Try to find employee by email from survey
+        if data.get('email'):
+            employee = self.env['hr.employee'].search([
+                ('work_email', '=', data['email'])
+            ], limit=1)
+
+        # If not found, try by name
+        if not employee and data.get('name'):
+            employee = self.env['hr.employee'].search([
+                ('name', 'ilike', data['name'])
+            ], limit=1)
+
+        # If still not found, try by current user
+        if not employee:
+            employee = self.env.user.employee_id
+
+        if not employee:
+            return False  # Silently skip if no employee found
+
+        # Generate PDF report
+        report_action = self.env.ref('instix_customisations.action_eagles_assessment_report')
+
+        # Render PDF
+        pdf_content, report_format = self.env['ir.actions.report']._render_qweb_pdf(
+            report_action.report_name,
+            self.ids
+        )
+
+        if pdf_content:
+            import base64
+            import logging
+            _logger = logging.getLogger(__name__)
+
+            pdf_base64 = base64.b64encode(pdf_content)
+
+            # Create filename with timestamp
+            timestamp = fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
+            filename = f"EAGLES_Assessment_{employee.name}_{timestamp}.pdf"
+
+            # Create history record instead of overwriting
+            assessment = self.env['hr.employee.eagles.assessment'].create({
+                'employee_id': employee.id,
+                'assessment_date': fields.Datetime.now(),
+                'pdf_file': pdf_base64,
+                'pdf_filename': filename,
+                'survey_input_id': self.id,
+                'total_score': data.get('total_score', 0),
+                'percentage': data.get('percentage', 0),
+                'player_fit': data.get('player_fit', ''),
+            })
+
+            _logger.info(f"Saved EAGLES assessment #{assessment.id} for employee {employee.name}")
+            return True
+
+        return False
+
+    def _get_eagles_data(self):
+        self.ensure_one()
+
+        import re
+        import base64
+        import os
+
+        # ── Helper: strip emojis and non-ASCII decorations ────────────
+        def clean_title(text):
+            # Remove emoji / non-ASCII unicode characters
+            text = re.sub(r'[^\x00-\x7F]+', '', text)
+            # Collapse multiple spaces left behind after emoji removal
+            text = re.sub(r'\s{2,}', ' ', text)
+            return text.strip()
+
+        # ── Helper: strip leading key prefix from section label ───────
+        # After emoji removal, "🔥 E – ENGAGEMENT" becomes "E ENGAGEMENT"
+        # (the en-dash and emoji are both stripped as non-ASCII, leaving a
+        # space between the letter code and the name).
+        # Strip the leading 1-4 uppercase letters + space so the label
+        # becomes just "ENGAGEMENT" — preventing "E . E ENGAGEMENT".
+        def strip_key_prefix(text):
+            cleaned = re.sub(r'^[A-Z]{1,4}\s+', '', text).strip()
+            return cleaned if cleaned else text
+
+        # ── 1. Participant details from survey ─────────────────────
+        name = email = phone = ''
+        for line in self.user_input_line_ids:
+            q_title = (line.question_id.title or '').strip().lower()
+            value = (line.value_char_box or '').strip()
+            if 'full name' in q_title or q_title == 'name':
+                name = value
+            elif 'email' in q_title:
+                email = value
+            elif 'phone' in q_title:
+                phone = value
+
+        # ── 2. Fallback to employee record ──────────────────────────
+        if not (name and email and phone):
+            employee = self.env.user.employee_id
+            if employee:
+                if not name:
+                    name = employee.name or ''
+                if not email:
+                    email = employee.work_email or ''
+                if not phone:
+                    phone = employee.phone or employee.mobile_phone or ''
+
+        # ── 3. Get ALL survey questions in order ────────────────────
+        all_questions = self.env['survey.question'].search(
+            [('survey_id', '=', self.survey_id.id)],
+            order='sequence asc'
+        )
+
+        # ── 4. Build answer map ─────────────────────────────────────
+        answer_map = {}
+        for line in self.user_input_line_ids:
+            if line.question_id:
+                answer_map[line.question_id.id] = line
+
+        # ── 5. Question types that carry scorable/displayable answers ─
+        # simple_choice / multiple_choice → scored options
+        # char_box / text_box             → free-text answers (score=0 but still show)
+        SCORED_TYPES   = ('simple_choice', 'multiple_choice')
+        FREETEXT_TYPES = ('char_box', 'text_box')
+        ALL_DISPLAY_TYPES = SCORED_TYPES + FREETEXT_TYPES
+
+        # ── 6. Sections to silently skip (non-scoring intro pages) ───
+        SKIP_SECTION_KEYWORDS = {
+            'team member details',
+            'participant details',
+            'personal details',
+            'introduction',
+            'instructions',
+        }
+
+        SKIP_QUESTION_TITLES = {
+            'full name', 'email address', 'phone number',
+            'name', 'email', 'phone',
+        }
+
+        # ── 7. Walk questions — dynamic section discovery ────────────
+        categories = []
+        current_cat = None
+        seen_keys = {}   # base_key → count, for dedup (E, E2, E3…)
+
+        for question in all_questions:
+            raw_title = (question.title or '').strip()
+
+            # ── Page / section header ──────────────────────────────
+            if question.is_page:
+                if not raw_title:
+                    current_cat = None
+                    continue
+
+                clean = clean_title(raw_title)
+
+                # Skip known non-assessment sections
+                if any(kw in clean.lower() for kw in SKIP_SECTION_KEYWORDS):
+                    current_cat = None
+                    continue
+
+                # Strip leading key prefix so "E - ENGAGEMENT" → "ENGAGEMENT"
+                display_label = strip_key_prefix(clean)
+
+                # Build short key from first letter of cleaned title
+                base_key = clean[0].upper() if clean else 'X'
+                seen_keys[base_key] = seen_keys.get(base_key, 0) + 1
+                count = seen_keys[base_key]
+                key = base_key if count == 1 else f"{base_key}{count}"
+
+                current_cat = {
+                    'key': key,
+                    'label': display_label,   # clean label WITHOUT the leading letter
+                    'questions': [],
+                    'total': 0.0,
+                }
+                categories.append(current_cat)
+                continue
+
+            # ── Skip personal-detail questions ─────────────────────
+            if raw_title.lower() in SKIP_QUESTION_TITLES:
+                continue
+
+            # ── Only displayable question types ────────────────────
+            if question.question_type not in ALL_DISPLAY_TYPES:
+                continue
+
+            # ── Assign to current category ──────────────────────────
+            if current_cat is not None:
+                line = answer_map.get(question.id)
+                answer_text = ''
+                score = 0.0
+
+                if line:
+                    if question.question_type in SCORED_TYPES:
+                        # Choice question — use selected option + its score
+                        if line.suggested_answer_id:
+                            answer_text = line.suggested_answer_id.value or ''
+                            score = float(line.suggested_answer_id.answer_score or 0.0)
+                    elif question.question_type in FREETEXT_TYPES:
+                        # Free-text question — show the typed answer, score = 0
+                        answer_text = (line.value_char_box or line.value_text_box or '').strip()
+
+                current_cat['questions'].append({
+                    'title': clean_title(raw_title),
+                    'answer': answer_text,
+                    'score': score,
+                })
+                current_cat['total'] += score
+
+        # ── 8. Remove sections with zero questions ───────────────────
+        categories = [c for c in categories if c['questions']]
+
+        # ── 9. Max score (choice questions only) ─────────────────────
+        max_score = 0.0
+        for question in all_questions:
+            if question.question_type in SCORED_TYPES and not question.is_page:
+                scores = [
+                    float(s.answer_score or 0)
+                    for s in question.suggested_answer_ids
+                    if s.answer_score
+                ]
+                if scores:
+                    max_score += max(scores)
+
+        # ── 10. Total & Player Fit ────────────────────────────────────
+        total_score = sum(c['total'] for c in categories)
+        percentage = round((total_score / max_score * 100), 1) if max_score else 0.0
+
+        PLAYER_FIT = [
+            (85, 100, 'A Player', '#2e7d32'),
+            (70,  84, 'B Player', '#1565c0'),
+            (50,  69, 'C Player', '#e65100'),
+            (0,   49, 'D Player', '#b71c1c'),
+        ]
+        player_fit = 'D Player'
+        player_color = '#b71c1c'
+        for low, high, label, color in PLAYER_FIT:
+            if low <= percentage <= high:
+                player_fit = label
+                player_color = color
+                break
+
+        # ── 11. Bar data (scored categories only — skip free-text-only sections) ─
+        bar_data = []
+        for cat in categories:
+            # Only include in chart if at least one question has a score > 0 possible
+            bar_data.append({
+                'label': cat['key'],
+                'full_label': cat['label'],
+                'score': cat['total'],
+            })
+
+        # ── 12. Logo as base64 ───────────────────────────────────────
+        logo_b64 = ''
+        try:
+            img_path = os.path.join(os.path.dirname(__file__), '../static/src/img/icon.png')
+            with open(img_path, 'rb') as f:
+                logo_b64 = base64.b64encode(f.read()).decode('utf-8')
+        except Exception:
+            pass
+
+        return {
+            'name': name,
+            'email': email,
+            'phone': phone,
+            'categories': categories,
+            'total_score': total_score,
+            'max_score': max_score,
+            'percentage': percentage,
+            'player_fit': player_fit,
+            'player_color': player_color,
+            'bar_data': bar_data,
+            'logo_b64': logo_b64,
+        }
+    def action_print_eagles_report(self):
+        """Button action to print the EAGLES PDF report."""
+        self.ensure_one()
+        return self.env.ref(
+            'instix_customisations.action_eagles_assessment_report'
+        ).report_action(self)
 
     def get_gems_data(self):
         """

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_inherit_eagles" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.eagles</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="80"/>
+        <field name="inherit_id" ref="hr_recruitment.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <!-- Add EAGLES field at the beginning of the Recruitment app -->
+            <xpath expr="//app[@name='hr_recruitment']" position="inside">
+                <block title="EAGLES Assessment" name="eagles_assessment_block">
+                    <setting id="eagles_survey_setting" string="EAGLES Survey" help="Select the survey to use for EAGLES assessments">
+                        <field name="eagles_survey_id"/>
+                    </setting>
+                </block>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

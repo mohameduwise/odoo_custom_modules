@@ -34,6 +34,8 @@ Designed for enterprise hiring workflows with manual HR control.
     "data": [
         "security/ir.model.access.csv",
         'data/data.xml',
+        "report/eagles_report_template.xml",
+        "report/eagles_report_action.xml",
         "views/email_templates.xml",
         "views/websie_job_views_inherit.xml",
         "views/hr_applicant_inherit.xml",
@@ -42,6 +44,8 @@ Designed for enterprise hiring workflows with manual HR control.
         "wizard/oda_link_view.xml",
 		"views/resume_ai_model_views.xml",
 		"views/survey_user_input_line_views.xml",
+		"views/employee_inherit.xml",
+		"views/res_config_settings_inherit_view.xml",
 ],
 
     'assets': {

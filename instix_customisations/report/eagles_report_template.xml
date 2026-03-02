@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_eagles_assessment">
+        <t t-call="web.html_container">
+
+            <style type="text/css"><![CDATA[
+/*
+  wkhtmltopdf (old WebKit) strict rules:
+  - ALL layout  => <table> elements ONLY
+  - ALL colors  => inline style="" attributes ONLY
+  - CSS here    => typography only (font-size, font-weight, color, line-height)
+  - NO: float, calc(), flexbox, display:table on divs, overflow:hidden
+  - NO: special Unicode chars - plain ASCII only to avoid encoding garbage
+  - SAFE HTML entities only: &gt; &lt; &amp;
+*/
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 9pt;
+    color: #1A1A1A;
+    background: #FFFFFF;
+    line-height: 1.45;
+}
+@page { margin-top:0mm; margin-bottom:0mm; }
+.header, .footer,
+.o_report_layout_standard .header,
+.o_report_layout_standard .footer { display:none !important; }
+
+.lbl {
+    font-size: 6.5pt;
+    font-weight: bold;
+    color: #D4AF79;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    display: block;
+    margin-bottom: 4px;
+}
+.sc-high { color: #27AE60; font-weight: bold; font-size: 12pt; }
+.sc-mid  { color: #D4AF79; font-weight: bold; font-size: 12pt; }
+.sc-low  { color: #EB5757; font-weight: bold; font-size: 12pt; }
+.q-stmt  { font-size: 8pt; color: #1A1A1A; line-height: 1.45; }
+.q-ans   { font-size: 8pt; color: #333333; line-height: 1.45; }
+]]></style>
+            <div class="page">
+
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="data" t-value="doc._get_eagles_data()"/>
+                    <t t-set="categories" t-value="data['categories']"/>
+                    <t t-set="bar_data" t-value="data.get('bar_data', [])"/>
+
+                    <div>
+                        <!-- OUTER PAGE WRAPPER -->
+                        <table width="100%" cellpadding="0" cellspacing="0"
+                               style="background:#FFFFFF; padding:16px 20px 24px 20px;">
+                            <tr><td>
+
+
+                                <!-- ════════════════════════════════════════
+                                     1. HEADER
+                                ════════════════════════════════════════ -->
+                                <table width="100%" cellpadding="0" cellspacing="0"
+                                       style="border:1.5px solid #D4AF79; border-radius:6px; background:#FFFFFF; margin-bottom:14px;">
+                                    <tr><td style="padding:14px 18px 14px 18px;">
+
+                                        <!-- Logo | Title | Badge -->
+                                        <table width="100%" cellpadding="0" cellspacing="0"
+                                               style="padding-bottom:12px; margin-bottom:14px; border-bottom:1px solid #3a5a6e;">
+                                            <tr>
+                                                <td width="58" valign="middle" style="padding-right:14px;">
+                                                    <table cellpadding="0" cellspacing="0"><tr>
+                                                        <td width="48" height="48"
+                                                            style="background:#001525; border-radius:4px;
+                                                           text-align:center; vertical-align:middle;">
+                                                            <!-- LOGO: base64 embedded from _get_eagles_data() -->
+                                                            <img t-att-src="'data:image/png;base64,' + data.get('logo_b64', '')"
+                                                                 width="40" height="40"
+                                                                 style="display:block; margin:4px auto;"/>
+                                                        </td>
+                                                    </tr></table>
+                                                </td>
+                                                <td valign="middle">
+                                                    <div style="font-size:18pt; font-weight:bold; color:#001525; line-height:1.15; margin-bottom:4px;">
+                                                        EAGLES Assessment Report
+                                                    </div>
+                                                    <div style="font-size:7.5pt; color:#D4AF79; letter-spacing:0.6px;">
+                                                        INSYTX . Clarity Through Insight . Internal Team Evaluation
+                                                    </div>
+                                                </td>
+                                                <td width="110" valign="middle" align="right">
+                                                    <span style="display:inline-block; background:#001525; color:#D4AF79;
+                         font-size:7.5pt; font-weight:bold; padding:5px 12px;
+                         border-radius:3px; text-transform:uppercase; letter-spacing:1px;">
+                                                        Confidential
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Name | Email | Phone -->
+                                        <table width="100%" cellpadding="0" cellspacing="0"><tr>
+                                            <td width="33%" valign="top" style="padding-right:14px;">
+                                                <span class="lbl">Full Name</span>
+                                                <span style="font-size:11pt; font-weight:bold; color:#001525;">
+                                                    <t t-esc="data.get('name') or '-'"/>
+                                                </span>
+                                            </td>
+                                            <td width="33%" valign="top" style="padding-right:14px;">
+                                                <span class="lbl">Email Address</span>
+                                                <span style="font-size:11pt; font-weight:bold; color:#001525;">
+                                                    <t t-esc="data.get('email') or '-'"/>
+                                                </span>
+                                            </td>
+                                            <td width="34%" valign="top">
+                                                <span class="lbl">Phone Number</span>
+                                                <span style="font-size:11pt; font-weight:bold; color:#001525;">
+                                                    <t t-esc="data.get('phone') or '-'"/>
+                                                </span>
+                                            </td>
+                                        </tr></table>
+
+                                    </td></tr>
+                                </table>
+
+
+                                <!-- ════════════════════════════════════════
+                                     2. SECTION BAR - CHART
+                                ════════════════════════════════════════ -->
+                                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px;">
+                                    <tr>
+                                        <td style="background:#001525; padding:8px 14px; border-radius:3px;">
+                                            <span style="font-size:8pt; font-weight:bold; color:#D4AF79;
+                     text-transform:uppercase; letter-spacing:1.8px;">
+                                                Category Score Overview
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                                <!-- ════════════════════════════════════════
+                                     3. BAR CHART  (SVG - fully dynamic)
+
+                                     Design improvements:
+                                     - Color-coded bars: green=strong(16-20), gold=moderate(10-15), red=low(0-9)
+                                     - Score label + percentage above each bar
+                                     - Mini progress strip below category name
+                                     - Dashed "Max" reference line at 20
+                                     - Color legend at bottom
+                                     - Y-axis ticks every 4 points
+                                ════════════════════════════════════════ -->
+                                <table width="100%" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #2a4a5e; border-radius:5px; background:#FFFFFF; margin-bottom:14px;">
+                                    <tr><td style="padding:14px 10px 10px 10px; text-align:center;">
+
+                                        <!-- SVG layout constants -->
+                                        <t t-set="max_possible" t-value="20"/>
+                                        <t t-set="bw" t-value="54"/>
+                                        <t t-set="gap" t-value="18"/>
+                                        <t t-set="pad_l" t-value="44"/>
+                                        <t t-set="max_h" t-value="120"/>
+                                        <t t-set="base_y" t-value="152"/>
+                                        <t t-set="svg_h" t-value="228"/>
+                                        <t t-set="svg_w" t-value="pad_l + len(bar_data) * (bw + gap) + 20"/>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                             t-att-width="svg_w"
+                                             t-att-height="svg_h"
+                                             t-att-viewBox="'0 0 %d %d' % (svg_w, svg_h)">
+
+                                            <!-- White background -->
+                                            <rect x="0" y="0" t-att-width="svg_w" t-att-height="svg_h" fill="#FFFFFF"/>
+
+                                            <!-- Dashed Max reference line at score=20 -->
+                                            <line t-att-x1="pad_l"
+                                                  t-att-x2="svg_w - 10"
+                                                  t-att-y1="base_y - max_h"
+                                                  t-att-y2="base_y - max_h"
+                                                  stroke="#D4AF79" stroke-width="1" stroke-dasharray="4,3"
+                                                  opacity="0.5"/>
+                                            <text t-att-x="pad_l - 4"
+                                                  t-att-y="base_y - max_h - 3"
+                                                  font-size="6" text-anchor="end" fill="#D4AF79" opacity="0.8"
+                                                  font-family="Arial,Helvetica,sans-serif">Max</text>
+
+                                            <!-- Y-axis grid lines + labels every 4 -->
+                                            <t t-foreach="[0, 4, 8, 12, 16, 20]" t-as="tick">
+                                                <t t-set="gy" t-value="base_y - int(tick / max_possible * max_h)"/>
+                                                <line t-att-x1="pad_l" t-att-x2="svg_w - 10"
+                                                      t-att-y1="gy" t-att-y2="gy"
+                                                      stroke="#EBEBEB" stroke-width="0.8"/>
+                                                <text t-att-x="pad_l - 6" t-att-y="gy + 3.5"
+                                                      font-size="7.5" text-anchor="end" fill="#888888"
+                                                      font-family="Arial,Helvetica,sans-serif">
+                                                    <t t-esc="tick"/>
+                                                </text>
+                                            </t>
+
+                                            <!-- Y axis line -->
+                                            <line t-att-x1="pad_l" y1="20"
+                                                  t-att-x2="pad_l" t-att-y2="base_y"
+                                                  stroke="#D4AF79" stroke-width="0.8" opacity="0.4"/>
+                                            <!-- X axis line -->
+                                            <line t-att-x1="pad_l" t-att-y1="base_y"
+                                                  t-att-x2="svg_w - 10" t-att-y2="base_y"
+                                                  stroke="#D4AF79" stroke-width="0.8" opacity="0.4"/>
+
+                                            <!-- BARS -->
+                                            <t t-foreach="bar_data" t-as="bar">
+                                                <t t-set="score" t-value="bar.get('score', 0)"/>
+                                                <t t-set="bh" t-value="max(int(score / max_possible * max_h), 6)"/>
+                                                <t t-set="bx" t-value="pad_l + bar_index * (bw + gap) + 4"/>
+                                                <t t-set="by" t-value="base_y - bh"/>
+                                                <t t-set="cx" t-value="bx + bw / 2"/>
+                                                <t t-set="pct" t-value="int(score / max_possible * 100)"/>
+
+                                                <!-- Color by performance band -->
+                                                <t t-set="bfill"
+                                                   t-value="'#27AE60' if score >= 16 else ('#D4AF79' if score >= 10 else '#EB5757')"/>
+                                                <t t-set="bdark"
+                                                   t-value="'#1a7a40' if score >= 16 else ('#a07840' if score >= 10 else '#b03030')"/>
+
+                                                <!-- Drop shadow -->
+                                                <rect t-att-x="bx + 2" t-att-y="by + 2"
+                                                      t-att-width="bw" t-att-height="bh"
+                                                      fill="#CCCCCC" rx="3" ry="3" opacity="0.3"/>
+
+                                                <!-- Bar body -->
+                                                <rect t-att-x="bx" t-att-y="by"
+                                                      t-att-width="bw" t-att-height="bh"
+                                                      t-att-fill="bfill"
+                                                      t-att-stroke="bdark" stroke-width="0.5"
+                                                      rx="3" ry="3"/>
+
+                                                <!-- Sheen strip -->
+                                                <rect t-att-x="bx" t-att-y="by"
+                                                      t-att-width="bw" height="5"
+                                                      fill="#FFFFFF" rx="3" ry="3" opacity="0.18"/>
+
+                                                <!-- Percentage label (small, above score) -->
+                                                <text t-att-x="cx" t-att-y="by - 15"
+                                                      font-size="6.5" text-anchor="middle" fill="#888888"
+                                                      font-family="Arial,Helvetica,sans-serif">
+                                                    (<t t-esc="pct"/>%)
+                                                </text>
+
+                                                <!-- Score label -->
+                                                <text t-att-x="cx" t-att-y="by - 5"
+                                                      font-size="9.5" text-anchor="middle" font-weight="bold"
+                                                      t-att-fill="bfill"
+                                                      font-family="Arial,Helvetica,sans-serif">
+                                                    <t t-esc="'%.1f' % score"/>
+                                                </text>
+
+                                                <!-- Key letter below axis -->
+                                                <text t-att-x="cx" t-att-y="base_y + 14"
+                                                      font-size="11" text-anchor="middle" font-weight="bold"
+                                                      fill="#001525"
+                                                      font-family="Arial,Helvetica,sans-serif">
+                                                    <t t-esc="bar.get('label', '')"/>
+                                                </text>
+
+                                                <!-- Full category name -->
+                                                <text t-att-x="cx" t-att-y="base_y + 27"
+                                                      font-size="6.5" text-anchor="middle" fill="#666666"
+                                                      font-family="Arial,Helvetica,sans-serif">
+                                                    <t t-esc="bar.get('full_label', '')"/>
+                                                </text>
+
+                                                <!-- Mini progress bar track -->
+                                                <rect t-att-x="bx" t-att-y="base_y + 33"
+                                                      t-att-width="bw" height="4"
+                                                      fill="#EBEBEB" rx="2" ry="2"/>
+                                                <!-- Mini progress bar fill -->
+                                                <rect t-att-x="bx" t-att-y="base_y + 33"
+                                                      t-att-width="int(score / max_possible * bw)" height="4"
+                                                      t-att-fill="bfill" rx="2" ry="2"/>
+                                            </t>
+
+                                            <!-- CHART COLOR LEGEND -->
+                                            <t t-set="ly" t-value="svg_h - 14"/>
+
+                                            <rect t-att-x="pad_l" t-att-y="ly" width="8" height="8" fill="#27AE60"
+                                                  rx="1"/>
+                                            <text t-att-x="pad_l + 11" t-att-y="ly + 7"
+                                                  font-size="6.5" fill="#555555"
+                                                  font-family="Arial,Helvetica,sans-serif">
+                                                Strong (16-20)</text>
+
+                                            <rect t-att-x="pad_l + 82" t-att-y="ly" width="8" height="8" fill="#D4AF79"
+                                                  rx="1"/>
+                                            <text t-att-x="pad_l + 93" t-att-y="ly + 7"
+                                                  font-size="6.5" fill="#555555"
+                                                  font-family="Arial,Helvetica,sans-serif">
+                                                Moderate (10-15)</text>
+
+                                            <rect t-att-x="pad_l + 180" t-att-y="ly" width="8" height="8" fill="#EB5757"
+                                                  rx="1"/>
+                                            <text t-att-x="pad_l + 191" t-att-y="ly + 7"
+                                                  font-size="6.5" fill="#555555"
+                                                  font-family="Arial,Helvetica,sans-serif">
+                                                Needs Attention (0-9)</text>
+
+                                        </svg>
+
+                                    </td></tr>
+                                </table>
+
+
+                                <!-- ════════════════════════════════════════
+                                     4. CLASSIFICATION BAND
+                                ════════════════════════════════════════ -->
+                                <table width="100%" cellpadding="0" cellspacing="0"
+                                       style="border:1px solid #2a4a5e; border-radius:5px; background:#FFFFFF; margin-bottom:16px;">
+                                    <tr>
+                                        <!-- Classification -->
+                                        <td width="22%" valign="top"
+                                            style="padding:14px 16px; border-right:1px solid #2a4a5e;">
+                                            <span class="lbl">Classification</span>
+                                            <br/>
+                                            <span t-attf-style="display:inline-block; background:{{ data.get('player_color','#001525') }};
+                             color:#FFFFFF; font-size:12pt; font-weight:bold;
+                             padding:6px 16px; border-radius:3px; margin-top:6px;">
+                                                <t t-esc="data.get('player_fit', '-')"/>
+                                            </span>
+                                        </td>
+                                        <!-- Total Score -->
+                                        <td width="23%" valign="top"
+                                            style="padding:14px 16px; border-right:1px solid #2a4a5e;">
+                                            <span class="lbl">Total Score</span><br/>
+                                            <span style="font-size:20pt; font-weight:bold; color:#001525; line-height:1.2;">
+                                                <t t-esc="'%.1f' % data.get('total_score', 0)"/>
+                                            </span>
+                                            <span style="font-size:10pt; color:#888888;">
+                                                / <t t-esc="'%.1f' % data.get('max_score', 0)"/>
+                                            </span>
+                                        </td>
+                                        <!-- Score % -->
+                                        <td width="18%" valign="top"
+                                            style="padding:14px 16px; border-right:1px solid #2a4a5e;">
+                                            <span class="lbl">Score %</span><br/>
+                                            <span style="font-size:22pt; font-weight:bold; color:#D4AF79; line-height:1.2;">
+                                                <t t-esc="data.get('percentage', 0)"/>%
+                                            </span>
+                                        </td>
+                                        <!-- Classification Guide -->
+                                        <td valign="top" style="padding:14px 16px;">
+                                            <span class="lbl">Classification Guide</span><br/>
+                                            <table cellpadding="0" cellspacing="0" style="margin-top:6px;">
+                                                <tr><td style="padding:3px 0; font-size:8pt; color:#333333;">
+                                                    <b style="color:#27AE60;">A Player</b> 85 - 100%
+                                                </td></tr>
+                                                <tr><td style="padding:3px 0; font-size:8pt; color:#333333;">
+                                                    <b style="color:#56ADF5;">B Player</b> 70 - 84%
+                                                </td></tr>
+                                                <tr><td style="padding:3px 0; font-size:8pt; color:#333333;">
+                                                    <b style="color:#D4AF79;">C Player</b> 50 - 69%
+                                                </td></tr>
+                                                <tr><td style="padding:3px 0; font-size:8pt; color:#333333;">
+                                                    <b style="color:#EB5757;">D Player</b> 0 - 49%
+                                                </td></tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                                <!-- ════════════════════════════════════════
+                                     5. SECTION BAR - Q&A
+                                ════════════════════════════════════════ -->
+                                <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom:10px;">
+                                    <tr>
+                                        <td style="background:#001525; padding:8px 14px; border-radius:3px;">
+                                            <span style="font-size:8pt; font-weight:bold; color:#D4AF79;
+                     text-transform:uppercase; letter-spacing:1.8px;">
+                                                EAGLES Detailed Question Breakdown
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                                <!-- ════════════════════════════════════════
+                                     6. CATEGORY Q&A BLOCKS  (dynamic loop)
+                                ════════════════════════════════════════ -->
+                                <t t-foreach="categories" t-as="cat">
+                                    <table width="100%" cellpadding="0" cellspacing="0"
+                                           style="border:1px solid #2a4a5e; border-radius:5px; margin-bottom:14px; border-collapse:collapse;">
+
+                                        <!-- Category header row -->
+                                        <tr>
+                                            <td colspan="4"
+                                                style="background:#001525; padding:10px 14px; border-radius:4px 4px 0 0;">
+                                                <table width="100%" cellpadding="0" cellspacing="0"><tr>
+                                                    <td style="font-size:10pt; font-weight:bold; color:#D4AF79;">
+                                                        <t t-esc="cat.get('key','').replace('E2','E')"/>
+                                                        .
+                                                        <t t-esc="cat.get('label','').upper()"/>
+                                                    </td>
+                                                    <td align="right"
+                                                        style="font-size:7.5pt; font-weight:bold; color:#aaccdd;
+                           text-transform:uppercase; letter-spacing:0.5px;">
+                                                        <t t-esc="len(cat.get('questions',[]))"/> Questions
+                                                    </td>
+                                                </tr></table>
+                                            </td>
+                                        </tr>
+
+                                        <!-- Column header row -->
+                                        <tr>
+                                            <td width="6%"
+                                                style="background:#001525; padding:8px 10px; font-size:7.5pt; font-weight:bold;
+                   color:#D4AF79; text-transform:uppercase; letter-spacing:0.7px;
+                   text-align:center; border-bottom:1.5px solid #D4AF79;">#</td>
+                                            <td width="44%"
+                                                style="background:#001525; padding:8px 10px; font-size:7.5pt; font-weight:bold;
+                   color:#D4AF79; text-transform:uppercase; letter-spacing:0.7px;
+                   border-bottom:1.5px solid #D4AF79;">Assessment Statement</td>
+                                            <td width="37%"
+                                                style="background:#001525; padding:8px 10px; font-size:7.5pt; font-weight:bold;
+                   color:#D4AF79; text-transform:uppercase; letter-spacing:0.7px;
+                   border-bottom:1.5px solid #D4AF79;">Answer Selected</td>
+                                            <td width="13%"
+                                                style="background:#001525; padding:8px 10px; font-size:7.5pt; font-weight:bold;
+                   color:#D4AF79; text-transform:uppercase; letter-spacing:0.7px;
+                   text-align:center; border-bottom:1.5px solid #D4AF79;">Score</td>
+                                        </tr>
+
+                                        <!-- Question rows -->
+                                        <t t-foreach="cat.get('questions', [])" t-as="q">
+                                            <t t-set="sc" t-value="q.get('score', 0)"/>
+                                            <t t-set="sc_class"
+                                               t-value="'sc-high' if sc >= 3.5 else ('sc-mid' if sc >= 2.0 else 'sc-low')"/>
+                                            <t t-set="dot_color"
+                                               t-value="'#27AE60' if sc >= 3.5 else ('#D4AF79' if sc >= 2.0 else '#EB5757')"/>
+                                            <t t-set="row_bg" t-value="'#EEF2F5' if q_index % 2 == 0 else '#FFFFFF'"/>
+
+                                            <tr>
+                                                <td t-attf-style="background:{{ row_bg }}; padding:10px; text-align:center;
+                              vertical-align:top; border-bottom:0.5px solid #cce0eb;">
+                                                    <span style="font-size:8.5pt; font-weight:bold; color:#D4AF79;">
+                                                        Q<t t-esc="q_index + 1"/>
+                                                    </span>
+                                                </td>
+                                                <td t-attf-style="background:{{ row_bg }}; padding:10px; vertical-align:top;
+                              border-bottom:0.5px solid #cce0eb;">
+                                                    <span class="q-stmt"><t t-esc="q.get('title', '')"/></span>
+                                                </td>
+                                                <td t-attf-style="background:{{ row_bg }}; padding:10px; vertical-align:top;
+                              border-bottom:0.5px solid #cce0eb;">
+                                                    <t t-if="q.get('answer')">
+                                                        <span class="q-ans"><t t-esc="q['answer']"/></span>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <span style="font-size:8pt; color:#999999; font-style:italic;">
+                                                            No
+                                                            answer</span>
+                                                    </t>
+                                                </td>
+                                                <td t-attf-style="background:{{ row_bg }}; padding:10px; text-align:center;
+                              vertical-align:top; border-bottom:0.5px solid #cce0eb;">
+                                                    <span t-att-class="sc_class">
+                                                        <t t-esc="'%.1f' % sc"/>
+                                                    </span>
+                                                    <br/>
+                                                    <span t-attf-style="display:inline-block; width:8px; height:8px;
+                                    border-radius:50%; background-color:{{ dot_color }};
+                                    margin-top:4px;"></span>
+                                                </td>
+                                            </tr>
+                                        </t>
+
+                                        <!-- Category total row -->
+                                        <tr>
+                                            <td colspan="3"
+                                                style="background:#001525; padding:10px 14px; text-align:right;
+                   font-size:8.5pt; font-weight:bold; color:#D4AF79;
+                   text-transform:uppercase; letter-spacing:0.5px;
+                   border-top:1.5px solid #D4AF79;">
+                                                <t t-esc="cat.get('label','')"/> Category Total
+                                            </td>
+                                            <td style="background:#001525; padding:10px 14px; text-align:center;
+                   font-size:14pt; font-weight:bold; color:#D4AF79;
+                   border-top:1.5px solid #D4AF79;">
+                                                <t t-esc="'%.1f' % cat.get('total', 0)"/>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                </t>
+
+
+                                <!-- ════════════════════════════════════════
+                                     7. OVERALL SUMMARY BOX
+                                ════════════════════════════════════════ -->
+                                <table width="100%" cellpadding="0" cellspacing="0"
+                                       style="border:1.5px solid #D4AF79; border-radius:6px; background:#FFFFFF; margin-top:8px;">
+                                    <tr><td style="padding:16px 20px 14px 20px;">
+
+                                        <div style="font-size:10.5pt; font-weight:bold; color:#001525;
+                                                    text-transform:uppercase; letter-spacing:1.2px;
+                                                    margin-bottom:10px; padding-bottom:10px;
+                                                    border-bottom:1px solid #3a5a6e;">
+                                            Overall Assessment Result
+                                        </div>
+
+                                        <table width="100%" cellpadding="4" cellspacing="4">
+                                            <tr>
+                                                <!-- Total Score -->
+                                                <td width="22%" valign="top"
+                                                    style="background-color: rgba(0, 21, 37, 0.8); border:1px solid #2a4a5e; border-radius:4px; padding:13px 14px;">
+                                                    <span class="lbl">Total Score</span><br/>
+                                                    <span style="font-size:22pt; font-weight:bold; color:#D4AF79; line-height:1.1;">
+                                                        <t t-esc="'%.1f' % data.get('total_score', 0)"/>
+                                                    </span>
+                                                    <span style="font-size:10pt; color:#D4AF79;">
+                                                        / <t t-esc="'%.1f' % data.get('max_score', 0)"/>
+                                                    </span>
+                                                </td>
+                                                <!-- Score % -->
+                                                <td width="18%" valign="top"
+                                                    style="background-color: rgba(0, 21, 37, 0.8);
+                                                    border:1px solid #2a4a5e; border-radius:4px; padding:13px 14px;">
+                                                    <span class="lbl">Score %</span><br/>
+                                                    <span style="font-size:26pt; font-weight:bold; color:#D4AF79; line-height:1.1;">
+                                                        <t t-esc="data.get('percentage', 0)"/>%
+                                                    </span>
+                                                </td>
+                                                <!-- Classification -->
+                                                <td width="22%" valign="top" align="center"
+                                                    style="background-color: rgba(0, 21, 37, 0.8);
+                                                border:1px solid #2a4a5e; border-radius:4px; padding:13px 14px;">
+                                                    <span class="lbl" style="display:block; text-align:center;">
+                                                        Classification</span><br/>
+                                                    <span t-attf-style="display:inline-block; color:#D4AF79; font-size:13pt;
+                                                            font-weight:bold; padding:7px 18px; border-radius:3px;
+                                                            border:1.5px solid #D4AF79;">
+                                                        <t t-esc="data.get('player_fit', '-')"/>
+                                                    </span>
+                                                </td>
+                                                <!-- Category Breakdown -->
+                                                <td valign="top"
+                                                    style="background-color: rgba(0, 21, 37, 0.8);
+                                                     border:1px solid #2a4a5e; border-radius:4px; padding:13px 14px;">
+                                                    <span class="lbl">Category Breakdown</span><br/>
+                                                    <table width="100%" cellpadding="0" cellspacing="0"
+                                                           style="margin-top:6px;">
+                                                        <t t-foreach="categories" t-as="cat">
+                                                            <tr>
+                                                                <td style="padding:3px 0; font-size:8.5pt; color:#D4AF79;">
+                                                                    <t t-esc="cat.get('label','')"/>
+                                                                </td>
+                                                                <td align="right"
+                                                                    style="padding:3px 0; font-size:9.5pt; font-weight:bold; color:#D4AF79;">
+                                                                    <t t-esc="'%.1f' % cat.get('total', 0)"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                        <!-- Legend -->
+                                        <table width="100%" cellpadding="0" cellspacing="0"
+                                               style="margin-top:12px; padding-top:10px; border-top:0.5px solid #3a5a6e;">
+                                            <tr>
+                                                <td align="center"
+                                                    style="font-size:7.5pt; color:#7a9aaa; line-height:1.8;">
+                                                    <b style="color:#27AE60;">A Player:</b> 85-100%
+                                                    <b style="color:#56ADF5;">B Player:</b> 70-84%
+                                                    <b style="color:#D4AF79;">C Player:</b> 50-69%
+                                                    <b style="color:#EB5757;">D Player:</b> 0-49%
+                                                </td>
+                                            </tr>
+                                        </table>
+
+                                    </td></tr>
+                                </table>
+
+
+                                <!-- ════════════════════════════════════════
+                                     8. FOOTER
+                                ════════════════════════════════════════ -->
+                                <table width="100%" cellpadding="0" cellspacing="0"
+                                       style="margin-top:18px; border-top:0.5px solid #2a4a5e;">
+                                    <tr>
+                                        <td style="padding-top:10px; text-align:center; font-size:7.5pt; color:#7a9aaa;
+               text-transform:uppercase; letter-spacing:0.8px;">
+                                            <b style="color:#D4AF79;">INSYTX</b>
+                                            . Clarity Through Insight
+                                            . EAGLES Assessment System
+                                            . Internal Use Only - Confidential
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                            </td></tr>
+                        </table>
+                        <!-- /OUTER PAGE WRAPPER -->
+
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+</odoo>

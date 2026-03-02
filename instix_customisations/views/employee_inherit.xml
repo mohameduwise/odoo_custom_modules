@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_employee_form_inherit_eagles" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.eagles</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="eagles_assessment" string="EAGLES Assessments">
+                    <group>
+                        <field name="eagles_assessment_count"/>
+                    </group>
+
+                    <field name="eagles_assessment_ids">
+                        <list default_order="assessment_date desc" create="false" edit="false">
+                            <field name="assessment_date"/>
+                            <field name="player_fit"/>
+                            <field name="total_score"/>
+                            <field name="percentage"/>
+                            <field name="pdf_filename"/>
+                            <field name="pdf_file" filename="pdf_filename" widget="download"/>
+                        </list>
+                        <form create="false" edit="false" delete="false">
+                            <sheet>
+                                <group>
+                                    <group>
+                                        <field name="employee_id"/>
+                                        <field name="assessment_date"/>
+                                        <field name="player_fit"/>
+                                    </group>
+                                    <group>
+                                        <field name="total_score"/>
+                                        <field name="percentage"/>
+                                        <field name="survey_input_id"/>
+                                    </group>
+                                </group>
+
+                                <notebook>
+                                    <page string="PDF Report">
+                                        <group>
+                                            <field name="pdf_filename"/>
+                                            <field name="pdf_file" filename="pdf_filename" widget="download"/>
+                                        </group>
+                                    </page>
+                                </notebook>
+                            </sheet>
+                        </form>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
