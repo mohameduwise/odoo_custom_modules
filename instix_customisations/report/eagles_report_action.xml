@@ -1,19 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="action_eagles_assessment_report" model="ir.actions.report">
-        <field name="name">EAGLES Assessment Report</field>
-        <field name="model">survey.user_input</field>
-        <field name="paperformat_id" ref="instix_customisations.paperformat_custom_a4_low_margin"/>
-        <field name="report_type">qweb-pdf</field>
-        <field name="report_name">instix_customisations.report_eagles_assessment</field>
-        <field name="report_file">
-            EAGLES_Assessment_${(object and object.partner_id and object.partner_id.name) or 'Report'}
-        </field>
-        <field name="binding_model_id" ref="survey.model_survey_user_input"/>
-        <field name="binding_type">report</field>
-    </record>
-
     <record id="paperformat_custom_a4_low_margin" model="report.paperformat">
         <field name="name">Custom A4 - Low Top Margin</field>
         <field name="format">A4</field>
@@ -29,6 +15,22 @@
         <field name="dpi">90</field>
         <field name="disable_shrinking">True</field>
     </record>
+
+
+    <record id="action_eagles_assessment_report" model="ir.actions.report">
+        <field name="name">EAGLES Assessment Report</field>
+        <field name="model">survey.user_input</field>
+        <field name="paperformat_id" ref="instix_customisations.paperformat_custom_a4_low_margin"/>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">instix_customisations.report_eagles_assessment</field>
+        <field name="report_file">
+            EAGLES_Assessment_${(object and object.partner_id and object.partner_id.name) or 'Report'}
+        </field>
+        <field name="binding_model_id" ref="survey.model_survey_user_input"/>
+        <field name="binding_type">report</field>
+    </record>
+
+
 
 
 </odoo>
