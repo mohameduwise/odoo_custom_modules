@@ -7,11 +7,37 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
                 <page name="eagles_assessment" string="EAGLES Assessments">
-                    <group>
-                        <field name="eagles_assessment_count"/>
-                    </group>
 
-                    <field name="eagles_assessment_ids">
+                    <!-- Header action bar -->
+                    <div class="d-flex align-items-center justify-content-between p-3"
+                         style="background: linear-gradient(135deg, #714B67 0%, #9B6E95 100%); border-radius: 8px;">
+                        <div class="d-flex align-items-center gap-3">
+                            <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
+                                <i class="fa fa-shield fa-lg" style="color: #fff;"/>
+                            </div>
+                            <div>
+                                <div style="color: #fff; font-size: 16px; font-weight: 700; line-height: 1.2;">EAGLES
+                                    Assessment</div>
+                                <div style="color: rgba(255,255,255,0.75); font-size: 12px;">
+                                    <field name="eagles_assessment_count" nolabel="1" readonly="1"/>
+                                    <span> assessment(s) completed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Spacer -->
+                        <div style="flex: 1;"/>
+
+                        <button name="action_open_eagles_survey"
+                                type="object"
+                                style="background: #fff; color: #714B67; border: none; border-radius: 6px; padding: 10px 20px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
+                            <i class="fa fa-pencil-square-o"/>
+                            Start New Assessment
+                        </button>
+                    </div>
+
+                    <!-- Assessments list -->
+                    <field name="eagles_assessment_ids" nolabel="1">
                         <list default_order="assessment_date desc" create="false" edit="false">
                             <field name="assessment_date"/>
                             <field name="player_fit"/>
@@ -34,7 +60,6 @@
                                         <field name="survey_input_id"/>
                                     </group>
                                 </group>
-
                                 <notebook>
                                     <page string="PDF Report">
                                         <group>
@@ -46,6 +71,7 @@
                             </sheet>
                         </form>
                     </field>
+
                 </page>
             </xpath>
         </field>

@@ -8,6 +8,12 @@ _logger = logging.getLogger('odoo')
 class SurveyUser_Input(models.Model):
     _inherit = "survey.user_input"
 
+
+    employee_id = fields.Many2one(
+        'hr.employee',
+        string='Employee',
+        ondelete='set null'
+    )
     def _mark_done(self):
         """Handle survey completion and stage transitions"""
         res = super()._mark_done()
@@ -305,6 +311,10 @@ class SurveyUser_Input(models.Model):
         """Auto-save EAGLES assessment PDF to employee record history"""
         self.ensure_one()
 
+        import base64
+        import logging
+        _logger = logging.getLogger(__name__)
+
         # Get data to verify it's a valid EAGLES assessment
         data = self._get_eagles_data()
 
@@ -315,53 +325,68 @@ class SurveyUser_Input(models.Model):
                 has_answers = True
                 break
 
-        if not has_answers:
-            return False  # Silently skip if no answers
+        # ── Find employee: use employee_id directly if set ──────────────
+        employee = self.employee_id  # set by action_open_eagles_survey
 
-        # Find employee based on survey data
-        employee = False
-
-        # Try to find employee by email from survey
-        if data.get('email'):
-            employee = self.env['hr.employee'].search([
+        # Fallback: try by work email from survey answers
+        if not employee and data.get('email'):
+            employee = self.env['hr.employee'].sudo().search([
                 ('work_email', '=', data['email'])
             ], limit=1)
+            if employee:
+                _logger.info(f"EAGLES: Found employee by email: {employee.name}")
 
-        # If not found, try by name
+        # Fallback: try by name from survey answers
         if not employee and data.get('name'):
-            employee = self.env['hr.employee'].search([
+            employee = self.env['hr.employee'].sudo().search([
                 ('name', 'ilike', data['name'])
             ], limit=1)
+            if employee:
+                _logger.info(f"EAGLES: Found employee by name: {employee.name}")
 
-        # If still not found, try by current user
+        # Fallback: current logged-in user's employee record
         if not employee:
             employee = self.env.user.employee_id
+            if employee:
+                _logger.info(f"EAGLES: Falling back to current user employee: {employee.name}")
 
         if not employee:
-            return False  # Silently skip if no employee found
+            _logger.warning("EAGLES: No employee found, cannot save assessment.")
+            return False
 
-        # Generate PDF report
-        report_action = self.env.ref('instix_customisations.action_eagles_assessment_report')
+        # ── Prevent duplicate: skip if already saved for this survey input ──
+        existing = self.env['hr.employee.eagles.assessment'].sudo().search([
+            ('survey_input_id', '=', self.id)
+        ], limit=1)
 
-        # Render PDF
-        pdf_content, report_format = self.env['ir.actions.report']._render_qweb_pdf(
-            report_action.report_name,
-            self.ids
-        )
+        if existing:
+            _logger.info(f"EAGLES: Assessment already exists for survey input #{self.id}, skipping.")
+            return False
 
-        if pdf_content:
-            import base64
-            import logging
-            _logger = logging.getLogger(__name__)
+        # ── Generate PDF report ──────────────────────────────────────────
+        try:
+            report_action = self.env.ref('instix_customisations.action_eagles_assessment_report')
+            pdf_content, report_format = self.env['ir.actions.report']._render_qweb_pdf(
+                report_action.report_name,
+                self.ids
+            )
+        except Exception as e:
+            _logger.error(f"EAGLES: Failed to render PDF: {str(e)}")
+            return False
 
-            pdf_base64 = base64.b64encode(pdf_content)
+        if not pdf_content:
+            _logger.warning("EAGLES: PDF content is empty, skipping save.")
+            return False
 
-            # Create filename with timestamp
-            timestamp = fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
-            filename = f"EAGLES_Assessment_{employee.name}_{timestamp}.pdf"
+        pdf_base64 = base64.b64encode(pdf_content)
 
-            # Create history record instead of overwriting
-            assessment = self.env['hr.employee.eagles.assessment'].create({
+        # Create filename with timestamp
+        timestamp = fields.Datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = f"EAGLES_Assessment_{employee.name}_{timestamp}.pdf"
+
+        # ── Create assessment history record ─────────────────────────────
+        try:
+            assessment = self.env['hr.employee.eagles.assessment'].sudo().create({
                 'employee_id': employee.id,
                 'assessment_date': fields.Datetime.now(),
                 'pdf_file': pdf_base64,
@@ -371,12 +396,12 @@ class SurveyUser_Input(models.Model):
                 'percentage': data.get('percentage', 0),
                 'player_fit': data.get('player_fit', ''),
             })
-
-            _logger.info(f"Saved EAGLES assessment #{assessment.id} for employee {employee.name}")
+            _logger.info(f"EAGLES: Saved assessment #{assessment.id} for employee {employee.name}")
             return True
 
-        return False
-
+        except Exception as e:
+            _logger.error(f"EAGLES: Failed to create assessment record: {str(e)}")
+            return False
     def _get_eagles_data(self):
         self.ensure_one()
 

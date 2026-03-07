@@ -18,6 +18,44 @@ class HrEmployee(models.Model):
         for employee in self:
             employee.eagles_assessment_count = len(employee.eagles_assessment_ids)
 
+    def action_open_eagles_survey(self):
+        self.ensure_one()
+
+        # Get the survey from config
+        survey_id = int(self.env['ir.config_parameter'].sudo().get_param(
+            'instix_customisations.eagles_survey_id', default=0
+        ))
+
+        if not survey_id:
+            raise UserError("No EAGLES Assessment Survey configured. Please set it in Settings.")
+
+        survey = self.env['survey.survey'].sudo().browse(survey_id)
+
+        if not survey.exists():
+            raise UserError("The configured EAGLES survey no longer exists. Please reconfigure in Settings.")
+
+        # Create or find existing survey input for this employee
+        partner = self.user_id.partner_id if self.user_id else self.work_contact_id
+
+        survey_input = self.env['survey.user_input'].sudo().create({
+            'survey_id': survey.id,
+            'partner_id': partner.id if partner else False,
+            'email': self.work_email,
+            'employee_id': self.id,
+        })
+
+        if not survey_input:
+            survey_input = self.env['survey.user_input'].sudo().create({
+                'survey_id': survey.id,
+                'partner_id': partner.id if partner else False,
+            })
+
+        # Open survey in a new tab / url action
+        return {
+            'type': 'ir.actions.act_url',
+            'url': survey.get_start_url() + '?answer_token=%s' % survey_input.access_token,
+            'target': 'new',
+        }
 
 class HrEmployeeEaglesAssessment(models.Model):
     _name = 'hr.employee.eagles.assessment'
