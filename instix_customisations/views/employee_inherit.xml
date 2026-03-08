@@ -13,7 +13,7 @@
                          style="background: linear-gradient(135deg, #714B67 0%, #9B6E95 100%); border-radius: 8px;">
                         <div class="d-flex align-items-center gap-3">
                             <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center;">
-                                <i class="fa fa-shield fa-lg" style="color: #fff;"/>
+                                <i class="fa fa-shield fa-lg" style="color: #fff;" title="EAGLES Assessment"/>
                             </div>
                             <div>
                                 <div style="color: #fff; font-size: 16px; font-weight: 700; line-height: 1.2;">EAGLES
@@ -31,7 +31,7 @@
                         <button name="action_open_eagles_survey"
                                 type="object"
                                 style="background: #fff; color: #714B67; border: none; border-radius: 6px; padding: 10px 20px; font-weight: 700; font-size: 13px; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-                            <i class="fa fa-pencil-square-o"/>
+                            <i class="fa fa-pencil-square-o" title="Start New Assessment"/>
                             Start New Assessment
                         </button>
                     </div>
