@@ -1,4 +1,6 @@
 from odoo import models, fields, api
+import os
+import base64
 
 
 class HrEmployee(models.Model):
