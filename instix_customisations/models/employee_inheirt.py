@@ -72,3 +72,23 @@ class HrEmployeeEaglesAssessment(models.Model):
     total_score = fields.Float(string='Total Score')
     percentage = fields.Float(string='Percentage')
     player_fit = fields.Char(string='Player Fit')
+
+
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+
+    @api.model
+    def _get_report_image_b64(self, filename):
+        """
+        Reads an image from the module's static/src/img/ folder
+        and returns it as a base64 data URI string for use in QWeb PDF reports.
+        wkhtmltopdf cannot fetch /static/ URLs directly, so we embed as base64.
+        """
+        module_path = os.path.join(
+            os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+            'static', 'src', 'img', filename
+        )
+        if os.path.exists(module_path):
+            with open(module_path, 'rb') as f:
+                return 'data:image/png;base64,' + base64.b64encode(f.read()).decode('utf-8')
+        return ''
