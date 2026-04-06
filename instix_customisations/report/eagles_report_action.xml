@@ -16,23 +16,6 @@
         <field name="disable_shrinking">True</field>
     </record>
 
-    <record id="paperformat_custom_quotation" model="report.paperformat">
-        <field name="name">Custom A4 - Quotatio</field>
-        <field name="default" eval="False"/>
-        <field name="format">A4</field>
-        <field name="page_height">0</field>
-        <field name="page_width">0</field>
-        <field name="orientation">Portrait</field>
-        <field name="margin_top">5</field>
-        <field name="margin_bottom">5</field>
-        <field name="margin_left">0</field>
-        <field name="margin_right">0</field>
-        <field name="header_line" eval="True"/>
-        <field name="header_spacing">52</field>
-        <field name="disable_shrinking" eval="True"/>
-        <field name="dpi">90</field>
-    </record>
-
     <record id="action_eagles_assessment_report" model="ir.actions.report">
         <field name="name">EAGLES Assessment Report</field>
         <field name="model">survey.user_input</field>
@@ -45,9 +28,26 @@
         <field name="binding_model_id" ref="survey.model_survey_user_input"/>
         <field name="binding_type">report</field>
     </record>
+<record id="paperformat_custom_quotation" model="report.paperformat">
+        <field name="name">Custom A4 - Quotation</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
 
+        <!-- ✅ FIXED -->
+        <field name="margin_top">40</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">8</field>
+        <field name="margin_right">8</field>
+
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">10</field>
+
+        <field name="disable_shrinking" eval="True"/>
+        <field name="dpi">96</field>
+    </record>
     <record id="action_custom_quotation_report" model="ir.actions.report">
-        <field name="name">Quotation</field>
+        <field name="name">Multi-Company Quotation</field>
         <field name="model">sale.order</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_sale_quotation_document</field>

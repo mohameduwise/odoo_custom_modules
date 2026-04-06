@@ -90,7 +90,10 @@ class SaleOrder(models.Model):
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             'static', 'src', 'img', filename
         )
+        print("==================================",module_path)
         if os.path.exists(module_path):
             with open(module_path, 'rb') as f:
                 return 'data:image/png;base64,' + base64.b64encode(f.read()).decode('utf-8')
         return ''
+
+
