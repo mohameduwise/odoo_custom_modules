@@ -4,16 +4,25 @@
     <template id="quotation_global_styles">
         <style>
             .page {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-            position: relative;          <!-- REQUIRED for absolute positioning -->
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+                position: relative;
             }
             .article {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            .o_report_layout_standard {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
             }
             .header + .article {
-            margin-top: 0 !important;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            .header {
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
             }
         </style>
     </template>
@@ -28,14 +37,14 @@
         <t t-set="footer_b64"
            t-value="doc._get_report_image_b64('footer_layang.png') if is_layang else doc._get_report_image_b64('footer_insytx.png')"/>
 
-        <!-- HEADER (only logo) -->
+        <!-- HEADER -->
         <div class="header" style="margin:0; padding:0;">
             <img t-att-src="header_b64" style="width:100%; display:block;"/>
         </div>
 
         <!-- MAIN CONTENT AREA -->
         <div class="article o_report_layout_standard"
-             style="padding: 8mm 10mm 5mm 10mm; box-sizing:border-box;">
+             style="margin-top:0 !important; padding-top:0 !important;">
             <t t-out="0"/>
         </div>
 
@@ -63,8 +72,9 @@
 
                     <div class="page"
                          style="font-family: 'Urbanist', 'Arial', sans-serif; font-size: 9pt; color: #3f403e; margin:0; padding:0; position:relative; box-sizing:border-box;">
-                        <!-- ================= QUOTATION IMAGE - ONLY FIRST PAGE (Fixed) ================= -->
-                        <table style="width:100%; border-collapse:collapse; margin-bottom:-2mm; font-size:9pt;">
+
+                        <!-- ================= QUOTE DETAILS + QUOTATION IMAGE ================= -->
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:3mm; font-size:9pt;">
                             <tr>
                                 <!-- LEFT: Quote To -->
                                 <td style="width:45%; vertical-align:top; padding-right:6px;">
@@ -86,7 +96,7 @@
                                 </td>
 
                                 <!-- MIDDLE: Quote Info -->
-                                <td style="width:45%; vertical-align:top;">
+                                <td style="width:43%; vertical-align:top;">
                                     <table style="width:100%; border-collapse:collapse; font-size:9pt;">
                                         <tr>
                                             <td style="width:42%; padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
@@ -133,9 +143,9 @@
                                 </td>
 
                                 <!-- RIGHT: QUOTATION IMAGE -->
-                                <td style="width:10%; vertical-align:top; text-align:right;">
+                                <td style="width:12%; vertical-align:top; text-align:right; padding-right:0mm;">
                                     <img t-att-src="quotation_b64"
-                                         style="width:80%; height:auto; display:block; margin-left:auto;"/>
+                                         style="width:85%; height:auto; display:block; margin-left:auto;"/>
                                 </td>
                             </tr>
                         </table>
@@ -184,8 +194,72 @@
                                 </t>
                             </tbody>
                         </table>
-                        <!-- TERMS, TOTALS, SIGNATURE - keep exactly as you had -->
-                        <!-- (copy-paste the rest of your code from SUBJECT onwards if you want, but the structure above is already complete) -->
+
+                        <!-- ================= TERMS & CONDITIONS ================= -->
+                        <p style="margin:0 0 1.5mm 0; font-size:9pt; font-weight:700; color:#000;">
+                            TERMS &amp; CONDITIONS
+                        </p>
+
+                        <table style="width:100%; border-collapse:collapse; margin-bottom:3mm;">
+                            <tr>
+                                <td style="width:56%; vertical-align:top; padding-right:8px; font-size:6pt; line-height:1.45; color:#3f403e;">
+                                    1. Thank you for the opportunity to serve you. We look forward to meeting with you again.
+                                    <br/>
+                                    2. <strong><span t-field="doc.company_id.name"/></strong> is dedicated to Quality products of Industrial Standards.
+                                    <br/>
+                                    3. All Price Quotes are valid until the expiry date mentioned above.
+                                    <br/>
+                                    4. Purchase Order and Deposit of 50% must be made to process the Quotation.
+                                </td>
+
+                                <td style="width:44%; vertical-align:top;">
+                                    <table style="width:100%; border-collapse:collapse; font-size:9pt;">
+                                        <tr>
+                                            <td style="padding:2px 8px 2px 0; font-weight:700; color:#000;">Subtotal</td>
+                                            <td style="padding:2px 0; font-weight:700; color:#000; text-align:right; white-space:nowrap;">
+                                                <span t-field="doc.amount_untaxed"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:2px 8px 2px 0; color:#3f403e;">Tax</td>
+                                            <td style="padding:2px 0; text-align:right; white-space:nowrap; color:#3f403e;">
+                                                <span t-field="doc.amount_tax"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-top:1px solid #3f403e;">
+                                            <td style="padding:3px 8px 2px 0; font-weight:700; color:#000; white-space:nowrap;">
+                                                Total Amount
+                                            </td>
+                                            <td style="padding:3px 0 2px 0; font-weight:700; color:#000; text-align:right; white-space:nowrap;">
+                                                <span t-field="doc.amount_total"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- ================= END OF INVOICE ================= -->
+                        <p style="text-align:center; font-size:9pt; font-weight:700; color:#000; margin:5mm 0;">
+                            End of Invoice Lines
+                        </p>
+
+                        <!-- ================= SIGNATURE ================= -->
+                        <div style="margin-top:15mm; font-size:8.5pt; color:#3f403e;">
+                            <table style="width:100%; border-collapse:collapse;">
+                                <tr>
+                                    <td style="width:42%; vertical-align:bottom;">
+                                        <div style="border-top:1px dashed #3f403e; margin-bottom:3px;"/>
+                                        Receiver's Signatory (Sign and Chop)
+                                    </td>
+                                    <td style="width:16%;"/>
+                                    <td style="width:42%; text-align:right; vertical-align:bottom;">
+                                        <div style="border-top:1px dashed #3f403e; margin-bottom:3px;"/>
+                                        Authorized Signatory
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
 
                     </div>
 
