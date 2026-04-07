@@ -97,3 +97,11 @@ class SaleOrder(models.Model):
         return ''
 
 
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+
+    seal_image = fields.Binary(
+        "Seal Image",
+        attachment=True,
+        help="Digital seal image to be displayed on quotations"
+    )

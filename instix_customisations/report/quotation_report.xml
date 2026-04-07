@@ -66,8 +66,11 @@
         <t t-call="web.html_container">
 
             <t t-foreach="docs" t-as="doc">
-                <t t-set="quotation_b64" t-value="doc._get_report_image_b64('quotation.png')"/>
+                <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
 
+                <t t-set="quotation_b64" t-value="doc._get_report_image_b64('quotation.png')"/>
+                <t t-set="seal_b64"
+                   t-value="doc._get_report_image_b64('Layang Seal.jpg') if is_layang else doc._get_report_image_b64('Digital Seal.jpg')"/>
                 <t t-call="instix_customisations.sale_quotation_header_footer_template">
 
                     <div class="page"
@@ -248,14 +251,22 @@
                         <div style="margin-top:15mm; font-size:8.5pt; color:#3f403e;">
                             <table style="width:100%; border-collapse:collapse;">
                                 <tr>
-                                    <td style="width:42%; vertical-align:bottom;">
-                                        <div style="border-top:1px dashed #3f403e; margin-bottom:3px;"/>
-                                        Receiver's Signatory (Sign and Chop)
+                                    <!-- Receiver - Left side -->
+                                    <td style="width:50%; vertical-align:bottom;">
+                                        <div>
+                                            <div style="border-top:1px dashed #3f403e; margin-bottom:3px; width:80%;"/>
+                                            Receiver's Signatory (Sign and Chop)
+                                        </div>
                                     </td>
-                                    <td style="width:16%;"/>
-                                    <td style="width:42%; text-align:right; vertical-align:bottom;">
-                                        <div style="border-top:1px dashed #3f403e; margin-bottom:3px;"/>
-                                        Authorized Signatory
+
+                                    <!-- Authorized Signatory with Seal - Right side -->
+                                    <td style="width:50%; vertical-align:bottom; text-align:right;">
+                                        <div>
+                                            <img t-att-src="seal_b64"
+                                                 style="width:40mm; height:40mm; display:block; margin-bottom:5px; margin-left:auto;"/>
+                                            <div style="border-top:1px dashed #3f403e; margin-bottom:3px; width:80%; margin-left:auto;"/>
+                                            Authorized Signatory
+                                        </div>
                                     </td>
                                 </tr>
                             </table>

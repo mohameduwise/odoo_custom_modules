@@ -25,7 +25,7 @@
         <field name="report_file">
             EAGLES_Assessment_${(object and object.partner_id and object.partner_id.name) or 'Report'}
         </field>
-        <field name="binding_model_id" ref="survey.model_survey_user_input"/>
+                <field name="binding_model_id" ref="survey.model_survey_user_input"/>
         <field name="binding_type">report</field>
     </record>
     <record id="paperformat_custom_quotation" model="report.paperformat">
@@ -47,7 +47,7 @@
         <field name="dpi">96</field>
     </record>
     <record id="action_custom_quotation_report" model="ir.actions.report">
-        <field name="name">Multi-Company Quotation</field>
+        <field name="name">INSYTX Quotation</field>
         <field name="model">sale.order</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_sale_quotation_document</field>

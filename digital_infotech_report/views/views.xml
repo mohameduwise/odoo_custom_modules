@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sales_view_order_form_digital_inherit" model="ir.ui.view">
+            <field name="name">sale.order.form.digital.inherit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="multiline_text"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
