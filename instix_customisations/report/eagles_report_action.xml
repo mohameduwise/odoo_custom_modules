@@ -36,7 +36,7 @@
 
         <!-- ✅ FIXED -->
         <field name="margin_top">30</field>
-        <field name="margin_bottom">20</field>
+        <field name="margin_bottom">40</field>
         <field name="margin_left">8</field>
         <field name="margin_right">8</field>
 
