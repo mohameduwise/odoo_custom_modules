@@ -135,7 +135,7 @@ class AccountMove(models.Model):
     _inherit = 'account.move'
 
     @api.model
-    def _get_report_image_b64(self, filename):
+    def _get_report_image_b64_invoice(self, filename):
         """
         Reads an image from the module's static/src/img/ folder
         and returns it as a base64 data URI string for use in QWeb PDF reports.
