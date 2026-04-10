@@ -19,7 +19,7 @@ Designed for enterprise hiring workflows with manual HR control.
     "website": "https://internal.insytx.com/",
 
     "category": "Human Resources",
-    "version": "19.3.0",
+    "version": "19.3.1",
     "license": "LGPL-3",
 
     "depends": [
@@ -37,6 +37,10 @@ Designed for enterprise hiring workflows with manual HR control.
         'data/data.xml',
         "report/eagles_report_template.xml",
         "report/quotation_report.xml",
+        "report/invoice_report.xml",
+        "report/sales_order_report.xml",
+        "report/rfq_report.xml",
+        "report/purchase_order_report.xml",
         "report/eagles_report_action.xml",
         "views/email_templates.xml",
         "views/websie_job_views_inherit.xml",

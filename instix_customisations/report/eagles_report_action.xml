@@ -28,24 +28,22 @@
                 <field name="binding_model_id" ref="survey.model_survey_user_input"/>
         <field name="binding_type">report</field>
     </record>
+
     <record id="paperformat_custom_quotation" model="report.paperformat">
         <field name="name">Custom A4 - Quotation</field>
         <field name="default" eval="False"/>
         <field name="format">A4</field>
         <field name="orientation">Portrait</field>
-
-        <!-- ✅ FIXED -->
         <field name="margin_top">30</field>
         <field name="margin_bottom">40</field>
         <field name="margin_left">8</field>
         <field name="margin_right">8</field>
-
         <field name="header_line" eval="False"/>
         <field name="header_spacing">0</field>
-
         <field name="disable_shrinking" eval="True"/>
         <field name="dpi">96</field>
     </record>
+
     <record id="action_custom_quotation_report" model="ir.actions.report">
         <field name="name">INSYTX Quotation</field>
         <field name="model">sale.order</field>
@@ -60,5 +58,58 @@
         <field name="paperformat_id" ref="paperformat_custom_quotation"/>
     </record>
 
+    <record id="action_custom_invoice_report" model="ir.actions.report">
+        <field name="name">INSYTX Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">instix_customisations.report_account_invoice_document</field>
+        <field name="report_file">instix_customisations.report_account_invoice_document</field>
+        <field name="print_report_name">'Layang Invoice - %s' % object.name if 'LAYANG' in (object.company_id.name or
+            '').upper() else 'Digital Invoice - %s' % object.name
+        </field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_custom_quotation"/>
+    </record>
 
+    <record id="action_custom_sale_order_report" model="ir.actions.report">
+        <field name="name">INSYTX Sale Order</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">instix_customisations.report_sale_order_document</field>
+        <field name="report_file">instix_customisations.report_sale_order_document</field>
+        <field name="print_report_name">'Layang Sale Order - %s' % object.name if 'LAYANG' in (object.company_id.name or
+            '').upper() else 'Digital Sale Order - %s' % object.name
+        </field>
+        <field name="binding_model_id" ref="sale.model_sale_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_custom_quotation"/>
+    </record>
+
+    <record id="action_custom_purchase_order_report" model="ir.actions.report">
+        <field name="name">INSYTX Purchase Order</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">instix_customisations.report_purchase_order_document</field>
+        <field name="report_file">instix_customisations.report_purchase_order_document</field>
+        <field name="print_report_name">'Layang Purchase Order - %s' % object.name if 'LAYANG' in (object.company_id.name or '').upper() else 'Purchase Sale Order - %s' % object.name
+        </field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_custom_quotation"/>
+    </record>
+
+    <record id="action_custom_rfq_report" model="ir.actions.report">
+        <field name="name">INSYTX RFQ</field>
+        <field name="model">purchase.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">instix_customisations.report_rfq_document</field>
+        <field name="report_file">instix_customisations.report_rfq_document</field>
+        <field name="print_report_name">'Layang RFQ - %s' % object.name if 'LAYANG' in (object.company_id.name or
+            '').upper() else 'Digital RFQ - %s' % object.name
+        </field>
+        <field name="binding_model_id" ref="purchase.model_purchase_order"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_custom_quotation"/>
+    </record>
 </odoo>

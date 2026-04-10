@@ -1,41 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
-    <template id="quotation_global_styles">
+    <template id="purchase_order_global_styles">
         <style>
             .page {
-                margin-top: 0 !important;
-                padding-top: 0 !important;
-                position: relative;
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+            position: relative;
             }
             .article {
-                margin-top: 0 !important;
-                padding-top: 0 !important;
+            margin-top: 0 !important;
+            padding-top: 0 !important;
             }
             .o_report_layout_standard {
-                margin-top: 0 !important;
-                padding-top: 0 !important;
+            margin-top: 0 !important;
+            padding-top: 0 !important;
             }
             .header + .article {
-                margin-top: 0 !important;
-                padding-top: 0 !important;
+            margin-top: 0 !important;
+            padding-top: 0 !important;
             }
             .header {
-                margin-bottom: 0 !important;
-                padding-bottom: 0 !important;
+            margin-bottom: 0 !important;
+            padding-bottom: 0 !important;
             }
         </style>
     </template>
 
-    <template id="sale_quotation_header_footer_template" name="Custom Quotation Header Footer">
+    <template id="purchase_order_header_footer_template" name="Custom Quotation Header Footer">
 
-        <t t-call="instix_customisations.quotation_global_styles"/>
+        <t t-call="instix_customisations.purchase_order_global_styles"/>
 
         <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
         <t t-set="header_b64"
-           t-value="doc._get_report_image_b64_quotation('header_layang.png') if is_layang else doc._get_report_image_b64_quotation('header_insytx.png')"/>
+           t-value="doc._get_report_image_b64_purchase_order('header_layang.png') if is_layang else doc._get_report_image_b64_purchase_order('header_insytx.png')"/>
         <t t-set="footer_b64"
-           t-value="doc._get_report_image_b64_quotation('footer_layang.png') if is_layang else doc._get_report_image_b64_quotation('footer_insytx.png')"/>
+           t-value="doc._get_report_image_b64_purchase_order('footer_layang.png') if is_layang else doc._get_report_image_b64_purchase_order('footer_insytx.png')"/>
 
         <!-- HEADER -->
         <div class="header" style="margin:0; padding:0;">
@@ -60,28 +59,27 @@
         </div>
 
     </template>
-
-    <!-- ================= MAIN REPORT ================= -->
-    <template id="report_sale_quotation_document">
+    <!-- ================= RFQ REPORT TEMPLATE ================= -->
+    <template id="report_purchase_order_document">
         <t t-call="web.html_container">
 
             <t t-foreach="docs" t-as="doc">
                 <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
-
-                <t t-set="quotation_b64" t-value="doc._get_report_image_b64_quotation('quotation.png')"/>
+                <t t-set="rfq_b64" t-value="doc._get_report_image_b64_purchase_order('purchase_order.png')"/>
                 <t t-set="seal_b64"
-                   t-value="doc._get_report_image_b64_quotation('Layang Seal.jpg') if is_layang else doc._get_report_image_b64_quotation('Digital Seal.jpg')"/>
-                <t t-call="instix_customisations.sale_quotation_header_footer_template">
+                   t-value="doc._get_report_image_b64_purchase_order('Layang Seal.jpg') if is_layang else doc._get_report_image_b64_purchase_order('Digital Seal.jpg')"/>
+
+                <t t-call="instix_customisations.purchase_order_header_footer_template">
 
                     <div class="page"
                          style="font-family: 'Urbanist', 'Arial', sans-serif; font-size: 9pt; color: #3f403e; margin:0; padding:0; position:relative; box-sizing:border-box;">
 
-                        <!-- ================= QUOTE DETAILS + QUOTATION IMAGE ================= -->
+                        <!-- ================= RFQ DETAILS + IMAGE ================= -->
                         <table style="width:100%; border-collapse:collapse; margin-bottom:3mm; font-size:9pt;">
                             <tr>
-                                <!-- LEFT: Quote To -->
+                                <!-- LEFT: Vendor -->
                                 <td style="width:45%; vertical-align:top; padding-right:6px;">
-                                    <span style="font-weight:700; color:#000;">Quote To:</span>
+                                    <span style="font-weight:700; color:#000;">Vendor:</span>
                                     <br/>
                                     <span t-field="doc.partner_id.name"/>
                                     <br/>
@@ -98,12 +96,12 @@
                                     </t>
                                 </td>
 
-                                <!-- MIDDLE: Quote Info -->
+                                <!-- MIDDLE: RFQ Info -->
                                 <td style="width:43%; vertical-align:top;">
                                     <table style="width:100%; border-collapse:collapse; font-size:9pt;">
                                         <tr>
                                             <td style="width:42%; padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
-                                                Quote Num:
+                                                PO Num:
                                             </td>
                                             <td style="padding:1px 0;">
                                                 <span t-field="doc.name"/>
@@ -111,7 +109,7 @@
                                         </tr>
                                         <tr>
                                             <td style="padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
-                                                Quote Date:
+                                                PO Date:
                                             </td>
                                             <td style="padding:1px 0;">
                                                 <span t-field="doc.date_order"
@@ -123,7 +121,7 @@
                                                 Reference:
                                             </td>
                                             <td style="padding:1px 0;">
-                                                <span t-field="doc.client_order_ref"/>
+                                                <span t-field="doc.partner_ref"/>
                                             </td>
                                         </tr>
                                         <tr>
@@ -136,18 +134,19 @@
                                         </tr>
                                         <tr>
                                             <td style="padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
-                                                Valid Until:
+                                                Deliver By:
                                             </td>
                                             <td style="padding:1px 0;">
-                                                <span t-field="doc.validity_date"/>
+                                                <span t-field="doc.date_planned"
+                                                      t-options="{&quot;widget&quot;:&quot;date&quot;}"/>
                                             </td>
                                         </tr>
                                     </table>
                                 </td>
 
-                                <!-- RIGHT: QUOTATION IMAGE -->
+                                <!-- RIGHT: RFQ IMAGE -->
                                 <td style="width:12%; vertical-align:top; text-align:right; padding-right:0mm;">
-                                    <img t-att-src="quotation_b64"
+                                    <img t-att-src="rfq_b64"
                                          style="width:85%; height:auto; display:block; margin-left:auto;"/>
                                 </td>
                             </tr>
@@ -156,7 +155,7 @@
                         <!-- ================= SUBJECT ================= -->
                         <p style="margin:0 0 3mm 0; font-size:9pt; font-weight:700; color:#000;">
                             SUBJECT:
-                            <span t-field="doc.x_studio_text_field_7ne_1jfb00rqi" style="font-weight:700;"/>
+                            <!--                            <span t-field="doc.notes" style="font-weight:700;"/>-->
                         </p>
 
                         <!-- ================= ORDER LINES TABLE ================= -->
@@ -184,7 +183,7 @@
                                             <span t-field="line.name"/>
                                         </td>
                                         <td style="padding:3px 4px; text-align:center; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
-                                            <span t-field="line.product_uom_qty"/>
+                                            <span t-field="line.product_qty"/>
                                             <span t-field="line.product_uom_id"/>
                                         </td>
                                         <td style="padding:3px 4px; text-align:right; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
@@ -206,19 +205,25 @@
                         <table style="width:100%; border-collapse:collapse; margin-bottom:3mm;">
                             <tr>
                                 <td style="width:56%; vertical-align:top; padding-right:8px; font-size:6pt; line-height:1.45; color:#3f403e;">
-                                    1. Thank you for the opportunity to serve you. We look forward to meeting with you again.
+                                    1. All submitted quotations must remain valid for a minimum of 30 days.
                                     <br/>
-                                    2. <strong><span t-field="doc.company_id.name"/></strong> is dedicated to Quality products of Industrial Standards.
+                                    2. No additional charges will be accepted after award.
                                     <br/>
-                                    3. All Price Quotes are valid until the expiry date mentioned above.
+                                    3. Vendors must quote strictly in accordance with the specifications provided.
                                     <br/>
-                                    4. Purchase Order and Deposit of 50% must be made to process the Quotation.
+                                    4. Any deviation or substitution must be clearly stated and is subject to approval.
+                                    <br/>
+                                    5. We reserve the right to accept or reject any or all quotations, in whole or in
+                                    part,
+                                    <br/>
+                                    &#160;&#160;&#160;without obligation to provide justification.
                                 </td>
 
                                 <td style="width:44%; vertical-align:top;">
                                     <table style="width:100%; border-collapse:collapse; font-size:9pt;">
                                         <tr>
-                                            <td style="padding:2px 8px 2px 0; font-weight:700; color:#000;">Subtotal</td>
+                                            <td style="padding:2px 8px 2px 0; font-weight:700; color:#000;">Subtotal
+                                            </td>
                                             <td style="padding:2px 0; font-weight:700; color:#000; text-align:right; white-space:nowrap;">
                                                 <span t-field="doc.amount_untaxed"/>
                                             </td>
@@ -242,7 +247,7 @@
                             </tr>
                         </table>
 
-                        <!-- ================= END OF INVOICE ================= -->
+                        <!-- ================= END OF LINES ================= -->
                         <p style="text-align:center; font-size:9pt; font-weight:700; color:#000; margin:5mm 0;">
                             End of Invoice Lines
                         </p>
@@ -251,22 +256,15 @@
                         <div style="margin-top:15mm; font-size:8.5pt; color:#3f403e;">
                             <table style="width:100%; border-collapse:collapse;">
                                 <tr>
-                                    <!-- Receiver - Left side -->
                                     <td style="width:50%; vertical-align:bottom;">
-                                        <div>
-                                            <div style="border-top:1px dashed #3f403e; margin-bottom:3px; width:80%;"/>
-                                            Receiver's Signatory (Sign and Chop)
-                                        </div>
+                                        <div style="border-top:1px dashed #3f403e; margin-bottom:3px; width:80%;"/>
+                                        Receiver's Signatory (Sign and Chop)
                                     </td>
-
-                                    <!-- Authorized Signatory with Seal - Right side -->
                                     <td style="width:50%; vertical-align:bottom; text-align:right;">
-                                        <div>
-                                            <img t-att-src="seal_b64"
-                                                 style="width:40mm; height:40mm; display:block; margin-bottom:5px; margin-left:auto;"/>
-                                            <div style="border-top:1px dashed #3f403e; margin-bottom:3px; width:80%; margin-left:auto;"/>
-                                            Authorized Signatory
-                                        </div>
+                                        <img t-att-src="seal_b64"
+                                             style="width:40mm; height:40mm; display:block; margin-bottom:5px; margin-left:auto;"/>
+                                        <div style="border-top:1px dashed #3f403e; margin-bottom:3px; width:80%; margin-left:auto;"/>
+                                        Authorized Signatory
                                     </td>
                                 </tr>
                             </table>
@@ -278,6 +276,4 @@
             </t>
         </t>
     </template>
-
-
 </odoo>
