@@ -112,4 +112,46 @@
         <field name="binding_type">report</field>
         <field name="paperformat_id" ref="paperformat_custom_quotation"/>
     </record>
+
+    <record id="action_custom_delivery_report" model="ir.actions.report">
+        <field name="name">INSYTX Delivery Order</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">instix_customisations.report_delivery_order_document</field>
+        <field name="report_file">instix_customisations.report_delivery_order_document</field>
+        <field name="print_report_name">'Layang Delivery Order - %s' % object.name if 'LAYANG' in
+            (object.company_id.name or '').upper() else 'Digital Delivery Order - %s' % object.name
+        </field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_custom_quotation"/>
+    </record>
+
+    <record id="action_custom_deposit_invoice_report" model="ir.actions.report">
+        <field name="name">INSYTX Deposit Invoice</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">instix_customisations.report_deposit_invoice_document</field>
+        <field name="report_file">instix_customisations.report_deposit_invoice_document</field>
+        <field name="print_report_name">'Layang Deposit Invoice - %s' % object.name if 'LAYANG' in (object.company_id.name or '').upper() else 'Digital Deposit Invoice - %s' % object.name
+        </field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_custom_quotation"/>
+    </record>
+
+        <record id="action_custom_cash_sales_report" model="ir.actions.report">
+        <field name="name">INSYTX Cash Sales</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">instix_customisations.report_account_cash_sales_document</field>
+        <field name="report_file">instix_customisations.report_account_cash_sales_document</field>
+        <field name="print_report_name">'Layang Invoice - %s' % object.name if 'LAYANG' in (object.company_id.name or
+            '').upper() else 'Digital Invoice - %s' % object.name
+        </field>
+        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_custom_quotation"/>
+    </record>
 </odoo>
+

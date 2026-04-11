@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template id="delivery_order_global_styles">
+        <style>
+            .page {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+                position: relative;
+            }
+            .article {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            .o_report_layout_standard {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            .header + .article {
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+            }
+            .header {
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
+            }
+        </style>
+    </template>
+
+    <template id="delivery_order_header_footer_template" name="Custom Quotation Header Footer">
+
+        <t t-call="instix_customisations.delivery_order_global_styles"/>
+
+        <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
+        <t t-set="header_b64"
+           t-value="doc._get_report_image_b64_delivery_order('header_layang.png') if is_layang else doc._get_report_image_b64_delivery_order('header_insytx.png')"/>
+        <t t-set="footer_b64"
+           t-value="doc._get_report_image_b64_delivery_order('footer_layang.png') if is_layang else doc._get_report_image_b64_delivery_order('footer_insytx.png')"/>
+
+        <!-- HEADER -->
+        <div class="header" style="margin:0; padding:0;">
+            <img t-att-src="header_b64" style="width:100%; display:block;"/>
+        </div>
+
+        <!-- MAIN CONTENT AREA -->
+        <div class="article o_report_layout_standard"
+             style="margin-top:0 !important; padding-top:0 !important;">
+            <t t-out="0"/>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer" style="width:100%; position:relative; margin-top:5mm;">
+            <img t-att-src="footer_b64" style="width:100%; display:block;"/>
+            <div style="position:absolute; top:8px; left:15px; font-size:8pt; color:#666; font-family:'Urbanist', Arial, sans-serif;">
+                Page
+                <span class="page"/>
+                of
+                <span class="topage"/>
+            </div>
+        </div>
+
+    </template>
+
+<!-- ================= DELIVERY ORDER REPORT TEMPLATE ================= -->
+<template id="report_delivery_order_document">
+    <t t-call="web.html_container">
+
+        <t t-foreach="docs" t-as="doc">
+            <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
+            <t t-set="seal_b64"
+               t-value="doc._get_report_image_b64_delivery_order('Layang Seal.jpg') if is_layang else doc._get_report_image_b64_delivery_order('Digital Seal.jpg')"/>
+            <t t-set="delivery_b64" t-value="doc._get_report_image_b64_delivery_order('delivery.png')"/>
+
+            <t t-call="instix_customisations.delivery_order_header_footer_template">
+
+                <div class="page"
+                     style="font-family: 'Urbanist', 'Arial', sans-serif; font-size: 9pt; color: #3f403e; margin:0; padding:0; position:relative; box-sizing:border-box;">
+
+                    <!-- ================= DELIVERY DETAILS + IMAGE ================= -->
+                    <table style="width:100%; border-collapse:collapse; margin-bottom:3mm; font-size:9pt;">
+                        <tr>
+                            <!-- LEFT: Deliver To -->
+                            <td style="width:45%; vertical-align:top; padding-right:6px;">
+                                <span style="font-weight:700; color:#000;">Deliver To:</span>
+                                <br/>
+                                <span t-field="doc.partner_id.name"/>
+                                <br/>
+                                <t t-if="doc.partner_id.street">
+                                    <span t-field="doc.partner_id.street"/>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.partner_id.city">
+                                    <span t-field="doc.partner_id.city"/>
+                                    <br/>
+                                </t>
+                                <t t-if="doc.partner_id.country_id">
+                                    <span t-field="doc.partner_id.country_id"/>
+                                </t>
+                            </td>
+
+                            <!-- MIDDLE: Delivery Info -->
+                            <td style="width:43%; vertical-align:top;">
+                                <table style="width:100%; border-collapse:collapse; font-size:9pt;">
+                                    <tr>
+                                        <td style="width:42%; padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
+                                            DO Number:
+                                        </td>
+                                        <td style="padding:1px 0;">
+                                            <span t-field="doc.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
+                                            Scheduled Date:
+                                        </td>
+                                        <td style="padding:1px 0;">
+                                            <span t-field="doc.scheduled_date"
+                                                  t-options="{&quot;widget&quot;:&quot;date&quot;}"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
+                                            Source Document:
+                                        </td>
+                                        <td style="padding:1px 0;">
+                                            <span t-field="doc.origin"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
+                                            Operation Type:
+                                        </td>
+                                        <td style="padding:1px 0;">
+                                            <span t-field="doc.picking_type_id"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
+                                            Deadline:
+                                        </td>
+                                        <td style="padding:1px 0;">
+                                            <span t-field="doc.date_deadline"
+                                                  t-options="{&quot;widget&quot;:&quot;date&quot;}"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+
+                            <!-- RIGHT: DELIVERY IMAGE -->
+                            <td style="width:12%; vertical-align:top; text-align:right; padding-right:0mm;">
+                                <img t-att-src="delivery_b64"
+                                     style="width:85%; height:auto; display:block; margin-left:auto;"/>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <!-- ================= PRODUCT LINES TABLE ================= -->
+                    <table style="width:100%; border-collapse:collapse; font-size:9pt; margin-bottom:4mm;">
+                        <thead>
+                            <tr style="border-bottom:1.5px solid #3f403e;">
+                                <th style="text-align:left; padding:3px 4px 3px 0; width:50%; font-weight:700; color:#000;">
+                                    Product
+                                </th>
+                                <th style="text-align:left; padding:3px 4px; width:20%; font-weight:700; color:#000;">
+                                    Packages
+                                </th>
+                                <th style="text-align:center; padding:3px 4px; width:15%; font-weight:700; color:#000;">
+                                    Demand
+                                </th>
+                                <th style="text-align:center; padding:3px 0 3px 4px; width:15%; font-weight:700; color:#000;">
+                                    Quantity
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="doc.move_ids.filtered(lambda m: m.state != 'cancel')" t-as="move">
+                                <tr>
+                                    <td style="padding:3px 4px 3px 0; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
+                                        <span t-field="move.product_id.name" style="font-weight:600;"/>
+                                        <t t-if="move.product_id.default_code">
+                                            <br/>
+                                            <span style="font-size:8pt; color:#888;">
+                                                [<span t-field="move.product_id.default_code"/>]
+                                            </span>
+                                        </t>
+                                    </td>
+                                    <td style="padding:3px 4px; vertical-align:top; border-bottom:0.5px solid #e8e8e8; font-size:8pt; color:#555;">
+                                        <t t-foreach="move.move_line_ids" t-as="ml">
+                                            <t t-if="ml.result_package_id">
+                                                <span t-field="ml.result_package_id.name"/>
+                                                <br/>
+                                            </t>
+                                            <t t-elif="ml.package_id">
+                                                <span t-field="ml.package_id.name"/>
+                                                <br/>
+                                            </t>
+                                        </t>
+                                    </td>
+                                    <td style="padding:3px 4px; text-align:center; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
+                                        <span t-field="move.product_uom_qty"/>
+                                        <span t-field="move.product_uom"/>
+                                    </td>
+                                    <td style="padding:3px 0 3px 4px; text-align:center; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
+                                        <span t-field="move.quantity"/>
+                                        <span t-field="move.product_uom"/>
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+
+                    <!-- ================= NOTES ================= -->
+                    <t t-if="doc.note">
+                        <p style="margin:0 0 3mm 0; font-size:9pt; font-weight:700; color:#000;">NOTE:</p>
+                        <p style="margin:0 0 3mm 0; font-size:8.5pt; color:#3f403e;">
+                            <span t-field="doc.note"/>
+                        </p>
+                    </t>
+
+
+                    <!-- ================= TERMS & CONDITIONS ================= -->
+                    <p style="margin:0 0 1.5mm 0; font-size:9pt; font-weight:700; color:#000;">
+                        TERMS &amp; CONDITIONS
+                    </p>
+
+                    <table style="width:100%; border-collapse:collapse; margin-bottom:3mm;">
+                        <tr>
+                            <td style="width:56%; vertical-align:top; padding-right:8px; font-size:6pt; line-height:1.45; color:#3f403e;">
+                                1. Thank you for the opportunity to serve you. We look forward to meeting with you
+                                again.
+                                <br/>
+                                2.
+                                <strong>
+                                    <span t-field="doc.company_id.name"/>
+                                </strong>
+                                is dedicated to Quality products of Industrial Standards.
+                                <br/>
+                                3. All Goods supplied remain the Property of
+                                <strong>
+                                    <span t-field="doc.company_id.name"/>
+                                </strong>
+                                Until full Payments.
+                                <br/>
+                                4. Discrepancies if any must be reported within 7 days after receipt of Invoice / D.O.
+                            </td>
+                            <td style="width:44%; vertical-align:top;">
+                            </td>
+                        </tr>
+                    </table>
+                                        <!-- ================= END OF LINES ================= -->
+                    <p style="text-align:center; font-size:9pt; font-weight:700; color:#000; margin:5mm 0;">
+                        End of Delivery Lines
+                    </p>
+                    <!-- ================= SIGNATURE ================= -->
+                    <div style="margin-top:15mm; font-size:8.5pt; color:#3f403e;">
+                        <table style="width:100%; border-collapse:collapse;">
+                            <tr>
+                                <td style="width:50%; vertical-align:bottom;">
+                                    <div style="border-top:1px dashed #3f403e; margin-bottom:3px; width:80%;"/>
+                                    Receiver's Signatory (Sign and Chop)
+                                </td>
+                                <td style="width:50%; vertical-align:bottom; text-align:right;">
+                                    <img t-att-src="seal_b64"
+                                         style="width:40mm; height:40mm; display:block; margin-bottom:5px; margin-left:auto;"/>
+                                    <div style="border-top:1px dashed #3f403e; margin-bottom:3px; width:80%; margin-left:auto;"/>
+                                    Authorized Signatory
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+
+            </t>
+        </t>
+    </t>
+</template>
+</odoo>

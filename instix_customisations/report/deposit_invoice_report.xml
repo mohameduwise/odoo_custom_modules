@@ -1,39 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <template id="invoice_order_global_styles">
+
+    <template id="deposit_invoice_global_styles">
         <style>
             .page {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-            position: relative;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
+                position: relative;
             }
             .article {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
             }
             .o_report_layout_standard {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
             }
             .header + .article {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
+                margin-top: 0 !important;
+                padding-top: 0 !important;
             }
             .header {
-            margin-bottom: 0 !important;
-            padding-bottom: 0 !important;
+                margin-bottom: 0 !important;
+                padding-bottom: 0 !important;
             }
         </style>
     </template>
 
-    <template id="invoice_header_footer_template" name="Custom Quotation Header Footer">
+    <template id="deposit_invoice_header_footer_template" name="Custom Quotation Header Footer">
 
-        <t t-call="instix_customisations.invoice_order_global_styles"/>
+        <t t-call="instix_customisations.deposit_invoice_global_styles"/>
 
         <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
         <t t-set="header_b64"
-           t-value="doc._get_report_image_b64_invoice('header_layang.png') if is_layang else doc._get_report_image_b64_invoice('header_insytx.png')"/>
+           t-value="doc._get_report_image_b64_deposit_invoice('header_layang.png') if is_layang else doc._get_report_image_b64_deposit_invoice('header_insytx.png')"/>
         <t t-set="footer_b64"
-           t-value="doc._get_report_image_b64_invoice('footer_layang.png') if is_layang else doc._get_report_image_b64_invoice('footer_insytx.png')"/>
+           t-value="doc._get_report_image_b64_deposit_invoice('footer_layang.png') if is_layang else doc._get_report_image_b64_deposit_invoice('footer_insytx.png')"/>
 
         <!-- HEADER -->
         <div class="header" style="margin:0; padding:0;">
@@ -58,17 +60,16 @@
         </div>
 
     </template>
-    <!-- ================= MAIN INVOICE REPORT ================= -->
-    <template id="report_account_invoice_document">
+    <template id="report_deposit_invoice_document">
         <t t-call="web.html_container">
 
             <t t-foreach="docs" t-as="doc">
                 <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
                 <t t-set="seal_b64"
-                   t-value="doc._get_report_image_b64_invoice('Layang Seal.jpg') if is_layang else doc._get_report_image_b64_invoice('Digital Seal.jpg')"/>
-                <t t-set="invoice_b64" t-value="doc._get_report_image_b64_invoice('invoice.png')"/>
+                   t-value="doc._get_report_image_b64_deposit_invoice('Layang Seal.jpg') if is_layang else doc._get_report_image_b64_deposit_invoice('Digital Seal.jpg')"/>
+                <t t-set="deposit_b64" t-value="doc._get_report_image_b64_deposit_invoice('deposit_invoice.png')"/>
 
-                <t t-call="instix_customisations.invoice_header_footer_template">
+                <t t-call="instix_customisations.deposit_invoice_header_footer_template">
 
                     <div class="page"
                          style="font-family: 'Urbanist', 'Arial', sans-serif; font-size: 9pt; color: #3f403e; margin:0; padding:0; position:relative; box-sizing:border-box;">
@@ -76,7 +77,7 @@
                         <!-- ================= INVOICE DETAILS + IMAGE ================= -->
                         <table style="width:100%; border-collapse:collapse; margin-bottom:3mm; font-size:9pt;">
                             <tr>
-                                <!-- LEFT: Bill To -->
+                                <!-- LEFT: Invoice To -->
                                 <td style="width:45%; vertical-align:top; padding-right:6px;">
                                     <span style="font-weight:700; color:#000;">Invoice To:</span>
                                     <br/>
@@ -143,9 +144,9 @@
                                     </table>
                                 </td>
 
-                                <!-- RIGHT: INVOICE IMAGE -->
+                                <!-- RIGHT: DEPOSIT INVOICE IMAGE -->
                                 <td style="width:12%; vertical-align:top; text-align:right; padding-right:0mm;">
-                                    <img t-att-src="invoice_b64"
+                                    <img t-att-src="deposit_b64"
                                          style="width:85%; height:auto; display:block; margin-left:auto;"/>
                                 </td>
                             </tr>
@@ -229,9 +230,7 @@
                                     </strong>
                                     .
                                     <br/>
-                                    2. Online Public Bank A/C No: 3984127030 -
-                                    <span t-field="doc.company_id.name"/>
-
+                                    2. Online Public Bank A/C No: 3984127030 - Until full Payments.
                                     <br/>
                                     3. All Goods supplied remain the Property of
                                     <strong>
@@ -264,6 +263,22 @@
                                             </td>
                                             <td style="padding:3px 0 2px 0; font-weight:700; color:#000; text-align:right; white-space:nowrap;">
                                                 <span t-field="doc.amount_total"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="padding:2px 8px 2px 0; color:#3f403e;">Payment Made</td>
+                                            <td style="padding:2px 0; text-align:right; white-space:nowrap; color:#3f403e;">
+                                                <t t-set="amount_paid"
+                                                   t-value="doc.amount_total - doc.amount_residual"/>
+                                                <span t-esc="'RM %.2f' % amount_paid"/>
+                                            </td>
+                                        </tr>
+                                        <tr style="border-top:1px solid #3f403e;">
+                                            <td style="padding:3px 8px 2px 0; font-weight:700; color:#cc0000; white-space:nowrap;">
+                                                Balance Due
+                                            </td>
+                                            <td style="padding:3px 0 2px 0; font-weight:700; color:#cc0000; text-align:right; white-space:nowrap;">
+                                                <span t-field="doc.amount_residual"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -300,5 +315,4 @@
             </t>
         </t>
     </template>
-
 </odoo>

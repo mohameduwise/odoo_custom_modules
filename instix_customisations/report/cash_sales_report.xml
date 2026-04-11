@@ -1,5 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <template id="invoice_order_global_styles">
+    <odoo>
+    <template id="cash_sales_order_global_styles">
         <style>
             .page {
             margin-top: 0 !important;
@@ -25,15 +27,15 @@
         </style>
     </template>
 
-    <template id="invoice_header_footer_template" name="Custom Quotation Header Footer">
+    <template id="cash_sales_header_footer_template" name="Custom Quotation Header Footer">
 
-        <t t-call="instix_customisations.invoice_order_global_styles"/>
+        <t t-call="instix_customisations.cash_sales_order_global_styles"/>
 
         <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
         <t t-set="header_b64"
-           t-value="doc._get_report_image_b64_invoice('header_layang.png') if is_layang else doc._get_report_image_b64_invoice('header_insytx.png')"/>
+           t-value="doc._get_report_image_b64_cash_sales('header_layang.png') if is_layang else doc._get_report_image_b64_cash_sales('header_insytx.png')"/>
         <t t-set="footer_b64"
-           t-value="doc._get_report_image_b64_invoice('footer_layang.png') if is_layang else doc._get_report_image_b64_invoice('footer_insytx.png')"/>
+           t-value="doc._get_report_image_b64_cash_sales('footer_layang.png') if is_layang else doc._get_report_image_b64_cash_sales('footer_insytx.png')"/>
 
         <!-- HEADER -->
         <div class="header" style="margin:0; padding:0;">
@@ -59,16 +61,16 @@
 
     </template>
     <!-- ================= MAIN INVOICE REPORT ================= -->
-    <template id="report_account_invoice_document">
+    <template id="report_account_cash_sales_document">
         <t t-call="web.html_container">
 
             <t t-foreach="docs" t-as="doc">
                 <t t-set="is_layang" t-value="'LAYANG' in (doc.company_id.name or '').upper()"/>
                 <t t-set="seal_b64"
-                   t-value="doc._get_report_image_b64_invoice('Layang Seal.jpg') if is_layang else doc._get_report_image_b64_invoice('Digital Seal.jpg')"/>
-                <t t-set="invoice_b64" t-value="doc._get_report_image_b64_invoice('invoice.png')"/>
+                   t-value="doc._get_report_image_b64_cash_sales('Layang Seal.jpg') if is_layang else doc._get_report_image_b64_cash_sales('Digital Seal.jpg')"/>
+                <t t-set="invoice_b64" t-value="doc._get_report_image_b64_cash_sales('cash_saled.png')"/>
 
-                <t t-call="instix_customisations.invoice_header_footer_template">
+                <t t-call="instix_customisations.cash_sales_header_footer_template">
 
                     <div class="page"
                          style="font-family: 'Urbanist', 'Arial', sans-serif; font-size: 9pt; color: #3f403e; margin:0; padding:0; position:relative; box-sizing:border-box;">
@@ -301,4 +303,5 @@
         </t>
     </template>
 
+</odoo>
 </odoo>
