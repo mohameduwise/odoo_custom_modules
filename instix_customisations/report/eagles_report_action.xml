@@ -22,10 +22,9 @@
         <field name="paperformat_id" ref="instix_customisations.paperformat_custom_a4_low_margin"/>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_eagles_assessment</field>
-        <field name="report_file">
-            EAGLES_Assessment_${(object and object.partner_id and object.partner_id.name) or 'Report'}
+        <field name="report_file">EAGLES_Assessment_${(object and object.partner_id and object.partner_id.name) or 'Report'}
         </field>
-                <field name="binding_model_id" ref="survey.model_survey_user_input"/>
+        <field name="binding_model_id" ref="survey.model_survey_user_input"/>
         <field name="binding_type">report</field>
     </record>
 
@@ -50,8 +49,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_sale_quotation_document</field>
         <field name="report_file">instix_customisations.report_sale_quotation_document</field>
-        <field name="print_report_name">'Layang Quotation - %s' % object.name if 'LAYANG' in (object.company_id.name or
-            '').upper() else 'Digital Quotation - %s' % object.name
+        <field name="print_report_name">'Layang Quotation - %s' % object.name if 'LAYANG' in (object.company_id.name or '').upper() else 'Digital Quotation - %s' % object.name
         </field>
         <field name="binding_model_id" ref="sale.model_sale_order"/>
         <field name="binding_type">report</field>
@@ -64,8 +62,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_account_invoice_document</field>
         <field name="report_file">instix_customisations.report_account_invoice_document</field>
-        <field name="print_report_name">'Layang Invoice - %s' % object.name if 'LAYANG' in (object.company_id.name or
-            '').upper() else 'Digital Invoice - %s' % object.name
+        <field name="print_report_name">'Layang Invoice - %s' % object.name if 'LAYANG' in (object.company_id.name or '').upper() else 'Digital Invoice - %s' % object.name
         </field>
         <field name="binding_model_id" ref="account.model_account_move"/>
         <field name="binding_type">report</field>
@@ -78,8 +75,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_sale_order_document</field>
         <field name="report_file">instix_customisations.report_sale_order_document</field>
-        <field name="print_report_name">'Layang Sale Order - %s' % object.name if 'LAYANG' in (object.company_id.name or
-            '').upper() else 'Digital Sale Order - %s' % object.name
+        <field name="print_report_name">'Layang Sale Order - %s' % object.name if 'LAYANG' in (object.company_id.name or '').upper() else 'Digital Sale Order - %s' % object.name
         </field>
         <field name="binding_model_id" ref="sale.model_sale_order"/>
         <field name="binding_type">report</field>
@@ -105,8 +101,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_rfq_document</field>
         <field name="report_file">instix_customisations.report_rfq_document</field>
-        <field name="print_report_name">'Layang RFQ - %s' % object.name if 'LAYANG' in (object.company_id.name or
-            '').upper() else 'Digital RFQ - %s' % object.name
+        <field name="print_report_name">'Layang RFQ - %s' % object.name if 'LAYANG' in (object.company_id.name or '').upper() else 'Digital RFQ - %s' % object.name
         </field>
         <field name="binding_model_id" ref="purchase.model_purchase_order"/>
         <field name="binding_type">report</field>
@@ -119,8 +114,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_delivery_order_document</field>
         <field name="report_file">instix_customisations.report_delivery_order_document</field>
-        <field name="print_report_name">'Layang Delivery Order - %s' % object.name if 'LAYANG' in
-            (object.company_id.name or '').upper() else 'Digital Delivery Order - %s' % object.name
+        <field name="print_report_name">'Layang Delivery Order - %s' % object.name if 'LAYANG' in (object.company_id.name or '').upper() else 'Digital Delivery Order - %s' % object.name
         </field>
         <field name="binding_model_id" ref="stock.model_stock_picking"/>
         <field name="binding_type">report</field>
@@ -146,8 +140,7 @@
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">instix_customisations.report_account_cash_sales_document</field>
         <field name="report_file">instix_customisations.report_account_cash_sales_document</field>
-        <field name="print_report_name">'Layang Invoice - %s' % object.name if 'LAYANG' in (object.company_id.name or
-            '').upper() else 'Digital Invoice - %s' % object.name
+        <field name="print_report_name">'Layang Invoice - %s' % object.name if 'LAYANG' in (object.company_id.name or '').upper() else 'Digital Invoice - %s' % object.name
         </field>
         <field name="binding_model_id" ref="account.model_account_move"/>
         <field name="binding_type">report</field>
