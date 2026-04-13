@@ -19,7 +19,7 @@ Designed for enterprise hiring workflows with manual HR control.
     "website": "https://internal.insytx.com/",
 
     "category": "Human Resources",
-    "version": "19.3.6",
+    "version": "19.3.7",
     "license": "LGPL-3",
 
     "depends": [

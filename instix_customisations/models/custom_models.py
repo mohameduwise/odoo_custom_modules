@@ -52,6 +52,10 @@ class SaleOrder(models.Model):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
+    def get_extra_print_items(self):
+        print_items = super().get_extra_print_items()
+        return [item for item in print_items if item.get('key') != 'download_ubl']
+
     @api.model
     def _get_report_image_b64_invoice(self, filename):
         """
