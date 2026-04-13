@@ -101,7 +101,7 @@
                                     <table style="width:100%; border-collapse:collapse; font-size:9pt;">
                                         <tr>
                                             <td style="width:42%; padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
-                                                PO Num:
+                                                RFQ Num:
                                             </td>
                                             <td style="padding:1px 0;">
                                                 <span t-field="doc.name"/>
@@ -109,7 +109,7 @@
                                         </tr>
                                         <tr>
                                             <td style="padding:1px 6px 1px 0; font-weight:700; color:#000; white-space:nowrap;">
-                                                PO Date:
+                                                RFQ Date:
                                             </td>
                                             <td style="padding:1px 0;">
                                                 <span t-field="doc.date_order"

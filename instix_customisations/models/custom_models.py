@@ -14,12 +14,6 @@ class SaleOrder(models.Model):
         and returns it as a base64 data URI string for use in QWeb PDF reports.
         wkhtmltopdf cannot fetch /static/ URLs directly, so we embed as base64.
         """
-        if self.state not in ('draft'):
-            raise UserError(
-                _("Quotation report can only be printed for Draft orders.\n"
-                  "'%s' is currently in '%s' state.")
-                % (self.name, self.state)
-            )
         module_path = os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             'static', 'src', 'img', filename
@@ -111,6 +105,31 @@ class AccountMove(models.Model):
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('name', 'New') == 'New':
+                company_id = vals.get('company_id', self.default_get(['company_id'])['company_id'])
+                self_comp = self.with_company(company_id)
+                seq_date = None
+                if 'date_order' in vals:
+                    seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
+                # Use draft sequence on create (state defaults to draft)
+                vals['name'] = self_comp.env['ir.sequence'].next_by_code(
+                    'purchase.order.rfq', sequence_date=seq_date
+                ) or '/'
+        return super().create(vals_list)
+
+    def button_confirm(self):
+        for order in self:
+            if order.name.startswith('RFQ'):
+                seq_date = fields.Datetime.context_timestamp(self, order.date_order)
+                order.name = self.with_company(order.company_id).env['ir.sequence'].next_by_code(
+                    'purchase.order', sequence_date=seq_date
+                ) or order.name
+        return super().button_confirm()
+
+
     @api.model
     def _get_report_image_b64_rfq(self, filename):
         """
@@ -118,12 +137,6 @@ class PurchaseOrder(models.Model):
         and returns it as a base64 data URI string for use in QWeb PDF reports.
         wkhtmltopdf cannot fetch /static/ URLs directly, so we embed as base64.
         """
-        if self.state not in ('draft'):
-            raise UserError(
-                _("RFQ report can only be printed for Draft orders.\n"
-                  "'%s' is currently in '%s' state.")
-                % (self.name, self.state)
-            )
         module_path = os.path.join(
             os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
             'static', 'src', 'img', filename

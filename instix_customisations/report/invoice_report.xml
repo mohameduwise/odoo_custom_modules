@@ -164,17 +164,11 @@
                                     <th style="text-align:left; padding:3px 4px 3px 0; width:35%; font-weight:700; color:#000;">
                                         Description
                                     </th>
-                                    <th style="text-align:left; padding:3px 4px; width:20%; font-weight:700; color:#000;">
-                                        Account
-                                    </th>
                                     <th style="text-align:center; padding:3px 4px; width:10%; font-weight:700; color:#000;">
                                         Qty
                                     </th>
                                     <th style="text-align:right; padding:3px 4px; width:15%; font-weight:700; color:#000;">
                                         Unit Price
-                                    </th>
-                                    <th style="text-align:right; padding:3px 4px; width:10%; font-weight:700; color:#000;">
-                                        Tax
                                     </th>
                                     <th style="text-align:right; padding:3px 0 3px 4px; width:10%; font-weight:700; color:#000;">
                                         Amount RM
@@ -187,11 +181,6 @@
                                         <td style="padding:3px 4px 3px 0; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
                                             <span t-field="line.name"/>
                                         </td>
-                                        <td style="padding:3px 4px; vertical-align:top; border-bottom:0.5px solid #e8e8e8; font-size:8pt; color:#555;">
-                                            <t t-out="line.account_id.code"/>
-                                            -
-                                            <t t-out="line.account_id.name"/>
-                                        </td>
                                         <td style="padding:3px 4px; text-align:center; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
                                             <span t-field="line.quantity"/>
                                             <t t-if="line.product_uom_id">
@@ -200,12 +189,6 @@
                                         </td>
                                         <td style="padding:3px 4px; text-align:right; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
                                             <span t-field="line.price_unit"/>
-                                        </td>
-                                        <td style="padding:3px 4px; text-align:right; vertical-align:top; border-bottom:0.5px solid #e8e8e8; font-size:8pt; color:#555;">
-                                            <t t-if="line.tax_ids">
-                                                <t t-out="', '.join(line.tax_ids.mapped('name'))"/>
-                                            </t>
-                                            <t t-else="">-</t>
                                         </td>
                                         <td style="padding:3px 0 3px 4px; text-align:right; vertical-align:top; border-bottom:0.5px solid #e8e8e8;">
                                             <span t-field="line.price_subtotal"/>
